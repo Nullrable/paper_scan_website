@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 // Reference: /Users/lusudong/Documents/fronted-work/flutter/paper_scanner
 // Deploy target: GitHub Pages
 
-const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://paperscanner.app';
+const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://paperscan.cloud';
 
 export default defineConfig({
   site: SITE_URL,

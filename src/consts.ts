@@ -11,7 +11,7 @@ export const SITE_DESCRIPTION =
   "A pro document scanner for iOS and Android — ultra-wide capture, GPU filters, OCR, multi-page PDF, Google Drive & iCloud sync.";
 
 export const SITE_URL =
-  import.meta.env.PUBLIC_SITE_URL || "https://paperscanner.app";
+  import.meta.env.PUBLIC_SITE_URL || "https://paperscan.cloud";
 
 export const DEFAULT_LOCALE = "en" as const;
 export const LOCALES = [

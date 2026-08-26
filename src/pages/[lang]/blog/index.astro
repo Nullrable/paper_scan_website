@@ -41,7 +41,7 @@ const blogJsonLd = {
     headline: p.data.title,
     description: p.data.description,
     datePublished: p.data.pubDate.toISOString(),
-    url: new URL(`/${locale}/blog/${(p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '')}/`, import.meta.env.PUBLIC_SITE_URL || 'https://paperscanner.app').toString(),
+    url: new URL(`/${locale}/blog/${(p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '')}/`, import.meta.env.PUBLIC_SITE_URL || 'https://paperscan.cloud').toString(),
   })),
 };
 ---

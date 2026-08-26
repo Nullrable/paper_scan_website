@@ -30,3 +30,9 @@ pnpm-debug.log*
 .cache/
 .parcel-cache/
 .eslintcache
+
+# test coverage report
+coverage/
+
+# duplicate asset directory — icons live in public/
+images/
