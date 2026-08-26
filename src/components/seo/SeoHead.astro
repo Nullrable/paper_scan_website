@@ -1,0 +1,98 @@
+---
+/**
+ * SeoHead — central SEO meta tag emitter.
+ *
+ * Outputs: <title>, description, canonical, Open Graph, Twitter Card,
+ * hreflang alternates, theme-color, and favicon links.
+ */
+
+import { LOCALES, LOCALE_NAMES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, OG_IMAGE_DEFAULT } from '../../consts';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  pubDate?: Date;
+  updatedDate?: Date;
+  noindex?: boolean;
+  /** Path relative to the current locale root, e.g. "/blog/foo/" */
+  path: string;
+  locale: string;
+}
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  image = OG_IMAGE_DEFAULT,
+  type = 'website',
+  pubDate,
+  updatedDate,
+  noindex = false,
+  path,
+  locale,
+} = Astro.props;
+
+// path may include or exclude the locale prefix; normalise to without-prefix.
+const stripped = path.replace(/^\/(en|zh|es|fr|de|ja|ko|pt)(?=\/|$)/, '');
+const canonical = new URL(`/${locale}${stripped === '/' || stripped === '' ? '/' : stripped}`, SITE_URL).toString();
+const ogImage = new URL(image, SITE_URL).toString();
+
+const ogLocale = LOCALE_NAMES[locale as keyof typeof LOCALE_NAMES]
+  ? locale.replace('-', '_')
+  : 'en_US';
+---
+
+<!-- Primary meta -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex,nofollow" />}
+
+<!-- Theme + brand -->
+<meta name="theme-color" content="#000000" />
+<meta name="color-scheme" content="dark" />
+<meta name="application-name" content={SITE_NAME} />
+
+<!-- Icons (from public/) -->
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<!-- hreflang alternates -->
+{LOCALES.map((loc) => (
+  <link
+    rel="alternate"
+    hreflang={loc}
+    href={new URL(`/${loc}${stripped === '/' || stripped === '' ? '/' : stripped}`, SITE_URL).toString()}
+  />
+))}
+<link rel="alternate" hreflang="x-default" href={new URL(`/en${stripped === '/' || stripped === '' ? '/' : stripped}`, SITE_URL).toString()} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:locale" content={ogLocale} />
+{pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
+{updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={title} />
+
+<!-- PWA -->
+<link rel="manifest" href="/site.webmanifest" />

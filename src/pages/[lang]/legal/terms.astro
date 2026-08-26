@@ -1,0 +1,54 @@
+---
+/**
+ * Terms of service — first draft for Phase 2.
+ */
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LOCALES } from '../../../consts';
+import { t } from '../../../utils/i18n';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const locale = lang!;
+
+const sections = locale === 'zh'
+  ? [
+      { title: '1. 接受条款', body: '下载、安装或使用 Paper Scanner 即表示你接受本条款。' },
+      { title: '2. 订阅', body: 'Pro 订阅通过 App Store 或 Google Play 购买，自动续费可在平台账户设置中关闭。' },
+      { title: '3. 数据归属', body: '你的文档归你所有。我们不持有任何扫描内容的副本。详见隐私政策。' },
+      { title: '4. 免责声明', body: 'Paper Scanner 按"现状"提供，不对扫描结果的准确性承担法律责任。' },
+      { title: '5. 条款变更', body: '我们可能不定期更新本条款，重大变更会通过应用内通知告知。' },
+    ]
+  : [
+      { title: '1. Acceptance', body: 'Downloading, installing, or using Paper Scanner constitutes acceptance of these terms.' },
+      { title: '2. Subscriptions', body: 'Pro subscriptions are purchased through the App Store or Google Play. Auto-renewal can be disabled in your platform account settings.' },
+      { title: '3. Data ownership', body: 'Your documents belong to you. We hold no copies of scanned content. See the Privacy Policy.' },
+      { title: '4. Disclaimer', body: 'Paper Scanner is provided "as is" without warranty as to the accuracy of scan output.' },
+      { title: '5. Changes', body: 'We may update these terms. Material changes will be announced in-app.' },
+    ];
+---
+
+<BaseLayout
+  title={t(locale as any, 'legal.terms.title')}
+  description={t(locale as any, 'legal.terms.title')}
+  locale={locale}
+  path="/legal/terms/"
+>
+  <article class="prose mx-auto">
+    <h1>{t(locale as any, 'legal.terms.title')}</h1>
+
+    {sections.map((s) => (
+      <>
+        <h2>{s.title}</h2>
+        <p>{s.body}</p>
+      </>
+    ))}
+
+    <p class="text-text-muted text-sm">
+      {locale === 'zh' ? '最后更新：2026 年 8 月' : 'Last updated: August 2026'}
+    </p>
+  </article>
+</BaseLayout>

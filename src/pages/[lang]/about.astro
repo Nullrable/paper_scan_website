@@ -1,0 +1,58 @@
+---
+/**
+ * About page — mission + principles + contact.
+ *
+ * Content is product-focused; no Flutter module references.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { LOCALES } from '../../consts';
+import { t, tValue } from '../../utils/i18n';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const locale = lang!;
+
+const principles = (tValue(locale as any, 'about.principles.items') as string[]) ?? [];
+const principlesTitle = t(locale as any, 'about.principles.title');
+const introText = t(locale as any, 'about.intro');
+
+const contactTitle = t(locale as any, 'about.contact.title');
+const contactBody = t(locale as any, 'about.contact.body');
+---
+
+<BaseLayout
+  title={t(locale as any, 'about.title')}
+  description={t(locale as any, 'about.intro')}
+  locale={locale}
+  path="/about/"
+>
+  <article class="prose mx-auto max-w-3xl">
+    <h1>{t(locale as any, 'about.title')}</h1>
+    <p class="text-lg text-text-secondary leading-relaxed">{introText}</p>
+
+    <h2 class="mt-12">{principlesTitle}</h2>
+    <ul class="space-y-3 not-prose">
+      {principles.map((principle: string) => (
+        <li class="card flex gap-3">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0 mt-1 text-success" aria-hidden="true">
+            <polyline points="20,6 9,17 4,12" />
+          </svg>
+          <span class="text-text-secondary leading-relaxed">{principle}</span>
+        </li>
+      ))}
+    </ul>
+
+    <h2 class="mt-12">{contactTitle}</h2>
+    <p>{contactBody}</p>
+
+    <h2 class="mt-12">{locale === 'zh' ? '源代码' : 'Open source'}</h2>
+    <p>
+      {locale === 'zh' ? '源代码托管在 GitHub：' : 'Source code lives on GitHub: '}
+      <a href="https://github.com/Nullrable/paper_scanner" rel="noopener noreferrer">github.com/Nullrable/paper_scanner</a>
+    </p>
+  </article>
+</BaseLayout>

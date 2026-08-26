@@ -1,0 +1,74 @@
+/* ============================================
+ * Paper Scanner — Black Theme Tokens
+ * Aligned with Flutter App Material 3 darkTheme
+ * ============================================ */
+
+:root,
+[data-theme='dark'] {
+  /* ---- Surfaces (black-dominant) ---- */
+  --bg-0: #000000;
+  --bg-1: #0a0a0b;
+  --bg-2: #141417;
+  --bg-3: #1f1f23;
+
+  /* ---- Borders ---- */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  /* ---- Text ---- */
+  --text-primary: #fafafa;
+  --text-secondary: #b4b4b8;
+  --text-muted: #75757b;
+
+  /* ---- Brand ---- */
+  --brand: #fafafa;
+  --brand-contrast: #000000;
+  --accent: #ffffff;
+
+  /* ---- States ---- */
+  --info: #60a5fa;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
+  /* ---- Pro highlight ---- */
+  --pro-grad: linear-gradient(135deg, #ffffff 0%, #d4d4d4 50%, #888888 100%);
+  --pro-glow: 0 0 60px rgba(255, 255, 255, 0.15);
+
+  /* ---- Glass / effects ---- */
+  --glass-bg: rgba(20, 20, 23, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 24px;
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.6);
+
+  /* ---- Spacing (8px baseline) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* ---- Radius ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 400ms;
+
+  /* ---- Container widths ---- */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1200px;
+  --container-2xl: 1400px;
+}

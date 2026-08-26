@@ -1,0 +1,95 @@
+---
+/**
+ * BaseLayout — top-level layout.
+ * Sets <html lang>, applies theme tokens, and stacks Header / slot / Footer.
+ *
+ * Children must be passed via Astro's <slot /> mechanism.
+ */
+
+import '../styles/global.css';
+import SeoHead from '../components/seo/SeoHead.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import { SITE_NAME, SITE_URL, SOCIALS } from '../consts';
+import { t } from '../utils/i18n';
+import { jsonLdScript } from '../utils/jsonld';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  pubDate?: Date;
+  updatedDate?: Date;
+  noindex?: boolean;
+  /** Path relative to locale root (no leading locale). Used for canonical/hreflang. */
+  path?: string;
+  locale: string;
+  /** Optional JSON-LD blocks. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  image,
+  type = 'website',
+  pubDate,
+  updatedDate,
+  noindex = false,
+  path = '/',
+  locale,
+  jsonLd,
+} = Astro.props;
+
+const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+
+// Default JSON-LD: Organization on every page (helps brand SERP).
+const defaultJsonLd = {
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: new URL('/icon-512.png', SITE_URL).toString(),
+  sameAs: [SOCIALS.github],
+};
+
+const jsonLdPayload = jsonLd
+  ? Array.isArray(jsonLd)
+    ? [defaultJsonLd, ...jsonLd]
+    : [defaultJsonLd, jsonLd]
+  : [defaultJsonLd];
+
+const jsonLdHtml = jsonLdScript(jsonLdPayload);
+---
+
+<!doctype html>
+<html lang={locale} data-theme="dark">
+  <head>
+    <SeoHead
+      title={fullTitle}
+      description={description}
+      image={image}
+      type={type}
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      noindex={noindex}
+      path={path}
+      locale={locale}
+    />
+    <Fragment set:html={jsonLdHtml} />
+  </head>
+  </head>
+  <body class="gradient-mesh min-h-screen">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-3 focus:py-2 focus:rounded-md focus:bg-white focus:text-black focus:text-sm">
+      {t(locale as any, 'nav.skipToContent')}
+    </a>
+
+    <Header locale={locale} path={path} />
+
+    <main id="main" class="container-app py-7 md:py-9">
+      <slot />
+    </main>
+
+    <Footer locale={locale} />
+  </body>
+</html>

@@ -1,0 +1,75 @@
+---
+/**
+ * Features index — lists every feature with a one-line summary.
+ * Each item links to its detail page.
+ */
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LOCALES } from '../../../consts';
+import { t } from '../../../utils/i18n';
+import { FEATURES } from '../../../data/features';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const locale = lang!;
+
+const items = FEATURES.map((f) => ({
+  slug: f.slug,
+  icon: f.icon,
+  title: t(locale as any, f.titleKey as any),
+  summary: t(locale as any, f.summaryKey as any),
+  href: `/${locale}/features/${f.slug}/`,
+}));
+
+const icons: Record<string, string> = {
+  scan: 'M3 7V5a2 2 0 0 1 2-2h2M21 7V5a2 2 0 0 0-2-2h-2M3 17v2a2 2 0 0 0 2 2h2M21 17v2a2 2 0 0 1-2 2h-2',
+  filter: 'M3 4h18l-7 9v6l-4 2v-8L3 4z',
+  folder: 'M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z',
+  ocr: 'M4 6h16M4 12h16M4 18h10M16 16l4 4M20 16l-4 4',
+  pdf: 'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6z M14 3v6h6',
+  cloud: 'M18 10a5 5 0 0 0-9.95-1A5 5 0 0 0 7 15h11a4 4 0 0 0 0-8z',
+};
+---
+
+<BaseLayout
+  title={t(locale as any, 'features.title')}
+  description={t(locale as any, 'features.subtitle')}
+  locale={locale}
+  path="/features/"
+>
+  <header class="max-w-2xl mb-9">
+    <h1 class="font-display text-4xl md:text-5xl font-semibold tracking-tight text-white">
+      {t(locale as any, 'features.title')}
+    </h1>
+    <p class="mt-3 text-lg text-text-secondary">
+      {t(locale as any, 'features.subtitle')}
+    </p>
+  </header>
+
+  <ul class="grid gap-5 sm:grid-cols-2">
+    {items.map((item) => (
+      <li>
+        <a href={item.href} class="card h-full flex flex-col group">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-bg-2 border border-border-subtle group-hover:border-border-strong transition-colors duration-base">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d={icons[item.icon]} />
+              </svg>
+            </span>
+            <h2 class="font-display text-lg font-semibold text-white">{item.title}</h2>
+          </div>
+          <p class="mt-3 text-sm text-text-secondary leading-relaxed">{item.summary}</p>
+          <span class="mt-auto pt-4 inline-flex items-center gap-1 text-xs text-text-secondary group-hover:text-white transition-colors duration-base">
+            {t(locale as any, 'common.learnMore')}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="9,18 15,12 9,6" />
+            </svg>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

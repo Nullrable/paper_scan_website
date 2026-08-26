@@ -1,0 +1,95 @@
+---
+/**
+ * Privacy policy page. Phase 2 first draft — final copy needs legal review.
+ */
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LOCALES } from '../../../consts';
+import { t } from '../../../utils/i18n';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const locale = lang!;
+
+const sections = locale === 'zh'
+  ? [
+      {
+        title: '1. 我们收集什么',
+        body: 'Paper Scanner 默认不收集任何文档内容。扫描、滤镜和 OCR 完全在你的设备上完成，原始图像与识别结果从不出设备。',
+      },
+      {
+        title: '2. 云同步',
+        body: '云同步在设置中显式开启后才会生效。文档会镜像到你自己的 Google Drive 或 iCloud Drive。Paper Scanner 不运营中转服务器，不持有任何文档副本。',
+      },
+      {
+        title: '3. 订阅与计费',
+        body: '订阅通过 App Store 或 Google Play 完成，计费由平台管理。我们仅接收确认订阅状态所需的最小信号，不接触支付凭证。',
+      },
+      {
+        title: '4. 广告',
+        body: '免费版用户在文档列表顶部会看到一个广告横幅。订阅 Pro 即可彻底移除广告。',
+      },
+      {
+        title: '5. 分析',
+        body: '我们不集成第三方分析 SDK。崩溃日志与遥测若启用，也只保存在你的设备本地。',
+      },
+      {
+        title: '6. 联系我们',
+        body: '应用内 设置 → 发送反馈，或在 GitHub 上提 Issue。',
+      },
+    ]
+  : [
+      {
+        title: '1. What we collect',
+        body: 'Paper Scanner does not collect document content by default. Scanning, filters, and OCR run entirely on-device. The original image and the recognised text never leave your phone.',
+      },
+      {
+        title: '2. Cloud sync',
+        body: 'Cloud sync only runs when you explicitly turn it on. Documents are mirrored to your own Google Drive or iCloud Drive. Paper Scanner does not operate a relay server and never holds a copy of your documents.',
+      },
+      {
+        title: '3. Subscription and billing',
+        body: 'Subscriptions are billed through the App Store or Google Play. We only receive the minimum signal needed to confirm subscription status. We never handle payment credentials.',
+      },
+      {
+        title: '4. Advertising',
+        body: 'Free-tier users see a single ad banner at the top of the Documents list. Subscribing to Pro removes it entirely.',
+      },
+      {
+        title: '5. Analytics',
+        body: 'We do not integrate third-party analytics SDKs. Crash logs and telemetry, if any, stay on your device.',
+      },
+      {
+        title: '6. Contact',
+        body: 'In-app Settings → Send Feedback, or open an issue on GitHub.',
+      },
+    ];
+---
+
+<BaseLayout
+  title={t(locale as any, 'legal.privacy.title')}
+  description={t(locale as any, 'legal.privacy.intro')}
+  locale={locale}
+  path="/legal/privacy/"
+>
+  <article class="prose mx-auto">
+    <h1>{t(locale as any, 'legal.privacy.title')}</h1>
+    <p>{t(locale as any, 'legal.privacy.intro')}</p>
+
+    {sections.map((s) => (
+      <>
+        <h2>{s.title}</h2>
+        <p>{s.body}</p>
+      </>
+    ))}
+
+    <p class="text-text-muted text-sm">
+      {locale === 'zh'
+        ? '最后更新：2026 年 8 月'
+        : 'Last updated: August 2026'}
+    </p>
+  </article>
+</BaseLayout>

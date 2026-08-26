@@ -1,0 +1,61 @@
+---
+/**
+ * ProductIntro — short value-proposition block between Hero and FeatureGrid.
+ *
+ * A two-column layout on desktop, stacked on mobile. Pure CSS + content
+ * from the i18n table; no images.
+ */
+
+import { t } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+const title = t(locale as any, 'homepage.intro.title');
+const body = t(locale as any, 'homepage.intro.body');
+
+const bullets = locale === 'zh'
+  ? [
+      { heading: '设备上完成', body: '扫描、滤镜、OCR 全部在本地运行——即使完全离线也能用。' },
+      { heading: '同步到你的云', body: '数据镜像到你自己的 Google Drive 或 iCloud，不经过任何第三方。' },
+      { heading: '永远无需账号', body: '下载即用；订阅、计费、退订都由 App Store / Google Play 管理。' },
+    ]
+  : [
+      { heading: 'On-device by default', body: 'Scanning, filters, and OCR all run locally — usable with no signal.' },
+      { heading: 'Sync to your own cloud', body: 'Mirrors to your Google Drive or iCloud. No middleman, no relay server.' },
+      { heading: 'No account needed', body: 'Install and start scanning. Billing and cancellation happen in the app store.' },
+    ];
+---
+
+<section class="py-9 md:py-12 border-y border-border-subtle">
+  <div class="container-app grid gap-9 lg:grid-cols-2 lg:items-start">
+    <div class="lg:sticky lg:top-20">
+      <h2 class="font-display text-3xl md:text-4xl font-semibold tracking-tight text-white text-balance">
+        {title}
+      </h2>
+      <p class="mt-4 text-lg text-text-secondary leading-relaxed text-balance">
+        {body}
+      </p>
+    </div>
+    <ul class="space-y-4">
+      {bullets.map((b) => (
+        <li class="card">
+          <div class="flex gap-4">
+            <span class="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-success/10 text-success">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="20,6 9,17 4,12" />
+              </svg>
+            </span>
+            <div class="min-w-0">
+              <h3 class="font-display text-base font-semibold text-white">{b.heading}</h3>
+              <p class="mt-1.5 text-sm text-text-secondary leading-relaxed">{b.body}</p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

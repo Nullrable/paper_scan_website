@@ -1,0 +1,44 @@
+---
+/**
+ * HowItWorks — three-step capture flow.
+ */
+
+import { t } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+const steps = [
+  { num: '01', key: 'step1' },
+  { num: '02', key: 'step2' },
+  { num: '03', key: 'step3' },
+] as const;
+---
+
+<section class="py-9 md:py-12">
+  <div class="text-center max-w-2xl mx-auto mb-9">
+    <h2 class="font-display text-3xl md:text-4xl font-semibold tracking-tight text-white">
+      {t(locale as any, 'homepage.howItWorks.title')}
+    </h2>
+    <p class="mt-3 text-text-secondary">
+      {t(locale as any, 'homepage.howItWorks.subtitle')}
+    </p>
+  </div>
+
+  <ol class="grid gap-5 md:grid-cols-3">
+    {steps.map((step) => (
+      <li class="card">
+          <span class="font-display text-3xl font-semibold text-text-muted">{step.num}</span>
+          <h3 class="mt-3 font-display text-lg font-semibold text-white">
+            {t(locale as any, `homepage.howItWorks.${step.key}.title`)}
+          </h3>
+          <p class="mt-2 text-sm text-text-secondary leading-relaxed">
+            {t(locale as any, `homepage.howItWorks.${step.key}.body`)}
+          </p>
+        </li>
+    ))}
+  </ol>
+</section>

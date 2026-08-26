@@ -1,0 +1,39 @@
+---
+/**
+ * SourceCallout — retired component.
+ *
+ * The blog posts no longer trace back to specific Flutter modules, so the
+ * sidebar slot is intentionally empty. Kept as an empty aside to avoid
+ * touching every layout that renders the post body. Future blog designs
+ * can replace this with a download CTA, related products, etc.
+ */
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const heading =
+  locale === 'zh' ? '想了解更多' : 'Want to dig deeper?';
+const body =
+  locale === 'zh'
+    ? '下载 Paper Scanner，亲手体验所有功能。所有功能都可以免费试用。'
+    : 'Download Paper Scanner and try every feature for yourself — no account required, free tier is fully usable.';
+---
+<aside class="card text-sm">
+  <h2 class="text-xs font-semibold uppercase tracking-wider text-text-muted mb-3">
+    {heading}
+  </h2>
+  <p class="text-text-secondary leading-relaxed">
+    {body}
+  </p>
+  <a
+    href={`/${locale}/download/`}
+    class="mt-4 inline-flex items-center gap-1 text-xs text-white hover:text-text-secondary transition-colors duration-fast"
+  >
+    {locale === 'zh' ? '查看下载页' : 'See download options'}
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <polyline points="9,18 15,12 9,6" />
+    </svg>
+  </a>
+</aside>

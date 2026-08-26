@@ -1,0 +1,67 @@
+---
+/**
+ * Footer — product, resources, legal links + social.
+ */
+
+import { SITE_NAME, SOCIALS } from '../../consts';
+import { t } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border-subtle bg-bg-1 mt-9">
+  <div class="container-app py-9 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="space-y-3 lg:col-span-1">
+      <div class="font-display text-base font-semibold text-white">{SITE_NAME}</div>
+      <p class="text-sm text-text-secondary max-w-xs">{t(locale as any, 'footer.tagline')}</p>
+    </div>
+
+    <nav aria-labelledby="footer-product">
+      <h2 id="footer-product" class="text-xs font-semibold uppercase tracking-wider text-text-muted mb-3">
+        {t(locale as any, 'footer.product')}
+      </h2>
+      <ul class="space-y-2 text-sm">
+        <li><a href={`/${locale}/features/scanning/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.scanning.title')}</a></li>
+        <li><a href={`/${locale}/features/documents/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.documents.title')}</a></li>
+        <li><a href={`/${locale}/features/cloud-sync/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.cloud.title')}</a></li>
+        <li><a href={`/${locale}/features/ocr/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.ocr.title')}</a></li>
+        <li><a href={`/${locale}/features/pdf-export/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.pdf.title')}</a></li>
+        <li><a href={`/${locale}/features/pro/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.pro.title')}</a></li>
+        <li><a href={`/${locale}/download/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.download')}</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="footer-resources">
+      <h2 id="footer-resources" class="text-xs font-semibold uppercase tracking-wider text-text-muted mb-3">
+        {t(locale as any, 'footer.resources')}
+      </h2>
+      <ul class="space-y-2 text-sm">
+        <li><a href={`/${locale}/blog/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.blog')}</a></li>
+        <li><a href={SOCIALS.github} class="text-text-secondary hover:text-white" rel="noopener noreferrer">{t(locale as any, 'common.viewOnGitHub')}</a></li>
+        <li><a href={`/${locale}/about/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.about')}</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="footer-legal">
+      <h2 id="footer-legal" class="text-xs font-semibold uppercase tracking-wider text-text-muted mb-3">
+        {t(locale as any, 'footer.legal')}
+      </h2>
+      <ul class="space-y-2 text-sm">
+        <li><a href={`/${locale}/legal/privacy/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.privacy')}</a></li>
+        <li><a href={`/${locale}/legal/terms/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.terms')}</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="border-t border-border-subtle">
+    <div class="container-app py-5 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-xs text-text-muted">
+      <p>{t(locale as any, 'footer.copyright', { year })}</p>
+      <p>{t(locale as any, 'footer.builtWith')}</p>
+    </div>
+  </div>
+</footer>

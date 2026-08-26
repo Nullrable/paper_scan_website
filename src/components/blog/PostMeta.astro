@@ -1,0 +1,58 @@
+---
+/**
+ * PostMeta — author / date / reading-time row, used on detail pages.
+ */
+
+import { getEntry } from 'astro:content';
+import { t } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+  authorRef: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  readingMinutes: number;
+}
+
+const { locale, authorRef, pubDate, updatedDate, readingMinutes } = Astro.props;
+
+const author = await getEntry('authors', authorRef);
+
+const dateFormatter = new Intl.DateTimeFormat(
+  locale === 'zh' ? 'zh-CN' : 'en-US',
+  { year: 'numeric', month: 'long', day: 'numeric' }
+);
+
+const publishedLabel = t(locale as any, 'common.publishedOn', {
+  date: dateFormatter.format(pubDate),
+});
+const updatedLabel = updatedDate
+  ? t(locale as any, 'common.updatedOn', {
+      date: dateFormatter.format(updatedDate),
+    })
+  : null;
+const readingLabel = t(locale as any, 'common.readingTime', {
+  minutes: readingMinutes,
+});
+---
+
+<div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-secondary">
+  {author && (
+    <span class="inline-flex items-center gap-2">
+      <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg-2 border border-border-subtle text-xs font-semibold text-white">
+        {author.data.name.slice(0, 1).toUpperCase()}
+      </span>
+      <span class="text-white">{author.data.name}</span>
+      <span class="text-text-muted">·</span>
+    </span>
+  )}
+  <time datetime={pubDate.toISOString()}>{publishedLabel}</time>
+  {updatedLabel && (
+    <>
+      <span class="text-text-muted">·</span>
+      <time datetime={updatedDate!.toISOString()}>{updatedLabel}</time>
+    </>
+  )}
+  <span class="text-text-muted">·</span>
+  <span>{readingLabel}</span>
+</div>

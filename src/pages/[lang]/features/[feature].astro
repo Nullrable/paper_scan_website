@@ -1,0 +1,57 @@
+---
+/**
+ * Feature detail page.
+ *
+ * Single dynamic route — the [feature] param selects from FEATURES.
+ * Each page renders the hero, body, "when to use it" scenarios, Pro hint
+ * (if applicable), and related feature links.
+ */
+
+import FeaturePage from '../../../components/layout/FeaturePage.astro';
+import { LOCALES } from '../../../consts';
+import { t, tValue } from '../../../utils/i18n';
+import { FEATURES, getRelatedLinks } from '../../../data/features';
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) =>
+    FEATURES.map((feature) => ({
+      params: { lang, feature: feature.slug },
+      props: { locale: lang, feature },
+    }))
+  );
+}
+
+type FeatureShape = (typeof FEATURES)[number];
+
+const props = Astro.props as { locale: string; feature: FeatureShape };
+const locale = props.locale;
+const feature = props.feature;
+
+const useCases: string[] =
+  (tValue(locale as any, feature.useCasesKey) as string[]) ?? [];
+
+const resolved = {
+  title: t(locale as any, feature.titleKey as any),
+  summary: t(locale as any, feature.summaryKey as any),
+  body: t(locale as any, feature.bodyKey as any),
+  proHint: feature.proHintKey
+    ? t(locale as any, feature.proHintKey as any)
+    : undefined,
+};
+
+const related = getRelatedLinks(locale as any, feature.slug);
+---
+
+<FeaturePage
+  locale={locale}
+  feature={{
+    slug: feature.slug,
+    icon: feature.icon,
+    title: resolved.title,
+    summary: resolved.summary,
+    body: resolved.body,
+    useCases,
+    related,
+    proHint: resolved.proHint,
+  }}
+/>

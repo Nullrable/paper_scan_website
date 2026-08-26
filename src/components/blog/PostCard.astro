@@ -1,0 +1,92 @@
+---
+/**
+ * PostCard — blog post card for list views.
+ *
+ * Each card surfaces:
+ *   - Category chip
+ *   - Title (clickable)
+ *   - Description
+ *   - Meta (date)
+ */
+
+import type { BlogCategory } from '../../content/categories';
+
+export type Post = {
+  slug: string;
+  data: {
+    title: string;
+    description: string;
+    pubDate: Date;
+    category: BlogCategory;
+    tags?: string[];
+  };
+};
+
+interface Props {
+  locale: string;
+  post: Post;
+  /** Optional override href, otherwise builds from slug. */
+  href?: string;
+  /** Compact variant — hides description for tight grids. */
+  compact?: boolean;
+}
+
+const { locale, post, href, compact = false } = Astro.props;
+
+const target = href ?? `/${locale}/blog/${post.slug}/`;
+
+const CATEGORY_LABELS: Record<'en', Record<BlogCategory, string>> = {
+  en: {
+    scanning: 'Scanning',
+    documents: 'Documents',
+    ocr: 'OCR',
+    'pdf-export': 'PDF Export',
+    'cloud-sync': 'Cloud Sync',
+    pro: 'Pro',
+    releases: 'Releases',
+    troubleshooting: 'Troubleshooting',
+  },
+};
+const CATEGORY_LABELS_ZH: Record<BlogCategory, string> = {
+  scanning: '扫描',
+  documents: '文档',
+  ocr: 'OCR',
+  'pdf-export': 'PDF 导出',
+  'cloud-sync': '云同步',
+  pro: 'Pro',
+  releases: '发布',
+  troubleshooting: '故障排查',
+};
+
+const categoryLabel =
+  locale === 'zh'
+    ? CATEGORY_LABELS_ZH[post.data.category]
+    : CATEGORY_LABELS.en[post.data.category];
+
+const dateFormatter = new Intl.DateTimeFormat(
+  locale === 'zh' ? 'zh-CN' : 'en-US',
+  { year: 'numeric', month: 'short', day: 'numeric' }
+);
+const formattedDate = dateFormatter.format(post.data.pubDate);
+---
+
+<a
+  href={target}
+  class={`card group block ${compact ? 'p-5' : ''}`}
+  data-category={post.data.category}
+>
+  <div class="flex items-center gap-2 mb-3">
+    <span class="inline-flex items-center text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-pill bg-bg-2 border border-border-subtle text-text-secondary">
+      {categoryLabel}
+    </span>
+  </div>
+  <h3 class="font-display text-lg md:text-xl font-semibold leading-snug text-white text-balance group-hover:text-white">
+    {post.data.title}
+  </h3>
+  {!compact && (
+    <p class="mt-2 text-sm text-text-secondary line-clamp-3">{post.data.description}</p>
+  )}
+  <div class="mt-4 flex items-center text-xs text-text-muted">
+    <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+  </div>
+</a>

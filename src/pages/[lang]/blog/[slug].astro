@@ -1,0 +1,143 @@
+---
+/**
+ * Blog detail — single post.
+ *
+ * Routes:
+ *   /en/blog/ultra-wide-lens/   →   content/en/scanning/ultra-wide-lens.mdx
+ *
+ * The [slug] param is the basename of the MDX file (e.g. "ultra-wide-lens").
+ * We resolve it against the locale using getCollection's id prefix.
+ */
+
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostMeta from '../../../components/blog/PostMeta.astro';
+import PostToc from '../../../components/blog/PostToc.astro';
+import RelatedPosts from '../../../components/blog/RelatedPosts.astro';
+import SourceCallout from '../../../components/blog/SourceCallout.astro';
+import { LOCALES } from '../../../consts';
+import { t } from '../../../utils/i18n';
+import {
+  estimateReadingMinutes,
+  sortByDateDesc,
+} from '../../../utils/blog';
+
+export async function getStaticPaths() {
+  const all = await getCollection('blog', ({ data }) => !data.draft);
+  return LOCALES.flatMap((lang) =>
+    all
+      .filter((p) => p.id.startsWith(`${lang}/`))
+      .map((p) => {
+        const basename = (p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '');
+        return {
+          params: { lang, slug: basename },
+          props: { locale: lang, slug: basename, entry: p },
+        };
+      })
+  );
+}
+
+const props = Astro.props;
+const { locale, entry } = props;
+const { Content, headings } = await render(entry);
+
+const all = await getCollection('blog', ({ data }) => !data.draft);
+const localePosts = all
+  .filter((p) => p.id.startsWith(`${locale}/`))
+  .sort(sortByDateDesc);
+
+const readingMinutes = estimateReadingMinutes(entry.body ?? '');
+const updatedDate = entry.data.updatedDate;
+
+const blogPostingJsonLd = {
+  '@type': 'BlogPosting',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.pubDate.toISOString(),
+  ...(updatedDate ? { dateModified: updatedDate.toISOString() } : {}),
+  author: {
+    '@type': 'Person',
+    name: entry.data.author.id.replace(/-/g, ' '),
+  },
+  inLanguage: locale,
+  keywords: entry.data.tags?.join(', '),
+};
+
+const breadcrumbJsonLd = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: t(locale as any, 'nav.blog'),
+      item: `/${locale}/blog/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: entry.data.title,
+      item: `/${locale}/blog/${(entry.id.split('/').pop() ?? entry.id).replace(/\.mdx?$/, '')}/`,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  type="article"
+  pubDate={entry.data.pubDate}
+  updatedDate={updatedDate}
+  locale={locale}
+  path={`/blog/${(entry.id.split('/').pop() ?? entry.id).replace(/\.mdx?$/, '')}/`}
+  jsonLd={[blogPostingJsonLd, breadcrumbJsonLd]}
+>
+  <a
+    href={`/${locale}/blog/`}
+    class="text-xs text-text-secondary hover:text-white inline-flex items-center gap-1 mb-4"
+  >
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <polyline points="15,18 9,12 15,6" />
+    </svg>
+    {t(locale as any, 'common.backToBlog')}
+  </a>
+
+  <article class="grid gap-9 lg:grid-cols-[1fr_280px]">
+    <div>
+      <header class="mb-7">
+        <h1 class="font-display text-3xl md:text-4xl font-semibold tracking-tight text-white text-balance">
+          {entry.data.title}
+        </h1>
+        <p class="mt-3 text-lg text-text-secondary max-w-2xl text-balance">
+          {entry.data.description}
+        </p>
+        <div class="mt-5">
+          <PostMeta
+            locale={locale}
+            authorRef={entry.data.author.id}
+            pubDate={entry.data.pubDate}
+            updatedDate={updatedDate}
+            readingMinutes={readingMinutes}
+          />
+        </div>
+        {entry.data.proOnly && (
+          <p class="mt-4 text-sm text-info">
+            <span class="pro-badge mr-2">{t(locale as any, 'features.pro.title')}</span>
+            {t(locale as any, 'features.pro.summary')}
+          </p>
+        )}
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <RelatedPosts locale={locale} current={entry} pool={localePosts} />
+    </div>
+
+    <aside class="lg:sticky lg:top-20 self-start space-y-5">
+      <PostToc locale={locale} headings={headings} />
+      <SourceCallout locale={locale} />
+    </aside>
+  </article>
+</BaseLayout>

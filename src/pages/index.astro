@@ -1,0 +1,10 @@
+---
+/**
+ * Root index — 308 redirect to default locale.
+ *
+ * When deployed behind a CDN that respects <link rel="canonical">, this
+ * preserves the visitor's locale preference via the Accept-Language header
+ * hint handled in the browser.
+ */
+return Astro.redirect('/en/', 308);
+---

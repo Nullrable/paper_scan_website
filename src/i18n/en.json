@@ -1,0 +1,232 @@
+{
+  "site": {
+    "title": "Paper Scanner — Pro Document Scanner for iOS & Android",
+    "shortTitle": "Paper Scanner",
+    "description": "A pro document scanner with ultra-wide capture, GPU-powered filters, OCR, multi-page PDF export, and Google Drive / iCloud sync.",
+    "tagline": "Scan. Organize. Sync."
+  },
+  "nav": {
+    "features": "Features",
+    "blog": "Blog",
+    "download": "Download",
+    "about": "About",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "switchLanguage": "Switch language"
+  },
+  "common": {
+    "currentLanguage": "Language",
+    "learnMore": "Learn more",
+    "getStarted": "Get started",
+    "download": "Download",
+    "viewOnGitHub": "View on GitHub",
+    "comingSoon": "Coming soon",
+    "readMore": "Read more",
+    "readArticle": "Read article",
+    "allPosts": "All posts",
+    "backToBlog": "Back to blog",
+    "publishedOn": "Published on {date}",
+    "updatedOn": "Updated on {date}",
+    "writtenBy": "Written by",
+    "readingTime": "{minutes} min read",
+    "categories": "Categories",
+    "tags": "Tags",
+    "relatedPosts": "Related posts",
+    "share": "Share",
+    "tableOfContents": "Table of contents"
+  },
+  "hero": {
+    "headline": "Scan. Organize. Sync.",
+    "headlineAccent": "All offline-first.",
+    "sub": "A pro document scanner with ultra-wide capture, six GPU-powered filters, OCR, multi-page PDF, and conflict-free sync to Google Drive & iCloud.",
+    "ctaDownload": "Download for iOS & Android",
+    "ctaLearnMore": "See how it works",
+    "statsOffline": "100% offline by default",
+    "statsFilters": "6 GPU filters",
+    "statsCloud": "Drive + iCloud sync"
+  },
+  "features": {
+    "title": "Built for serious document work",
+    "subtitle": "Every feature is designed for real-world tasks — capturing, organising, and sharing paper without friction.",
+    "scanning": {
+      "title": "Ultra-wide capture",
+      "summary": "Capture whole pages hands-free with the ultra-wide lens — fit A3 documents without stepping back.",
+      "body": "Most phone cameras force you to stand up and walk backwards to fit a large page. The ultra-wide lens keeps the whole document in frame while you stay seated. Edge detection, perspective correction, and shadow removal all happen the moment you finish the shot, so you see a clean, flat page instantly.",
+      "useCases": [
+        "Snap a full A3 handout on a meeting-room table without standing up",
+        "Capture an entire whiteboard in a single shot instead of stitching",
+        "Scan restaurant menus, instruction booklets, or magazine spreads",
+        "Take a multi-page document apart from the bound edition — page by page"
+      ],
+      "cta": "Read the scanning guide"
+    },
+    "filters": {
+      "title": "Six GPU filters",
+      "summary": "Pick from six hand-tuned filters that render instantly on your device — no cloud round-trip, no waiting.",
+      "body": "Filters run on the device GPU, so the preview is instant. Choose the look that fits the document: clean black & white for printed text, magic color for faded receipts, photo mode for preserves, and more. Adjust brightness, contrast, and shadow after the fact — every change stays on-device.",
+      "useCases": [
+        "Black & white for contracts and printed forms",
+        "Magic color for restoring faded receipts and old book pages",
+        "Photo mode when you want to keep the original look",
+        "Quick brightness/contrast tweak when lighting was uneven"
+      ]
+    },
+    "documents": {
+      "title": "Documents that stay organised",
+      "summary": "Folders, tags, grid or list view, batch operations, drag-and-drop, and full-text search.",
+      "body": "Every document lives in a local library. Build folder structures, tag documents, switch between grid and list views, multi-select for batch operations, merge related pages, and search the full text inside everything. All of it is local and instant — no syncing delay.",
+      "useCases": [
+        "Set up a folder per client or project and tag by status (open / sent / paid)",
+        "Search across all your receipts by typing a vendor or amount",
+        "Merge a 20-page scan batch into one document with two taps",
+        "Use grid view for browsing, list view for dense libraries"
+      ]
+    },
+    "ocr": {
+      "title": "On-device OCR",
+      "summary": "Make scanned text selectable and searchable. Free tier covers daily use; Pro unlocks unlimited OCR.",
+      "body": "OCR runs entirely on-device using Apple's and Google's machine learning kits. Select text inside a scan, copy it to another app, or let the search bar index every page in your library. The free tier includes a generous daily allowance; Pro removes the cap for users who scan hundreds of pages a week.",
+      "useCases": [
+        "Copy a phone number or address off a scanned business card",
+        "Search a year's worth of receipts for one vendor",
+        "Quote a passage from a scanned book without retyping",
+        "Bulk-OCR an inbox of paper to make it searchable"
+      ],
+      "proHint": "Pro removes the daily OCR cap and processes your entire library in one go."
+    },
+    "pdf": {
+      "title": "Multi-page PDF export",
+      "summary": "Merge scans into a single PDF, password-protect it, print or share in one tap.",
+      "body": "Take 50 pages from a meeting, merge them into a single PDF, add a password, and share it through any app on your phone. Print directly, send via email, or drop it into Drive. The export pipeline handles large batches and produces clean, compact files.",
+      "useCases": [
+        "Email a 30-page contract to a client in a single attachment",
+        "Send a password-protected PDF of sensitive documents",
+        "Print a multi-page report straight from your phone",
+        "Export an entire folder as one PDF for archival"
+      ]
+    },
+    "cloud": {
+      "title": "Conflict-free cloud sync",
+      "summary": "Optional sync to your own Google Drive or iCloud. Nothing passes through our servers.",
+      "body": "When you turn on cloud sync, your library is mirrored to your own Google Drive or iCloud — not to our infrastructure. New scans upload automatically. Downloads only run when you explicitly restore, so a sync never overwrites a local edit by accident. Cancel anytime; your data stays where you put it.",
+      "useCases": [
+        "Switch phones and pick up exactly where you left off",
+        "Keep a backup in case the device is lost or damaged",
+        "Share your library with a partner or family member using shared Drive",
+        "Restore on a new device after wiping the old one"
+      ],
+      "proHint": "Pro enables automatic background sync — Free lets you back up manually any time."
+    },
+    "pro": {
+      "title": "Paper Scanner Pro",
+      "summary": "Three upgrades for power users: unlimited OCR, ad-free, and automatic cloud sync.",
+      "body": "Pro is a single subscription that unlocks three improvements designed for heavy users. The free tier is fully usable for most people; Pro removes the limits and the ads. Subscriptions are managed by your app store — cancel anytime, no questions asked.",
+      "useCases": [
+        "Scan hundreds of pages a week without hitting a daily OCR cap",
+        "Use the app for work without the documents banner above your library",
+        "Forget about manually pushing scans to the cloud — it just happens",
+        "Support continued development of the app"
+      ]
+    }
+  },
+  "homepage": {
+    "intro": {
+      "title": "A scanner that fits in your pocket",
+      "body": "Paper Scanner turns your phone into a professional document scanner. Capture entire pages with the ultra-wide lens, clean them up with GPU filters, find any text with on-device OCR, and sync the library to your own cloud — all without sending a single document through anyone else's server."
+    },
+    "scenarios": {
+      "title": "Built for everyday moments",
+      "items": [
+        {
+          "title": "At the office",
+          "body": "Sign a contract on paper, scan it, email the PDF — done before the meeting ends."
+        },
+        {
+          "title": "On the road",
+          "body": "Snap a receipt the moment you get it. No more shoeboxes of paper at tax time."
+        },
+        {
+          "title": "In the classroom",
+          "body": "Capture every handout and whiteboard before you leave the room. Search them later by keyword."
+        },
+        {
+          "title": "At home",
+          "body": "Keep warranties, manuals, and IDs one tap away. Share them when a service agent asks."
+        }
+      ]
+    },
+    "howItWorks": {
+      "title": "From paper to PDF in three taps",
+      "subtitle": "Designed for one-handed capture, no account required.",
+      "step1": {
+        "title": "Aim and capture",
+        "body": "Hold the phone above the page. The ultra-wide lens fits A3."
+      },
+      "step2": {
+        "title": "Pick a filter",
+        "body": "Six GPU filters preview instantly with no upload."
+      },
+      "step3": {
+        "title": "Export or sync",
+        "body": "Save as multi-page PDF, share, or sync to your own cloud."
+      }
+    },
+    "screenshots": {
+      "title": "Inside the app"
+    },
+    "faq": {
+      "title": "Frequently asked questions"
+    }
+  },
+  "blog": {
+    "title": "Paper Scanner Blog",
+    "subtitle": "Tips, real-world workflows, and release notes from the team behind Paper Scanner.",
+    "emptyState": "No posts yet. Check back soon.",
+    "categoryLabel": "Category",
+    "allCategories": "All categories"
+  },
+  "download": {
+    "title": "Download Paper Scanner",
+    "subtitle": "Available on iOS and Android. One install, no account required.",
+    "ios": "Download on the App Store",
+    "android": "Get it on Google Play",
+    "qrHelp": "Scan with your phone camera to open the store listing."
+  },
+  "about": {
+    "title": "About Paper Scanner",
+    "intro": "Paper Scanner is built by a small team that got tired of juggling paper, photos, and clunky scanner apps. We believe scanning a document should be as quick as taking a photo — and your documents should stay yours.",
+    "principles": {
+      "title": "What we believe",
+      "items": [
+        "Your documents are yours. They never touch our servers.",
+        "Scanning should be fast enough that you do it the moment you need to, not later when the paper is lost.",
+        "Free should be genuinely useful. Pro is for power users, not for unlocking basics."
+      ]
+    },
+    "contact": {
+      "title": "Get in touch",
+      "body": "Found a bug, want to suggest a feature, or just want to say hi? Reach out through the in-app feedback form or open an issue on GitHub."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy policy",
+      "intro": "Paper Scanner processes documents on your device by default. This page describes exactly what is collected, stored, and synced."
+    },
+    "terms": {
+      "title": "Terms of service"
+    }
+  },
+  "footer": {
+    "tagline": "A pro document scanner built for offline-first workflows.",
+    "product": "Product",
+    "resources": "Resources",
+    "company": "Company",
+    "legal": "Legal",
+    "copyright": "© {year} Paper Scanner. All rights reserved.",
+    "builtWith": "Built with Flutter, rendered with Astro."
+  }
+}

@@ -1,0 +1,101 @@
+/* ============================================
+ * Paper Scanner — Effects (glassmorphism, gradients, motion)
+ * ============================================ */
+
+/* Glass surface (used in Header, modals) */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  border: 1px solid var(--glass-border);
+}
+
+/* Gradient mesh (Hero background) */
+.gradient-mesh {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 60%, rgba(255, 255, 255, 0.03), transparent 60%),
+    radial-gradient(ellipse 50% 30% at 20% 80%, rgba(255, 255, 255, 0.02), transparent 60%),
+    var(--bg-0);
+}
+
+/* Animated scanline overlay */
+.scanline {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255, 255, 255, 0.02) 3px,
+    rgba(255, 255, 255, 0.02) 4px
+  );
+  animation: scanline-scroll 8s linear infinite;
+}
+
+@keyframes scanline-scroll {
+  to {
+    background-position: 0 100vh;
+  }
+}
+
+/* Float (for hero phone mockup) */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0.5deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s var(--ease-out) infinite;
+}
+
+/* Badge float */
+@keyframes badge-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-badge {
+  animation: badge-float 4s var(--ease-out) infinite;
+}
+
+/* Fade-in-up (set by IntersectionObserver in TS) */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Pro gradient text */
+.pro-text {
+  background: var(--pro-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scanline,
+  .animate-float,
+  .animate-badge {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

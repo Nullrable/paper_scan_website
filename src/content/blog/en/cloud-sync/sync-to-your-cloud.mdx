@@ -1,0 +1,42 @@
+---
+title: "Sync to your own cloud: a backup that never overwrites your edits"
+description: "Paper Scanner mirrors your library to your Google Drive or iCloud. Your phone stays the source of truth, and downloads only run when you explicitly ask to restore."
+pubDate: 2026-08-26
+author: paperscan-team
+category: cloud-sync
+tags: ["cloud", "google-drive", "icloud", "backup"]
+hero:
+  alt: "Cloud sync settings panel"
+translations:
+  zh: sync-to-your-cloud
+---
+
+Cloud sync in Paper Scanner does one thing: mirror your library to a cloud account you already own. Your phone stays the source of truth — the cloud is just a backup you control.
+
+## A guardrail, not a limitation
+
+The mirror is one-way by default — uploads only, no background downloads. This is intentional. If a teammate reorganises the shared Drive folder, or you sign in to a different device, those changes never overwrite what is on your phone.
+
+In practice this means:
+
+- You can rename, tag, and reorganise folders with zero risk of a sync undoing your work.
+- A shared cloud folder with collaborators cannot accidentally clobber your latest edits.
+- A device you sign out of cannot magically come back later filled with stale data.
+
+## How to turn it on
+
+Open **Settings → Cloud**, pick Google Drive or iCloud, sign in, and choose which folders to mirror. The first sync uploads whatever you have today; new scans follow automatically once that is set up.
+
+You can switch providers at any time. Disabling cloud sync leaves your data exactly where you put it — nothing is deleted from the cloud by Paper Scanner. You decide when and whether to clean up the mirror.
+
+## Restore is a one-tap action
+
+If you switch phones, lose the device, or want to rebuild from scratch, **Settings → Cloud → Restore** brings everything back from the cloud mirror. It does not run in the background and it does not happen automatically — you always know when the library is being rebuilt, and you decide when to start.
+
+## Free vs Pro
+
+Free users trigger a manual backup any time they want — great if you only sync once a week or after big projects. Pro adds automatic background sync so the mirror is always up to date without you thinking about it. Same destination, same privacy — just less clicking.
+
+## Where the bytes go
+
+The mirror lives in **your** Google Drive or iCloud account. Paper Scanner does not run a relay server. The bytes travel directly between your phone and the storage you already own. No middleman, no copy on our infrastructure, no analytics tied to your documents.

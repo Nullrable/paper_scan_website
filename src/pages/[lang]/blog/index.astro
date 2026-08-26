@@ -1,0 +1,130 @@
+---
+/**
+ * Blog index — list of every published post for the current locale,
+ * with category filter via the URL (?cat=scanning).
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/blog/PostCard.astro';
+import { BLOG_CATEGORIES } from '../../../content/config';
+import { LOCALES, SITE_NAME } from '../../../consts';
+import { t } from '../../../utils/i18n';
+import { sortByDateDesc } from '../../../utils/blog';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const locale = lang!;
+
+const all = await getCollection('blog', ({ data }) => !data.draft);
+const posts = all
+  .filter((p) => p.id.startsWith(`${locale}/`))
+  .sort(sortByDateDesc);
+
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = featured ? posts.filter((p) => p.id !== featured.id) : posts;
+
+const postSlug = (id: string) => (id.split('/').pop() ?? id).replace(/\.mdx?$/, '');
+
+const title = t(locale as any, 'blog.title');
+const description = t(locale as any, 'blog.subtitle');
+
+const blogJsonLd = {
+  '@type': 'Blog',
+  name: `${SITE_NAME} blog`,
+  description,
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    description: p.data.description,
+    datePublished: p.data.pubDate.toISOString(),
+    url: new URL(`/${locale}/blog/${(p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '')}/`, import.meta.env.PUBLIC_SITE_URL || 'https://paperscanner.app').toString(),
+  })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  type="website"
+  locale={locale}
+  path="/blog/"
+  jsonLd={blogJsonLd}
+>
+  <header class="mb-9 max-w-3xl">
+    <h1 class="font-display text-4xl md:text-5xl font-semibold tracking-tight text-white text-balance">
+      {title}
+    </h1>
+    <p class="mt-3 text-lg text-text-secondary">{description}</p>
+  </header>
+
+  {posts.length === 0 && (
+    <p class="card text-text-secondary">{t(locale as any, 'blog.emptyState')}</p>
+  )}
+
+  {featured && (
+    <section class="mb-9">
+      <a
+        href={`/${locale}/blog/${postSlug(featured.id)}/`}
+        class="card flex flex-col group"
+      >
+        <span class="inline-flex items-center text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-pill bg-info/10 border border-info/30 text-info w-fit">
+          {locale === 'zh' ? '精选' : 'Featured'}
+        </span>
+        <h2 class="mt-3 font-display text-2xl md:text-3xl font-semibold tracking-tight text-white text-balance">
+          {featured.data.title}
+        </h2>
+        <p class="mt-2 text-text-secondary max-w-3xl">{featured.data.description}</p>
+        <p class="mt-4 text-sm text-text-secondary group-hover:text-white inline-flex items-center gap-1">
+          {locale === 'zh' ? '阅读全文' : 'Read article'}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="9,18 15,12 9,6" />
+          </svg>
+        </p>
+      </a>
+    </section>
+  )}
+
+  {rest.length > 0 && (
+    <section>
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="font-display text-xl font-semibold text-white">
+          {t(locale as any, 'common.allPosts')}
+        </h2>
+        <nav aria-label="Categories" class="flex flex-wrap gap-2 text-xs">
+          <a
+            href={`/${locale}/blog/`}
+            class="rounded-pill px-3 py-1 border border-border-subtle text-text-secondary hover:text-white hover:border-border-strong transition-colors duration-fast"
+            aria-current="page"
+          >
+            {t(locale as any, 'blog.allCategories')}
+          </a>
+          {BLOG_CATEGORIES.map((cat) => (
+            <a
+              href={`/${locale}/blog/category/${cat}/`}
+              class="rounded-pill px-3 py-1 border border-border-subtle text-text-secondary hover:text-white hover:border-border-strong transition-colors duration-fast"
+            >
+              {cat}
+            </a>
+          ))}
+        </nav>
+      </div>
+      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {rest.map((post) => (
+          <li>
+            <PostCard
+              locale={locale}
+              post={{
+                slug: (post.id.split('/').pop() ?? post.id).replace(/\.mdx?$/, ''),
+                data: post.data,
+              }}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</BaseLayout>

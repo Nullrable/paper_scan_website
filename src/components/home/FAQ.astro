@@ -1,0 +1,102 @@
+---
+/**
+ * FAQ — collapsible questions/answers (CSS only).
+ *
+ * Bilingual content hard-coded; answers talk about the product, not the
+ * implementation. Translators should rewrite when localising to non-En/Zh.
+ */
+
+import { t } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+const faqs: Array<{ q: string; a: string }> = locale === 'zh'
+  ? [
+      {
+        q: '扫描会用到云端吗？',
+        a: '不会。Paper Scanner 默认在设备上完成所有扫描、滤镜和 OCR 处理。云同步（Google Drive / iCloud）是可选的，由你在设置中显式开启；同步采用增量上传，不会在后台覆盖你本地的修改。',
+      },
+      {
+        q: '我需要注册账号吗？',
+        a: '不需要。下载即用，所有扫描默认保存在设备本地。云同步也只是把数据镜像到你自己的 Google Drive 或 iCloud，不经过我们的服务器。',
+      },
+      {
+        q: '一次能扫多少页？',
+        a: '单次扫描没有数量上限。你可以连续拍摄几百页，全部合并到一份 PDF 里，再一次性分享出去。',
+      },
+      {
+        q: 'PDF 可以加密吗？',
+        a: '可以。导出多页 PDF 时可以设置打开密码，接收方需要输入密码才能查看。',
+      },
+      {
+        q: '超广角镜头有什么实际用处？',
+        a: '当你需要扫描桌上的整份 A3 讲义、白板、菜单或者多页装订材料时，普通手机镜头需要你站起来往后退。超广角镜头让你在桌边坐着手持就能拍全。',
+      },
+      {
+        q: 'OCR 识别准吗？支持中文吗？',
+        a: 'OCR 准确率取决于字迹清晰度和光线。印刷体、收据、合同、书籍表现都很好。免费版有每日识别次数，Pro 解锁整个文档库的无限识别。',
+      },
+      {
+        q: '怎么反馈问题？',
+        a: '应用内 Settings → Send Feedback 直接发邮件；也可以在 GitHub 上提交 Issue。',
+      },
+    ]
+  : [
+      {
+        q: 'Does scanning use the cloud?',
+        a: 'No. Paper Scanner processes scans, filters, and OCR entirely on-device by default. Cloud sync to Google Drive or iCloud is opt-in and only mirrors files to your own storage — nothing passes through our servers.',
+      },
+      {
+        q: 'Do I need an account?',
+        a: 'No. Install and start scanning. Everything stays on your phone. Cloud sync is just a mirror of your library to your own Google Drive or iCloud — we never see your documents.',
+      },
+      {
+        q: 'How many pages can I scan at once?',
+        a: 'There is no hard limit. Capture hundreds of pages in a row, merge them into a single PDF, and share it in one tap.',
+      },
+      {
+        q: 'Can I password-protect a PDF?',
+        a: 'Yes. When exporting a multi-page PDF, you can set an open password — recipients must enter it before they can view the file.',
+      },
+      {
+        q: 'What\'s the ultra-wide lens actually useful for?',
+        a: 'Capturing full A3 handouts, whiteboards, menus, or bound multi-page documents without standing up and stepping back from the table. The wider field of view keeps everything in frame.',
+      },
+      {
+        q: 'How accurate is OCR? Does it handle Chinese?',
+        a: 'Accuracy depends on print quality and lighting. Printed documents, receipts, contracts, and books all perform well. The free tier includes per-document OCR with a daily limit; Pro unlocks unlimited OCR across your whole library.',
+      },
+      {
+        q: 'How do I report a problem?',
+        a: 'Use Settings → Send Feedback inside the app, or open an issue on GitHub.',
+      },
+    ];
+---
+
+<section class="py-9 md:py-12">
+  <div class="text-center max-w-2xl mx-auto mb-9">
+    <h2 class="font-display text-3xl md:text-4xl font-semibold tracking-tight text-white">
+      {t(locale as any, 'homepage.faq.title')}
+    </h2>
+  </div>
+
+  <div class="max-w-3xl mx-auto space-y-3">
+    {faqs.map((faq) => (
+      <details class="card group">
+        <summary class="list-none flex items-center justify-between gap-3 cursor-pointer font-medium text-white">
+          <span>{faq.q}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform duration-base group-open:rotate-180" aria-hidden="true">
+            <polyline points="6,9 12,15 18,9" />
+          </svg>
+        </summary>
+        <p class="mt-3 text-sm text-text-secondary leading-relaxed">
+          {faq.a}
+        </p>
+      </details>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,110 @@
+---
+/**
+ * Header — sticky glassmorphism navigation.
+ * Pure CSS (no client JS) for accessibility and zero runtime cost.
+ */
+
+import { LOCALES, LOCALE_NAMES, NAV_ITEMS, SITE_NAME } from '../../consts';
+import { t } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+  /** Path relative to locale root (e.g. "/blog/foo/"). */
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const localePath = (loc: string) => `/${loc}${path === '/' || path === '' ? '/' : path}`;
+---
+
+<header class="sticky top-0 z-40 glass border-b border-border-subtle">
+  <div class="container-app flex h-16 items-center justify-between gap-6">
+    <!-- Brand -->
+    <a href={`/${locale}/`} class="flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-white">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect x="4" y="3" width="16" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <line x1="8" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <line x1="8" y1="14" x2="14" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <line x1="18" y1="20" x2="24" y2="14" stroke="none" stroke-width="1.5" stroke-linecap="round" />
+        <polyline points="21,14 24,14 24,17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span>{SITE_NAME}</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Primary" class="hidden md:flex items-center gap-7 text-sm text-text-secondary">
+      {NAV_ITEMS.map((item) => (
+        <a
+          href={`/${locale}${item.href}`}
+          class="hover:text-white transition-colors duration-fast"
+        >
+          {t(locale as any, `nav.${item.key}` as any)}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Right cluster: language + CTA -->
+    <div class="flex items-center gap-3">
+      <details class="relative group">
+        <summary
+          class="list-none cursor-pointer rounded-md border border-border-subtle px-3 py-1.5 text-sm text-text-secondary hover:text-white hover:border-border-strong transition-colors duration-fast flex items-center gap-1.5"
+          aria-label={t(locale as any, 'nav.switchLanguage')}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3 12h18" />
+            <path d="M12 3a14 14 0 0 1 0 18" />
+            <path d="M12 3a14 14 0 0 0 0 18" />
+          </svg>
+          <span class="uppercase">{locale}</span>
+        </summary>
+        <ul class="absolute right-0 mt-2 min-w-[160px] rounded-md border border-border-subtle bg-bg-1 py-2 shadow-card">
+          {LOCALES.map((loc) => (
+            <li>
+              <a
+                href={localePath(loc)}
+                aria-current={loc === locale ? 'page' : undefined}
+                class={`flex items-center justify-between px-3 py-1.5 text-sm hover:bg-bg-2 transition-colors duration-fast ${loc === locale ? 'text-white' : 'text-text-secondary'}`}
+              >
+                <span>{LOCALE_NAMES[loc]}</span>
+                {loc === locale && (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <polyline points="20,6 9,17 4,12" />
+                  </svg>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+
+      <a
+        href={`/${locale}/download/`}
+        class="btn btn-primary hidden sm:inline-flex text-sm py-2"
+      >
+        {t(locale as any, 'common.download')}
+      </a>
+
+      <!-- Mobile menu button -->
+      <details class="relative md:hidden">
+        <summary class="list-none cursor-pointer p-2 text-text-secondary" aria-label={t(locale as any, 'nav.openMenu')}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </summary>
+        <nav class="absolute right-0 mt-2 min-w-[180px] rounded-md border border-border-subtle bg-bg-1 py-2 shadow-card">
+          {NAV_ITEMS.map((item) => (
+            <a
+              href={`/${locale}${item.href}`}
+              class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-2 hover:text-white transition-colors duration-fast"
+            >
+              {t(locale as any, `nav.${item.key}` as any)}
+            </a>
+          ))}
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

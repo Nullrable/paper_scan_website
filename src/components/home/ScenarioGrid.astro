@@ -1,0 +1,55 @@
+---
+/**
+ * ScenarioGrid — four everyday use-case cards (office / road / classroom / home).
+ *
+ * Pure content block, no images. Driven by i18n table at homepage.scenarios.
+ */
+
+import { t, tValue } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+const items = (tValue(locale as any, 'homepage.scenarios.items') as Array<{
+  title: string;
+  body: string;
+}>) ?? [];
+
+const sectionTitle = t(locale as any, 'homepage.scenarios.title');
+
+const icons = [
+  // Office — desk monitor
+  'M3 5h18v11H3zM8 21h8M12 16v5',
+  // Road — paper plane
+  'M22 2L11 13M22 2l-7 20-4-9-9-4z',
+  // Classroom — book
+  'M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4V4zM8 4v16',
+  // Home — house
+  'M3 12l9-9 9 9M5 10v10h14V10',
+];
+---
+
+<section class="py-9 md:py-12">
+  <div class="text-center max-w-2xl mx-auto mb-9">
+    <h2 class="font-display text-3xl md:text-4xl font-semibold tracking-tight text-white text-balance">
+      {sectionTitle}
+    </h2>
+  </div>
+
+  <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    {items.map((item, i) => (
+      <li class="card group h-full">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-md bg-bg-2 border border-border-subtle text-text-secondary group-hover:text-white group-hover:border-border-strong transition-colors duration-base">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d={icons[i]} />
+          </svg>
+        </span>
+        <h3 class="mt-4 font-display text-base font-semibold text-white">{item.title}</h3>
+        <p class="mt-2 text-sm text-text-secondary leading-relaxed">{item.body}</p>
+      </li>
+    ))}
+  </ul>
+</section>

@@ -1,0 +1,232 @@
+{
+  "site": {
+    "title": "Paper Scanner — iOS 与 Android 专业文档扫描应用",
+    "shortTitle": "Paper Scanner",
+    "description": "专业文档扫描工具：超广角拍摄、六种 GPU 滤镜、本地 OCR、多页 PDF、可选 Google Drive / iCloud 同步。",
+    "tagline": "扫描、整理、同步。"
+  },
+  "nav": {
+    "features": "功能",
+    "blog": "博客",
+    "download": "下载",
+    "about": "关于",
+    "privacy": "隐私",
+    "terms": "条款",
+    "skipToContent": "跳转到正文",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "switchLanguage": "切换语言"
+  },
+  "common": {
+    "currentLanguage": "语言",
+    "learnMore": "了解更多",
+    "getStarted": "立即开始",
+    "download": "下载",
+    "viewOnGitHub": "在 GitHub 查看",
+    "comingSoon": "即将推出",
+    "readMore": "阅读更多",
+    "readArticle": "阅读文章",
+    "allPosts": "所有文章",
+    "backToBlog": "返回博客",
+    "publishedOn": "发布于 {date}",
+    "updatedOn": "更新于 {date}",
+    "writtenBy": "作者",
+    "readingTime": "{minutes} 分钟阅读",
+    "categories": "分类",
+    "tags": "标签",
+    "relatedPosts": "相关文章",
+    "share": "分享",
+    "tableOfContents": "目录"
+  },
+  "hero": {
+    "headline": "扫描。整理。同步。",
+    "headlineAccent": "全部离线优先。",
+    "sub": "专业文档扫描工具：超广角拍摄、六种 GPU 滤镜、本地 OCR、多页 PDF，可选同步到你自己 Google Drive 或 iCloud。",
+    "ctaDownload": "下载 iOS 与 Android 版本",
+    "ctaLearnMore": "查看使用方法",
+    "statsOffline": "默认 100% 离线",
+    "statsFilters": "6 种 GPU 滤镜",
+    "statsCloud": "Drive + iCloud 同步"
+  },
+  "features": {
+    "title": "为真实文档工作打造",
+    "subtitle": "每个功能都对应日常使用场景：手机装得下，照片一样快，但效果像专业扫描仪。",
+    "scanning": {
+      "title": "超广角拍摄",
+      "summary": "超广角镜头让整页文档一次入框——不用站起来往后退。",
+      "body": "普通手机镜头想拍下整页 A4 或 A3，往往要你站起来、走到桌后、重新对焦。超广角镜头让你保持坐姿、手持就能拍全整页。拍摄完成后，边缘检测、透视校正与阴影去除都在设备上瞬间完成，你看到的永远是一张干净的平面图。",
+      "useCases": [
+        "坐在会议桌前，直接拍下整份 A3 讲义",
+        "一镜拍下整面白板，无需后期拼接",
+        "扫描餐厅菜单、产品说明书或杂志跨页",
+        "逐页拆解装订本，不必压平"
+      ],
+      "cta": "查看拍摄指南"
+    },
+    "filters": {
+      "title": "六种 GPU 滤镜",
+      "summary": "六种手工调校的滤镜，在设备 GPU 上实时渲染——无需上传，无等待。",
+      "body": "滤镜全部在设备 GPU 上运行，预览零延迟。选最适合当前文档的那一款：印刷文本用黑白、褪色收据用魔法色彩、需要原貌就用照片模式。亮度、对比度与阴影都可以在拍摄后微调，所有操作都在本地完成。",
+      "useCases": [
+        "合同与表格用黑白，保持锐利字迹",
+        "褪色收据与旧书页用魔法色彩，恢复可读",
+        "需要原貌时用照片模式",
+        "光线不均时随时调整亮度与对比度"
+      ]
+    },
+    "documents": {
+      "title": "文档井然有序",
+      "summary": "文件夹、标签、网格或列表视图、批量操作、拖拽与全文检索。",
+      "body": "每个文档都保存在本地文档库中。你可以构建嵌套文件夹、为文档打多个标签、在网格和列表视图之间切换、多选做批量操作、合并相关页、并对所有页面做全文搜索。所有功能都在本地运行——没有同步延迟。",
+      "useCases": [
+        "按客户或项目建文件夹，用标签标记状态（待办 / 已发 / 已结）",
+        "搜索全部收据，输入商户名或金额即可定位",
+        "把 20 页扫描一次性合并为一份文档",
+        "浏览时用网格，需要密集列表时切换到列表视图"
+      ]
+    },
+    "ocr": {
+      "title": "本地 OCR",
+      "summary": "把扫描的文字变成可选可搜索。免费版覆盖日常使用，Pro 解锁无限识别。",
+      "body": "OCR 全部在设备上运行，使用 Apple 与 Google 的机器学习套件。你可以选中扫描里的文字、复制到其他 App，或让搜索框索引库中每一页。免费版每天有充足的识别次数，Pro 移除上限，适合每周扫描数百页的用户。",
+      "useCases": [
+        "复制名片上的电话或地址",
+        "在一年收据里搜索某个商户",
+        "直接引用扫描书里的段落，不必重打",
+        "批量识别纸面文档，把它们变成可搜索"
+      ],
+      "proHint": "Pro 移除每日识别上限，并支持一键识别整个文档库。"
+    },
+    "pdf": {
+      "title": "多页 PDF 导出",
+      "summary": "把多次扫描合并成一份 PDF、设置密码、一键打印或分享。",
+      "body": "把 50 页会议材料合并成一份 PDF、设置打开密码，再通过手机上任意 App 分享出去。也可以直接打印、邮件发送或上传到云盘。导出管线为大批量优化，生成的 PDF 文件干净紧凑。",
+      "useCases": [
+        "把 30 页合同作为单一附件发送给客户",
+        "发送带密码的敏感文档 PDF",
+        "直接从手机打印多页报告",
+        "把整个文件夹导出为一份 PDF 归档"
+      ]
+    },
+    "cloud": {
+      "title": "无冲突云同步",
+      "summary": "可选同步到你自己 Google Drive 或 iCloud。任何数据都不经过我们的服务器。",
+      "body": "当你开启云同步，文档库会镜像到你自己 Google Drive 或 iCloud——不是我们的基础设施。新扫描会自动上传。下载仅在你显式恢复时触发，因此同步永远不会覆盖你本地的修改。随时可以关闭，数据留在你放的地方。",
+      "useCases": [
+        "换手机后无缝接着用",
+        "设备丢失或损坏时多一份备份",
+        "用共享 Drive 跟家人或同事共享文档库",
+        "抹掉旧设备后在新设备恢复"
+      ],
+      "proHint": "Pro 开启后台自动同步；免费版随时可手动备份。"
+    },
+    "pro": {
+      "title": "Paper Scanner Pro",
+      "summary": "三个升级：无限 OCR、去广告、后台自动云同步。",
+      "body": "Pro 是一个订阅，解锁三个对重度用户最有价值的升级。免费版对大多数人已经够用；Pro 只是去除限制和广告。订阅由 App Store / Google Play 管理，随时可取消，无需说明原因。",
+      "useCases": [
+        "每周扫描数百页，不再撞到每日 OCR 上限",
+        "工作场景下使用，文档库上方不再有横幅广告",
+        "忘掉手动推送，云同步在后台自动完成",
+        "支持这个应用持续开发"
+      ]
+    }
+  },
+  "homepage": {
+    "intro": {
+      "title": "一台装在口袋里的扫描仪",
+      "body": "Paper Scanner 把你的手机变成一台专业文档扫描仪。用超广角镜头拍下整页，用 GPU 滤镜清理，用本地 OCR 找文字，把整个文档库同步到你自己云端——全程不经过任何第三方服务器。"
+    },
+    "scenarios": {
+      "title": "为日常场景而生",
+      "items": [
+        {
+          "title": "在办公室",
+          "body": "纸面合同签字后立刻扫描，PDF 直接邮件发出去——会议结束前就办完。"
+        },
+        {
+          "title": "在路上",
+          "body": "拿到收据的瞬间就拍下来，年底报税时不再翻箱倒柜。"
+        },
+        {
+          "title": "在课堂",
+          "body": "讲义和白板拍下来再离教室，回头按关键字搜索。"
+        },
+        {
+          "title": "在家",
+          "body": "保修卡、说明书、身份证随时可查，客服来电时立刻调出来。"
+        }
+      ]
+    },
+    "howItWorks": {
+      "title": "三步从纸张到 PDF",
+      "subtitle": "为单手拍摄而设计，无需账号。",
+      "step1": {
+        "title": "对准并拍摄",
+        "body": "把手机悬停在页面上方，超广角镜头能拍 A3。"
+      },
+      "step2": {
+        "title": "选择滤镜",
+        "body": "六种 GPU 滤镜即时预览，无需上传。"
+      },
+      "step3": {
+        "title": "导出或同步",
+        "body": "保存为多页 PDF、分享，或同步到你自己的云。"
+      }
+    },
+    "screenshots": {
+      "title": "应用内截图"
+    },
+    "faq": {
+      "title": "常见问题"
+    }
+  },
+  "blog": {
+    "title": "Paper Scanner 博客",
+    "subtitle": "使用技巧、真实场景与发布说明——来自 Paper Scanner 团队。",
+    "emptyState": "暂无文章，敬请期待。",
+    "categoryLabel": "分类",
+    "allCategories": "全部分类"
+  },
+  "download": {
+    "title": "下载 Paper Scanner",
+    "subtitle": "iOS 与 Android 均可下载。一次安装，无需账号。",
+    "ios": "从 App Store 下载",
+    "android": "从 Google Play 获取",
+    "qrHelp": "使用手机相机扫描，打开商店页面。"
+  },
+  "about": {
+    "title": "关于 Paper Scanner",
+    "intro": "Paper Scanner 由一个小团队打造——他们厌倦了在纸张、照片和笨拙的扫描 App 之间来回切换。我们相信：扫描一份文档，应该和拍一张照片一样快；而且你的文档，永远应该是你的。",
+    "principles": {
+      "title": "我们相信的事",
+      "items": [
+        "文档是你的，永远不会经过我们的服务器。",
+        "扫描要快到让你想做的时候就做——而不是等到纸不见了再做。",
+        "免费版应该真的有用。Pro 是为重度用户准备的，不是用来解锁基础功能。"
+      ]
+    },
+    "contact": {
+      "title": "联系我们",
+      "body": "发现 Bug、有功能建议或只是想打个招呼？可以通过应用内的反馈表单联系我们，也可以在 GitHub 上提 Issue。"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "隐私政策",
+      "intro": "Paper Scanner 默认在设备上处理文档。本页面详细说明了哪些数据被收集、存储与同步。"
+    },
+    "terms": {
+      "title": "服务条款"
+    }
+  },
+  "footer": {
+    "tagline": "为离线优先工作流打造的专业扫描工具。",
+    "product": "产品",
+    "resources": "资源",
+    "company": "公司",
+    "legal": "法律",
+    "copyright": "© {year} Paper Scanner. 保留所有权利。",
+    "builtWith": "由 Flutter 构建，使用 Astro 渲染。"
+  }
+}

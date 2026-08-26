@@ -1,0 +1,60 @@
+---
+/**
+ * ScreenshotShowcase — placeholder grid for app screenshots.
+ *
+ * Phase 1: SVG placeholders with realistic phone-frame outlines.
+ * Phase 2+: real screenshots from device captures.
+ */
+
+import { t } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+// Five placeholder slots: 1. Scan, 2. Filters, 3. Documents, 4. OCR, 5. PDF export.
+const placeholders = [
+  { label: locale === 'zh' ? '扫描' : 'Scan', sub: locale === 'zh' ? '超广角镜头' : 'Ultra-wide capture' },
+  { label: locale === 'zh' ? '滤镜' : 'Filters', sub: locale === 'zh' ? '六种 GPU 滤镜' : 'Six GPU filters' },
+  { label: locale === 'zh' ? '文档' : 'Documents', sub: locale === 'zh' ? '文件夹与标签' : 'Folders and tags' },
+  { label: 'OCR', sub: locale === 'zh' ? '设备端识别' : 'On-device text recognition' },
+  { label: locale === 'zh' ? 'PDF' : 'PDF', sub: locale === 'zh' ? '多页导出与加密' : 'Multi-page export + encryption' },
+];
+---
+
+<section class="py-9 md:py-12">
+  <div class="text-center max-w-2xl mx-auto mb-9">
+    <h2 class="font-display text-3xl md:text-4xl font-semibold tracking-tight text-white">
+      {t(locale as any, 'homepage.screenshots.title')}
+    </h2>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+    {placeholders.map((ph, i) => (
+      <figure class="card group p-4">
+        <div class="aspect-[9/16] bg-bg-0 border border-border-subtle rounded-md flex items-center justify-center overflow-hidden relative">
+          <!-- Placeholder phone frame -->
+          <svg viewBox="0 0 90 160" class="w-2/3 h-auto" aria-hidden="true">
+            <rect x="5" y="5" width="80" height="150" rx="10" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+            <rect x="10" y="14" width="70" height="120" rx="6" fill="rgba(255,255,255,0.04)" />
+            <!-- Shimmer line -->
+            <line x1="20" y1={30 + i * 20} x2="70" y2={30 + i * 20} stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round" />
+            <line x1="20" y1={45 + i * 12} x2="60" y2={45 + i * 12} stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-linecap="round" />
+            <line x1="20" y1={58 + i * 12} x2="65" y2={58 + i * 12} stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-linecap="round" />
+            <circle cx="45" cy="135" r="4" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" />
+          </svg>
+          <!-- Coming soon overlay -->
+          <span class="absolute bottom-2 right-2 text-[10px] uppercase tracking-wider text-text-muted">
+            {locale === 'zh' ? '即将推出' : 'Coming soon'}
+          </span>
+        </div>
+        <figcaption class="mt-3">
+          <div class="text-white text-sm font-medium">{ph.label}</div>
+          <div class="text-text-muted text-xs mt-1">{ph.sub}</div>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>

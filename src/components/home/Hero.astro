@@ -1,0 +1,142 @@
+---
+/**
+ * Hero — landing section.
+ *
+ * Pure HTML + CSS. No runtime JS. Inline SVG phone mockup + animated
+ * scanline overlay on the background.
+ */
+
+import { t } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const headline = t(locale as any, 'hero.headline');
+const accent = t(locale as any, 'hero.headlineAccent');
+const sub = t(locale as any, 'hero.sub');
+const ctaPrimary = t(locale as any, 'hero.ctaDownload');
+const ctaSecondary = t(locale as any, 'hero.ctaLearnMore');
+const tagline = t(locale as any, 'site.tagline');
+
+const stats = [
+  { value: t(locale as any, 'hero.statsOffline'), note: 'No cloud upload by default' },
+  { value: t(locale as any, 'hero.statsFilters'), note: 'GPU fragment shader' },
+  { value: t(locale as any, 'hero.statsCloud'), note: 'Your own storage' },
+];
+---
+
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 gradient-mesh opacity-90" aria-hidden="true"></div>
+  <div class="absolute inset-0 scanline opacity-50 pointer-events-none" aria-hidden="true"></div>
+
+  <div class="container-app relative grid gap-9 lg:grid-cols-[1.1fr_0.9fr] items-center py-9 md:py-12 lg:py-15">
+    <!-- Copy -->
+    <div class="text-center lg:text-left">
+      <p class="pro-badge mb-5 mx-auto lg:mx-0">{tagline}</p>
+
+      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white text-balance">
+        {headline}
+        <span class="block mt-2 text-text-secondary">{accent}</span>
+      </h1>
+
+      <p class="mt-5 text-lg text-text-secondary max-w-xl mx-auto lg:mx-0 text-balance">
+        {sub}
+      </p>
+
+      <div class="mt-7 flex flex-wrap gap-3 justify-center lg:justify-start">
+        <a href={`/${locale}/download/`} class="btn btn-primary text-base px-5 py-3">
+          {ctaPrimary}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12,5 19,12 12,19" />
+          </svg>
+        </a>
+        <a href={`/${locale}/features/`} class="btn btn-ghost text-base px-5 py-3">
+          {ctaSecondary}
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <dl class="mt-9 grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0 text-center lg:text-left">
+        {stats.map((stat) => (
+          <div>
+            <dt class="text-white font-semibold text-sm md:text-base">{stat.value}</dt>
+            <dd class="mt-1 text-xs text-text-muted">{stat.note}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <!-- Phone mockup -->
+    <div class="relative mx-auto animate-float max-w-xs sm:max-w-sm lg:max-w-md">
+      <svg viewBox="0 0 320 640" class="w-full h-auto" aria-hidden="true">
+        <!-- Phone frame -->
+        <defs>
+          <linearGradient id="phone-frame" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2A2A2F" />
+            <stop offset="50%" stop-color="#0F0F11" />
+            <stop offset="100%" stop-color="#2A2A2F" />
+          </linearGradient>
+          <linearGradient id="phone-screen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#141417" />
+            <stop offset="100%" stop-color="#0A0A0B" />
+          </linearGradient>
+          <linearGradient id="scan-shimmer" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.0)" />
+            <stop offset="50%" stop-color="rgba(255,255,255,0.18)" />
+            <stop offset="100%" stop-color="rgba(255,255,255,0.0)" />
+          </linearGradient>
+        </defs>
+
+        <rect x="10" y="10" width="300" height="620" rx="40" fill="url(#phone-frame)" />
+        <rect x="20" y="20" width="280" height="600" rx="32" fill="url(#phone-screen)" />
+
+        <!-- Notch -->
+        <rect x="120" y="28" width="80" height="20" rx="10" fill="#000000" />
+
+        <!-- Scan preview area -->
+        <rect x="40" y="80" width="240" height="340" rx="12" fill="#1F1F23" stroke="rgba(255,255,255,0.08)" />
+        <!-- Document corners -->
+        <path d="M 70 130 L 70 110 L 90 110" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+        <path d="M 250 110 L 270 110 L 270 130" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+        <path d="M 70 380 L 70 400 L 90 400" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+        <path d="M 250 400 L 270 400 L 270 380" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+        <!-- Document lines -->
+        <rect x="80" y="160" width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.35)" />
+        <rect x="80" y="180" width="140" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+        <rect x="80" y="200" width="170" height="3" rx="1.5" fill="rgba(255,255,255,0.35)" />
+        <rect x="80" y="220" width="120" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+        <rect x="80" y="240" width="150" height="3" rx="1.5" fill="rgba(255,255,255,0.25)" />
+        <!-- Scan shimmer -->
+        <rect x="40" y="240" width="240" height="6" fill="url(#scan-shimmer)">
+          <animate attributeName="y" values="80;420;80" dur="3.5s" repeatCount="indefinite" />
+        </rect>
+
+        <!-- Bottom filter row -->
+        <rect x="40" y="440" width="240" height="180" rx="12" fill="#0F0F11" />
+        <rect x="60" y="470" width="50" height="60" rx="6" fill="#1F1F23" />
+        <rect x="120" y="470" width="50" height="60" rx="6" fill="#FFFFFF" />
+        <rect x="180" y="470" width="50" height="60" rx="6" fill="#1F1F23" />
+        <rect x="60" y="540" width="50" height="3" rx="1.5" fill="rgba(255,255,255,0.4)" />
+        <rect x="120" y="540" width="50" height="3" rx="1.5" fill="#000000" />
+        <rect x="180" y="540" width="50" height="3" rx="1.5" fill="rgba(255,255,255,0.4)" />
+
+        <!-- Capture button -->
+        <circle cx="160" cy="585" r="20" fill="none" stroke="#FFFFFF" stroke-width="2" />
+        <circle cx="160" cy="585" r="14" fill="#FFFFFF" />
+      </svg>
+
+      <!-- Floating badges -->
+      <div class="absolute -left-6 top-1/4 animate-badge card py-2 px-3 text-xs flex items-center gap-2 shadow-card">
+        <span class="w-2 h-2 rounded-full bg-success"></span>
+        <span>ocrUnlimited</span>
+      </div>
+      <div class="absolute -right-4 bottom-1/4 animate-badge card py-2 px-3 text-xs flex items-center gap-2 shadow-card" style="animation-delay: 2s">
+        <span class="w-2 h-2 rounded-full bg-info"></span>
+        <span>noAds</span>
+      </div>
+    </div>
+  </div>
+</section>

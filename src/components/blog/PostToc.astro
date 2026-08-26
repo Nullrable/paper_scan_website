@@ -1,0 +1,46 @@
+---
+/**
+ * PostToc — table of contents built from h2/h3 in MDX headings.
+ *
+ * Renders nothing when no headings are present.
+ */
+
+import { t } from '../../utils/i18n';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  locale: string;
+  headings: Heading[];
+}
+
+const { locale, headings } = Astro.props;
+
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length > 0 && (
+  <nav aria-label={t(locale as any, 'common.tableOfContents')} class="text-sm">
+    <h2 class="text-xs font-semibold uppercase tracking-wider text-text-muted mb-3">
+      {t(locale as any, 'common.tableOfContents')}
+    </h2>
+    <ul class="space-y-1.5 border-l border-border-subtle">
+      {items.map((h) => (
+        <li class={h.depth === 3 ? 'pl-6' : 'pl-3'}>
+          <a
+            href={`#${h.slug}`}
+            class={`block border-l-2 -ml-px transition-colors duration-fast ${
+              h.depth === 3 ? 'text-text-muted' : 'text-text-secondary'
+            } hover:text-white hover:border-white border-transparent`}
+          >
+            {h.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

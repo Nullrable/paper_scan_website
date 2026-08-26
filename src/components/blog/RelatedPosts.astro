@@ -1,0 +1,65 @@
+---
+/**
+ * RelatedPosts — picks up to 4 sibling posts sharing the same category,
+ * excluding the current one. If the locale has fewer than 4, falls back
+ * to the other locale's entries mapped through the translations map.
+ */
+
+import type { CollectionEntry } from 'astro:content';
+import { t } from '../../utils/i18n';
+
+type BlogEntry = CollectionEntry<'blog'>;
+
+interface Props {
+  locale: string;
+  current: BlogEntry;
+  pool: BlogEntry[];
+}
+
+const { locale, current, pool } = Astro.props;
+
+const currentId = current.id;
+
+const sameCategory = pool.filter(
+  (p) => p.data.category === current.data.category && p.id !== currentId
+);
+
+const others = pool.filter(
+  (p) => p.data.category !== current.data.category && p.id !== currentId
+);
+
+const picks: BlogEntry[] = [];
+for (const p of sameCategory) {
+  if (picks.length >= 4) break;
+  picks.push(p);
+}
+if (picks.length < 4) {
+  for (const p of others) {
+    if (picks.length >= 4) break;
+    picks.push(p);
+  }
+}
+---
+
+{picks.length > 0 && (
+  <section class="mt-12 pt-9 border-t border-border-subtle">
+    <h2 class="font-display text-xl font-semibold text-white mb-4">
+      {t(locale as any, 'common.relatedPosts')}
+    </h2>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {picks.map((p) => (
+        <li>
+          <a
+            href={`/${locale}/blog/${(p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '')}/`}
+            class="card block group"
+          >
+            <h3 class="font-display text-base font-semibold leading-snug text-white group-hover:text-white">
+              {p.data.title}
+            </h3>
+            <p class="mt-1.5 text-sm text-text-secondary line-clamp-2">{p.data.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

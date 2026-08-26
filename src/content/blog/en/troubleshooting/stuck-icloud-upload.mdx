@@ -1,0 +1,47 @@
+---
+title: "Stuck on iCloud sync? A practical checklist"
+description: "Uploads sitting at 12 of 50 for minutes on end usually has one of four causes. Run through this list before opening a bug report."
+pubDate: 2026-08-26
+author: paperscan-team
+category: troubleshooting
+tags: ["icloud", "sync", "troubleshooting"]
+hero:
+  alt: "iCloud sync log"
+translations:
+  zh: stuck-icloud-upload
+---
+
+One of the most common support tickets we receive: a user enables iCloud sync, the Documents status bar shows "uploading 12 of 50", and it stays there for five minutes. Ninety-nine percent of the time, the cause is one of four things below.
+
+## 1. iCloud Drive is not actually on for Paper Scanner
+
+There are two separate switches you need to verify:
+
+- **iOS Settings → your name → iCloud → Show all → Paper Scanner** must be toggled on.
+- **iOS Settings → Paper Scanner → iCloud Drive** must also be toggled on.
+
+If either is off, the app queues uploads but the system never accepts them.
+
+## 2. iOS is throttling background sync
+
+iOS actively throttles iCloud background activity in two situations:
+
+- **Low Power Mode** is on — toggle it off in iOS Settings → Battery.
+- **iPhone storage is nearly full** — iOS needs at least 500 MB free for background uploads. Free up space in iOS Settings → General → iPhone Storage.
+
+The UI will not say "storage full". It just shows "uploading" forever.
+
+## 3. The network is fine but the queue is large
+
+Uploads process sequentially. If you have hundreds of scans queued from a long offline stretch, expect the queue to take a while. Leave the app open in the background for 15-30 minutes before assuming something is wrong.
+
+## 4. iCloud account itself is in a bad state
+
+This is rare but real:
+
+- iOS Settings → your name → iCloud → toggle iCloud Drive off, wait 30 seconds, toggle it back on.
+- Sign out of iCloud in iOS Settings → your name → Sign Out, then sign back in. This refreshes the iCloud connection end to end.
+
+## If you are still stuck
+
+Use **Settings → Send Feedback** inside the app. The report carries the recent sync activity along with it, so we can see exactly what the app was doing when uploads stalled. Bug reports get a response within a few days.

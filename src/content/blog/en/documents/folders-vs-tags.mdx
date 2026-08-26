@@ -1,0 +1,50 @@
+---
+title: "Folders vs tags: pick the right model for organising your scans"
+description: "Paper Scanner supports both nested folders and many-to-many tags. They look redundant but answer different questions. Here is when to use each."
+pubDate: 2026-08-26
+author: paperscan-team
+category: documents
+tags: ["organization", "folders", "tags"]
+hero:
+  alt: "Documents list with folders and tags"
+translations:
+  zh: folders-vs-tags
+---
+
+The Documents list supports both nested folders and multi-tags. It can look redundant. It is not — the two models answer different questions, and using them together is what makes a 500-page library actually findable.
+
+## Folders: tree, mutually exclusive
+
+A folder is a physical path. A document lives in exactly one folder. Use folders for long-lived, stable, project-or-year-based archives:
+
+- `2026 / Q2 / Acme Corp / contracts`
+- `Tax / 2025 / personal`
+- `House / boiler / manuals`
+
+The hierarchy mirrors how you would file paper — easy to reason about, easy to back up.
+
+## Tags: flat, additive
+
+Tags are extra properties on a document. One scan can carry `receipt`, `tax-2025`, and `reimbursable` simultaneously. Use tags for cross-cutting properties:
+
+- `receipt` — every receipt, regardless of folder
+- `urgent` — anything that needs quick action
+- `scan-on-phone` — anything scanned here, not imported
+
+Switch to the tag view to ask "show me everything that matches this property" — across folders, across years.
+
+## A concrete workflow
+
+Say you are handling Acme Corp's contracts in Q2 2026:
+
+1. Scan a PDF into `2026 / Q2 / Acme Corp / contracts`.
+2. Open the document detail and add the tags `urgent` and `q2-renewal`.
+3. When renewal season hits, switch to the tag view and search `q2-renewal`. The app returns every matching document across folders.
+
+With folders only, you would dig into every quarter folder by hand. With tags only, you lose the stability of a physical path.
+
+## Anti-patterns
+
+- Tag everything with five labels — discoverability drops fast.
+- Put years in tags — use folders for `2025`, tags describe *what* something is.
+- Nest folders more than four levels — split out a new dimension instead.

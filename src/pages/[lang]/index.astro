@@ -1,0 +1,87 @@
+---
+/**
+ * Localized home page.
+ *
+ * Renders: hero → product intro → feature grid → use-case scenarios →
+ *          how-it-works → screenshot placeholders → FAQ.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/home/Hero.astro';
+import ProductIntro from '../../components/home/ProductIntro.astro';
+import FeatureGrid from '../../components/home/FeatureGrid.astro';
+import ScenarioGrid from '../../components/home/ScenarioGrid.astro';
+import HowItWorks from '../../components/home/HowItWorks.astro';
+import ScreenshotShowcase from '../../components/home/ScreenshotShowcase.astro';
+import FAQ from '../../components/home/FAQ.astro';
+import { LOCALES, SITE_NAME, SITE_URL } from '../../consts';
+import { t } from '../../utils/i18n';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const locale = lang!;
+
+const title = t(locale as any, 'site.title');
+const description = t(locale as any, 'site.description');
+
+// Build FAQ JSON-LD from the same data used by <FAQ> for SEO consistency.
+const faqs = locale === 'zh'
+  ? [
+      { q: '扫描会用到云端吗？', a: '不会。Paper Scanner 默认在设备端完成所有扫描、滤镜和 OCR 处理。' },
+      { q: '我需要注册账号吗？', a: '不需要。下载即用，所有数据保存在本地。' },
+      { q: '一次能扫多少页？', a: '没有数量上限。可以连续拍摄几百页，一次性合并到 PDF。' },
+      { q: 'PDF 可以加密吗？', a: '可以。导出时可设置打开密码。' },
+      { q: 'OCR 支持中文吗？', a: '支持。免费版有每日识别次数，Pro 解锁整个文档库的无限识别。' },
+      { q: 'Pro 订阅包含什么？', a: '无限 OCR、去广告、后台自动云同步。订阅随时可在 App Store / Google Play 取消。' },
+    ]
+  : [
+      { q: 'Does scanning use the cloud?', a: 'No. Scanning, filters, and OCR are processed entirely on-device.' },
+      { q: 'Do I need an account?', a: 'No. Install and start scanning — everything stays on your phone.' },
+      { q: 'How many pages can I scan at once?', a: 'There is no hard limit. Capture hundreds of pages and merge into one PDF.' },
+      { q: 'Can I password-protect a PDF?', a: 'Yes — set an open password when exporting a multi-page PDF.' },
+      { q: 'Does OCR support Chinese?', a: 'Yes. Free tier includes a daily quota; Pro unlocks unlimited OCR.' },
+      { q: 'What does Pro unlock?', a: 'Unlimited OCR, no banner ads, and automatic cloud sync.' },
+    ];
+
+const faqJsonLd = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const appJsonLd = {
+  '@type': 'SoftwareApplication',
+  name: SITE_NAME,
+  url: SITE_URL,
+  operatingSystem: 'iOS, Android',
+  applicationCategory: 'ProductivityApplication',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    category: 'Free with in-app purchase',
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  locale={locale}
+  path="/"
+  jsonLd={[appJsonLd, faqJsonLd]}
+>
+  <Hero locale={locale} />
+  <ProductIntro locale={locale} />
+  <FeatureGrid locale={locale} />
+  <ScenarioGrid locale={locale} />
+  <HowItWorks locale={locale} />
+  <ScreenshotShowcase locale={locale} />
+  <FAQ locale={locale} />
+</BaseLayout>

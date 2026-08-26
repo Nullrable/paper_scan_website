@@ -1,0 +1,10 @@
+{
+  "name": "Paper Scanner Team",
+  "handle": "paperscan-team",
+  "role": "Core maintainers",
+  "bio": "The small team behind Paper Scanner. We document exactly what lives in the Flutter app.",
+  "avatar": "/icon-192.png",
+  "links": {
+    "github": "https://github.com/Nullrable/pager_scanner"
+  }
+}
