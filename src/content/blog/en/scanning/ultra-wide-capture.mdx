@@ -1,38 +1,47 @@
 ---
-title: "Ultra-wide capture: fit A3 in a single frame without stepping back"
-description: "Why Paper Scanner almost never asks you to stand up. The ultra-wide lens fits whole A3 handouts, whiteboards, menus, and bound books in one shot."
+title: "Ultra-wide capture: fit A3 and bound documents in a single frame"
+description: "Paper Scanner's ultra-wide lens covers approximately 120° of field of view, fitting large pages in a single frame. This post covers use cases, lens trade-offs, and best practices."
 pubDate: 2026-08-26
 author: paperscan-team
 category: scanning
 tags: ["scanning", "camera", "ultra-wide"]
 hero:
-  alt: "Scanner camera viewfinder"
+  alt: "Ultra-wide capture in use at a desk"
 translations:
   zh: ultra-wide-capture
 ---
 
-Almost every scanner app eventually tells you to stand up and step back. Paper Scanner does not — and once you get used to it, going back feels broken.
+The standard 1× camera on most phones covers approximately 70° of field of view. Paper Scanner's ultra-wide lens extends this to approximately 120°, allowing full pages to be captured from a normal seated position. Hold the phone 30 cm above an A4 page and the entire page fills the frame; the same distance works for A3 documents, whiteboards, and most bound materials.
 
-## Why the lens matters
+Edge detection, perspective correction, and shadow removal run the moment the capture button is pressed, producing a flat page rather than a photograph of paper.
 
-The ultra-wide lens captures a much wider field of view than the default 1× camera. Hold the phone 30 cm above an A4 page and the entire page fills the viewfinder. For an A3 handout or a tabletop menu, you still do not need to step back.
+## Use cases
 
-## What you can capture in one shot
+**Large flat documents.** A3 meeting handouts, folded maps, restaurant menus, magazine spreads, and posters. The wider field of view captures the page without requiring the user to stand up or move backwards.
 
-- A full A3 meeting handout, taken from a seated position
-- A classroom whiteboard before the next group walks in
-- A restaurant menu or magazine spread, even with thick margins
-- Bound documents, page by page, without flattening the spine
+**Bound books and manuals.** Books with stiff spines typically force the page into a slight curve near the binding, which causes text loss in the inner margin. Holding the phone slightly further away reduces this curve optically before any software correction runs.
 
-Edge detection, perspective correction, and shadow removal all run the moment you tap capture, so the result is a clean, flat page — not a photograph of paper.
+**Whiteboards and presentation screens.** Capture the full board or screen from a seated position in a classroom or meeting room. Perspective correction handles the keystone effect caused by viewing the surface at an angle.
 
-## When to switch to 1×
+**Restricted workspace.** When the surrounding area is occupied — coffee cups, hands, other documents — the wider field of view captures the page without needing physical room to step back.
 
-Ultra-wide is not always the right tool. Switch to the standard lens when:
+## When to use the 1× lens instead
 
-- The page is small and dense (contracts, legal text, fine print) — corner sharpness matters more than field of view.
-- The media is glossy (laminated IDs, magazine covers) — the wider aperture gathers more reflection at the edges.
+The ultra-wide lens resolves less detail per square centimetre, since the same image sensor is spread across a wider area. Use the standard 1× lens for:
 
-## The hint you may see
+- **Dense small text.** Contracts, legal documents, footnotes, fine print. Corner sharpness matters more than field of view.
+- **Glossy media.** Laminated IDs, magazine covers, plastic-coated surfaces. The wider aperture gathers more reflection at the edges.
+- **Low-light conditions.** The ultra-wide lens typically has a smaller maximum aperture and produces more noise in dim environments.
 
-If your hand jitters too much, the app shows a "hold steady" reminder. Take a breath, rest your elbows on the table, and try again. The shutter only fires when the frame is stable.
+The lens toggle is a single tap in the viewfinder.
+
+## Shooting best practices
+
+- **Even lighting.** Indirect light from a window performs better than a single overhead spotlight. Shadows crossing the page are the most common cause of blur and OCR misreads.
+- **Stable hands.** Rest elbows on the table. The shutter waits for a stable frame before firing, so a brief pause typically replaces a re-scan.
+- **Correct focus.** If auto-focus selects the wrong subject (the desk, a finger, the page edge), tap the centre of the text before capture.
+- **Flat pages.** For bound documents, press the page flat with the other hand. Pages that bow toward the spine lose characters near the gutter.
+
+## Device requirements
+
+The ultra-wide lens requires iPhone 11 or newer, or a flagship Android device released in the last several years. Devices without an ultra-wide camera fall back to the 1× lens automatically; the rest of the capture pipeline (edge detection, perspective correction, filters) is unaffected.

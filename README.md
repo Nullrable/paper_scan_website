@@ -63,7 +63,7 @@ paperscan_website/
 
 ## 添加新博客
 
-1. 在 `src/content/blog/<lang>/<category>/` 创建 `slug.mdx`（category ∈ scanning/documents/ocr/pdf-export/cloud-sync/pro/releases/troubleshooting）
+1. 在 `src/content/blog/<lang>/<category>/` 创建 `slug.mdx`（category ∈ scanning/documents/ocr/pdf-export/cloud-sync/pro/troubleshooting）
 2. frontmatter 必填字段：`title`（≤80 字符）、`description`（80-180 字符）、`pubDate`、`author: paperscan-team`、`category`、`tags[]`、`hero.alt`、`translations.<locale>: <slug>`（指向其它语言的同篇文章）
 3. 主题：**产品介绍 / 用户使用场景**，不写代码契约
 

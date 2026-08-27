@@ -111,14 +111,14 @@
     "cloud": {
       "title": "Conflict-free cloud sync",
       "summary": "Optional sync to your own Google Drive or iCloud. Nothing passes through our servers.",
-      "body": "When you turn on cloud sync, your library is mirrored to your own Google Drive or iCloud — not to our infrastructure. New scans upload automatically. Downloads only run when you explicitly restore, so a sync never overwrites a local edit by accident. Cancel anytime; your data stays where you put it.",
+      "body": "Cloud sync is a Pro-only feature. When you turn it on, your library is mirrored to your own Google Drive or iCloud — not to our infrastructure. New scans upload automatically. Downloads only run when you explicitly restore, so a sync never overwrites a local edit by accident. Cancel anytime; your data stays where you put it.",
       "useCases": [
         "Switch phones and pick up exactly where you left off",
         "Keep a backup in case the device is lost or damaged",
         "Share your library with a partner or family member using shared Drive",
         "Restore on a new device after wiping the old one"
       ],
-      "proHint": "Pro enables automatic background sync — Free lets you back up manually any time."
+      "proHint": "Pro unlocks cloud sync — the free tier stays local only."
     },
     "pro": {
       "title": "Paper Scanner Pro",
@@ -208,7 +208,7 @@
     },
     "contact": {
       "title": "Get in touch",
-      "body": "Found a bug, want to suggest a feature, or just want to say hi? Reach out through the in-app feedback form or open an issue on GitHub."
+      "body": "Found a bug, want to suggest a feature, or just want to say hi? Use Settings → Send Feedback inside the app, or email nhsoft.lsd@gmail.com."
     }
   },
   "legal": {

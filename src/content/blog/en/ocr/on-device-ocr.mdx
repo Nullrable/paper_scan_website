@@ -1,6 +1,6 @@
 ---
-title: "On-device OCR: turn every scan into searchable text"
-description: "OCR runs entirely on your phone, supports Latin and CJK scripts, and indexes every page so you can search your whole library by keyword."
+title: "On-device OCR: searchable text from every scanned page"
+description: "Paper Scanner runs OCR on-device using Apple and Google ML kits, supporting Latin and CJK scripts. This post covers capabilities, use cases, best practices, and language support."
 pubDate: 2026-08-26
 author: paperscan-team
 category: ocr
@@ -11,28 +11,58 @@ translations:
   zh: on-device-ocr
 ---
 
-OCR (optical character recognition) is what turns a photograph of paper into text you can select, copy, and search. In Paper Scanner it runs entirely on your device, so a scanned page becomes useful the moment it lands in your library.
+OCR (optical character recognition) converts a scanned page into text that can be selected, copied, and searched. Paper Scanner runs OCR entirely on the device using Apple and Google on-device ML kits, so no scan content is transmitted to external servers for recognition. Recognised pages are indexed in the local library and become searchable the moment they are saved.
 
-## What OCR unlocks
+## Capabilities after OCR
 
-Once a page has been OCR'd:
+Once a page has been recognised:
 
-- You can long-press any word to copy it into another app.
-- The search bar at the top of Documents looks inside every page, not just titles.
-- A scanned receipt becomes quotable — paste the merchant name into an email without retyping.
+- **Copy text out of the scan.** Long-press any word to bring up a selection overlay covering the entire page. The selected text can be pasted into any other application.
+- **Search inside scans.** The search bar at the top of the Documents list queries the recognised text of every page, not only titles and tags. Phone numbers, names, invoice numbers, and addresses can be located across the entire library.
+- **Quote and reference.** Scanned receipts, contracts, handwritten notes, and whiteboard captures all become quotable text that can be referenced later.
 
-## How to get the best results
+## Why on-device processing matters
 
-OCR accuracy depends on three things, in order of importance:
+- **Privacy.** Scanned content never leaves the device for recognition. This is relevant for invoices, contracts, medical forms, and any document containing personal data.
+- **Latency.** No network round-trip. On recent iPhones and flagship Android devices, OCR for a standard page typically completes in under one second.
+- **Offline availability.** OCR works on aircraft, in basements, and in regions without network coverage. No connectivity is required.
 
-1. **Lighting.** Even, indirect light beats a single bright overhead. Avoid shadows across the page.
-2. **Focus.** Tap the centre of the page before capture if the auto-focus picked the wrong subject.
-3. **Filter choice.** Black & white gives the cleanest text for printed forms; magic color helps when ink has faded.
+Accuracy is comparable to server-based OCR services; the difference is where the computation runs.
 
-## Free vs Pro
+## Use cases
 
-The free tier OCRs a generous number of pages per day — enough for everyday receipts, business cards, and the occasional book chapter. If you regularly OCR hundreds of pages, Pro removes the daily cap and lets you run OCR on the whole library in one go.
+- **Expense tracking.** Copy merchant names, dates, and totals from scanned receipts into expense applications.
+- **Business card filing.** Extract contact details from business cards without retyping.
+- **Document quoting.** Reference specific clauses from contracts and agreements in emails or messages.
+- **Library search.** Locate any scanned document by any keyword it contains.
+- **Multilingual content.** Mixed-script pages — for example, a bilingual menu or a contract in one language with annotations in another — are recognised in a single pass.
 
-## Languages
+## Best practices for accurate recognition
 
-The on-device engine supports Latin, Chinese, Japanese, Korean, and most European scripts out of the box. If a page has mixed scripts (for example, a menu with English and Japanese), OCR handles both in a single pass.
+OCR accuracy depends primarily on the quality of the input. Three factors, in order of importance:
+
+1. **Lighting.** Even, indirect light from a window performs better than a single overhead spotlight. Shadows crossing the page are the most common cause of misread characters.
+2. **Focus.** If auto-focus selects the wrong subject, tap the centre of the text before capture. A blurred scan is rarely a usable scan.
+3. **Filter selection.** Black & white gives the cleanest text for printed forms. Magic color is recommended when the ink has faded or the paper is yellowed. Auto handles most everyday cases.
+4. **Flat pages.** Pages that bow toward the spine lose characters near the gutter. Press the page flat with the other hand where possible.
+5. **Language hint.** Set the OCR language explicitly for single-language pages (e.g., Chinese). Mixed-script pages work in a single pass without a hint.
+
+## Accuracy limitations
+
+OCR performs well on printed text (95%+ accuracy) but is less reliable for:
+
+- Handwritten cursive, particularly non-Latin scripts. Accuracy on handwriting is typically 60–80%, depending on the writer.
+- Very small fonts — footnotes, fine print, parts numbers.
+- Stylised or decorative fonts with non-standard character shapes.
+- Glossy magazines, where reflections interfere with character recognition.
+- Aged receipts, where the ink has physically faded.
+
+The original image remains available in all cases. If OCR fails on a critical page, the scan itself can still be read.
+
+## Free tier and Pro
+
+The free tier includes a daily OCR allowance — typically sufficient for everyday receipts, business cards, and occasional book chapters. Pro removes the daily cap and adds the ability to OCR an entire folder in a single operation. For libraries with a backlog of unrecognised scans, Pro provides the most efficient way to process them in bulk.
+
+## Supported languages
+
+The on-device engine supports Latin scripts (English, French, German, Spanish, Portuguese, Italian, and others), Chinese (simplified and traditional), Japanese, Korean, and most European scripts. Mixed-script pages are handled in a single recognition pass.

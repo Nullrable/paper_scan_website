@@ -1,47 +1,70 @@
 ---
-title: "Stuck on iCloud sync? A practical checklist"
-description: "Uploads sitting at 12 of 50 for minutes on end usually has one of four causes. Run through this list before opening a bug report."
+title: "Troubleshooting stalled iCloud uploads"
+description: "When iCloud sync appears stuck, the cause is usually one of four system conditions. This post lists them in order of frequency and explains how to verify and resolve each."
 pubDate: 2026-08-26
 author: paperscan-team
 category: troubleshooting
 tags: ["icloud", "sync", "troubleshooting"]
 hero:
-  alt: "iCloud sync log"
+  alt: "iCloud sync status showing stalled upload"
 translations:
   zh: stuck-icloud-upload
 ---
 
-One of the most common support tickets we receive: a user enables iCloud sync, the Documents status bar shows "uploading 12 of 50", and it stays there for five minutes. Ninety-nine percent of the time, the cause is one of four things below.
+When iCloud sync in Paper Scanner appears stuck — typically displayed as a partial upload count that does not change over several minutes — the cause is almost always one of four configuration or system conditions on the iOS side. The following checklist covers them in order of frequency, with verification steps for each.
 
-## 1. iCloud Drive is not actually on for Paper Scanner
+## 1. iCloud Drive is not enabled for Paper Scanner
 
-There are two separate switches you need to verify:
+Two independent toggles must be on. Either being off causes Paper Scanner to queue uploads that iOS silently rejects, leaving the status bar pinned at the initial count.
 
-- **iOS Settings → your name → iCloud → Show all → Paper Scanner** must be toggled on.
-- **iOS Settings → Paper Scanner → iCloud Drive** must also be toggled on.
+- **iOS Settings → [your name] → iCloud → Show All → Paper Scanner** must be toggled on.
+- **iOS Settings → Paper Scanner → iCloud Drive** must be toggled on.
 
-If either is off, the app queues uploads but the system never accepts them.
+The second toggle is the one most frequently missed. The two settings are related but distinct; both must be enabled for uploads to proceed.
 
 ## 2. iOS is throttling background sync
 
-iOS actively throttles iCloud background activity in two situations:
+iOS limits background iCloud activity in two conditions:
 
-- **Low Power Mode** is on — toggle it off in iOS Settings → Battery.
-- **iPhone storage is nearly full** — iOS needs at least 500 MB free for background uploads. Free up space in iOS Settings → General → iPhone Storage.
+- **Low Power Mode is enabled.** Toggle it off in iOS Settings → Battery. With Low Power Mode on, iOS delays or pauses background uploads to conserve battery.
+- **iPhone storage is nearly full.** iOS requires approximately 500 MB of free space for background uploads to continue. Free up space in iOS Settings → General → iPhone Storage. iOS does not display a "storage full" warning in this context; uploads simply stall.
 
-The UI will not say "storage full". It just shows "uploading" forever.
+## 3. The upload queue is large
 
-## 3. The network is fine but the queue is large
+Paper Scanner processes uploads sequentially. If a large backlog has accumulated — for example, after a period offline — the queue requires time to clear. As a rough estimate, expect approximately 50 pages per hour on standard home Wi-Fi, faster on strong connections, slower on cellular.
 
-Uploads process sequentially. If you have hundreds of scans queued from a long offline stretch, expect the queue to take a while. Leave the app open in the background for 15-30 minutes before assuming something is wrong.
+To determine whether the queue is "slow but progressing" or "genuinely stuck", leave the app in the background for 30 to 60 minutes and check the status bar. If the count has advanced, sync is working. If the count is unchanged, one of the other conditions applies.
 
-## 4. iCloud account itself is in a bad state
+## 4. iCloud account state is corrupted
 
-This is rare but real:
+This is rare but can occur after Apple ID changes, sign-out and sign-in cycles, or restoration from backup. Symptoms: the status bar is stuck and none of the above steps have resolved it.
 
-- iOS Settings → your name → iCloud → toggle iCloud Drive off, wait 30 seconds, toggle it back on.
-- Sign out of iCloud in iOS Settings → your name → Sign Out, then sign back in. This refreshes the iCloud connection end to end.
+Two escalation steps:
 
-## If you are still stuck
+- **Toggle iCloud Drive off and on.** iOS Settings → [your name] → iCloud → toggle iCloud Drive off, wait 30 seconds, toggle it back on. This forces iOS to renegotiate the iCloud session.
+- **Sign out of iCloud and sign back in.** iOS Settings → [your name] → Sign Out, then sign in again. This resets the iCloud connection end-to-end. The action is heavy-handed but effective.
 
-Use **Settings → Send Feedback** inside the app. The report carries the recent sync activity along with it, so we can see exactly what the app was doing when uploads stalled. Bug reports get a response within a few days.
+If the queue remains stuck at the same count after both steps, the issue is likely on the iCloud side. Apple's system status page at support.apple.com shows whether iCloud Drive is currently experiencing an outage.
+
+## How to determine whether the issue is on Paper Scanner's side
+
+In the majority of cases, the cause is on the iOS side. Paper Scanner may be at fault when:
+
+- The status bar count has not changed for over an hour.
+- Other iCloud-using applications on the same device are syncing normally.
+- The configuration steps above have been applied and the app has been restarted.
+- The same documents are marked as pending upload across multiple app launches with no progress.
+
+When these conditions apply, submit a bug report through **Settings → Send Feedback** in the app. The report automatically includes the recent sync activity log, eliminating the need for the user to describe the issue in detail.
+
+## Resolution paths included in the app
+
+Several features in Paper Scanner exist specifically to address stuck-upload scenarios:
+
+- The status bar displays both the current count and a separate last-activity timestamp, allowing immediate assessment of whether the queue is progressing.
+- If a document fails to upload three consecutive times, it is marked with a warning icon rather than remaining displayed as "uploading".
+- Background uploads pause cleanly when Low Power Mode is enabled and resume when it is disabled, rather than silently dropping queued items.
+
+## Escalating to support
+
+When the steps above do not resolve the issue, use **Settings → Send Feedback** to submit a report. The included logs capture the queue state, iOS background status, and network conditions, which typically allows diagnosis without further correspondence. For persistent cases, the iOS Analytics data bundle (Settings → Privacy → Analytics & Improvements → Analytics Data) may be requested; this is a system diagnostic bundle generated automatically by iOS and contains additional information useful for diagnosis.

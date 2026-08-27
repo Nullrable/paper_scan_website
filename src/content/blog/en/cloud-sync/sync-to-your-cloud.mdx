@@ -1,6 +1,6 @@
 ---
-title: "Sync to your own cloud: a backup that never overwrites your edits"
-description: "Paper Scanner mirrors your library to your Google Drive or iCloud. Your phone stays the source of truth, and downloads only run when you explicitly ask to restore."
+title: "Cloud sync: mirror your library to your own Drive or iCloud"
+description: "Paper Scanner mirrors the document library to the user's own Google Drive or iCloud folder. This post covers use cases, configuration steps, and restore workflow."
 pubDate: 2026-08-26
 author: paperscan-team
 category: cloud-sync
@@ -11,32 +11,56 @@ translations:
   zh: sync-to-your-cloud
 ---
 
-Cloud sync in Paper Scanner does one thing: mirror your library to a cloud account you already own. Your phone stays the source of truth — the cloud is just a backup you control.
+Paper Scanner's cloud sync mirrors the document library to a Google Drive or iCloud folder controlled by the user. The phone remains the primary location for all scans; the cloud serves as a backup that the user owns and can access independently.
 
-## A guardrail, not a limitation
+Cloud sync is a Pro feature. It is not available on the free tier.
 
-The mirror is one-way by default — uploads only, no background downloads. This is intentional. If a teammate reorganises the shared Drive folder, or you sign in to a different device, those changes never overwrite what is on your phone.
+## What the feature does
 
-In practice this means:
+When enabled, cloud sync uploads scans to the user's own cloud storage as they are saved. New scans upload in the background. Existing scans are uploaded during the initial sync run.
 
-- You can rename, tag, and reorganise folders with zero risk of a sync undoing your work.
-- A shared cloud folder with collaborators cannot accidentally clobber your latest edits.
-- A device you sign out of cannot magically come back later filled with stale data.
+The bytes travel directly between the phone and the cloud provider. Paper Scanner does not operate a relay server, and no copy of the scans is held on Paper Scanner infrastructure.
 
-## How to turn it on
+## Use cases
 
-Open **Settings → Cloud**, pick Google Drive or iCloud, sign in, and choose which folders to mirror. The first sync uploads whatever you have today; new scans follow automatically once that is set up.
+- **Device replacement.** Switch to a new phone, install Paper Scanner, sign in to the cloud provider, and restore the library from the cloud mirror. No cable transfer or third-party backup tool is required.
+- **Device loss.** If the phone is lost or damaged, scans are preserved in the cloud mirror. The library can be restored on a replacement device.
+- **Cross-device browsing.** Open the cloud folder in any browser to view scans organised by the folder structure set up on the phone. Files can be shared, attached to emails, or transferred to other applications from the cloud folder directly.
+- **Off-site backup.** Maintain an independent copy of the document library for redundancy.
 
-You can switch providers at any time. Disabling cloud sync leaves your data exactly where you put it — nothing is deleted from the cloud by Paper Scanner. You decide when and whether to clean up the mirror.
+## Configuration
 
-## Restore is a one-tap action
+1. Open **Settings → Cloud** in Paper Scanner.
+2. Select Google Drive or iCloud. The provider can be changed later; both providers use the same sync engine.
+3. Sign in to the cloud account. Paper Scanner requests the minimum permissions required — access to its own folder only, not to the full Drive or iCloud account.
+4. Select which local folders to mirror. The entire library is mirrored by default; specific folders can be excluded if certain scans should remain device-only.
+5. Tap **Start Sync**. The first run uploads the existing library; subsequent scans upload automatically as they are saved.
 
-If you switch phones, lose the device, or want to rebuild from scratch, **Settings → Cloud → Restore** brings everything back from the cloud mirror. It does not run in the background and it does not happen automatically — you always know when the library is being rebuilt, and you decide when to start.
+To disable cloud sync, toggle the feature off in the same Settings screen. Paper Scanner does not delete files from the cloud when sync is disabled. The cloud copy remains in place until the user chooses to remove it.
 
-## Free vs Pro
+## Permissions scope
 
-Free users trigger a manual backup any time they want — great if you only sync once a week or after big projects. Pro adds automatic background sync so the mirror is always up to date without you thinking about it. Same destination, same privacy — just less clicking.
+Paper Scanner requests the permission scope required to read and write its own folder within Google Drive or iCloud. It does not receive visibility into other files in the user's cloud storage, nor does it obtain tokens that would permit access to those files.
 
-## Where the bytes go
+To verify, the user can review the connected applications list in Google or Apple account settings. Paper Scanner appears with access limited to its designated app folder, not to the full account.
 
-The mirror lives in **your** Google Drive or iCloud account. Paper Scanner does not run a relay server. The bytes travel directly between your phone and the storage you already own. No middleman, no copy on our infrastructure, no analytics tied to your documents.
+## Restore
+
+Restore is a separate operation from sync. It is initiated manually when the user wants to rebuild the local library from the cloud copy.
+
+1. Install Paper Scanner on the new device and sign in.
+2. Open **Settings → Cloud → Restore**.
+3. Select the provider and destination.
+4. Wait for the restore to complete. A library of a few hundred scans typically completes in a few minutes; a library of several thousand takes longer. The progress bar reflects actual progress.
+
+Restore is the only operation in which the app retrieves files from the cloud. It does not run automatically or in the background.
+
+## Switching providers and disabling sync
+
+- **Switching between Google Drive and iCloud.** Disable the current provider, enable the new one, sign in, and the next sync begins fresh on the new side. Files previously mirrored to the old provider remain there until the user removes them.
+- **Disabling sync.** Toggling the feature off stops new uploads. Files already uploaded remain in the cloud. The local library is unaffected.
+- **Re-enabling later.** Disabling and re-enabling sync resumes from where it left off. Scans added during the disabled period will upload on the next sync run.
+
+## If cloud sync is not required
+
+Paper Scanner functions fully without cloud sync. Scanning, OCR, folders, tags, and PDF export all operate identically with or without sync enabled. Users who prefer to keep everything on the device can use the share sheet to transfer files when needed.

@@ -23,7 +23,6 @@ const blogCategory = z.enum([
   "pdf-export",
   "cloud-sync",
   "pro",
-  "releases",
   "troubleshooting",
 ]);
 
@@ -62,10 +61,10 @@ describe("blog frontmatter schema", () => {
     expect(files.length).toBeGreaterThan(0);
   });
 
-  it("has 16 MDX files (8 categories × 2 locales)", () => {
+  it("has 14 MDX files (7 categories × 2 locales)", () => {
     // If this fails, either a blog post was deleted or a new category added.
     // Update the count here AND in the README when intentional.
-    expect(files.length).toBe(16);
+    expect(files.length).toBe(14);
   });
 
   for (const file of files) {

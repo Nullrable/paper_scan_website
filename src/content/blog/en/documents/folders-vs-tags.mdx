@@ -1,50 +1,55 @@
 ---
-title: "Folders vs tags: pick the right model for organising your scans"
-description: "Paper Scanner supports both nested folders and many-to-many tags. They look redundant but answer different questions. Here is when to use each."
+title: "Folders and tags: organising a scannable library"
+description: "Paper Scanner supports nested folders and many-to-many tags in the same library. The two models answer different questions; this post explains when and how to combine them."
 pubDate: 2026-08-26
 author: paperscan-team
 category: documents
 tags: ["organization", "folders", "tags"]
 hero:
-  alt: "Documents list with folders and tags"
+  alt: "Documents library with folders and tags applied"
 translations:
   zh: folders-vs-tags
 ---
 
-The Documents list supports both nested folders and multi-tags. It can look redundant. It is not — the two models answer different questions, and using them together is what makes a 500-page library actually findable.
+The Documents list in Paper Scanner supports both nested folders and multi-tags. The two models are not redundant: folders answer the question *where does this document live*, while tags answer *what is this document*. Used together, they make a library of several hundred documents findable without manual searching.
 
-## Folders: tree, mutually exclusive
+## Folder model
 
-A folder is a physical path. A document lives in exactly one folder. Use folders for long-lived, stable, project-or-year-based archives:
+Folders form a tree. Each document lives in exactly one folder. Folders work best for dimensions that are stable, hierarchical, and one-per-document:
 
-- `2026 / Q2 / Acme Corp / contracts`
-- `Tax / 2025 / personal`
-- `House / boiler / manuals`
+- Time-based archives (year / quarter / month)
+- Project structures (client / project / phase)
+- Physical locations (house / boiler / manuals)
+- Single-relationship accounts and vendors
 
-The hierarchy mirrors how you would file paper — easy to reason about, easy to back up.
+Folder hierarchies are recommended to stay at four levels or fewer. Deeper nesting usually indicates that two dimensions are being encoded into a single tree, which makes retrieval brittle.
 
-## Tags: flat, additive
+## Tag model
 
-Tags are extra properties on a document. One scan can carry `receipt`, `tax-2025`, and `reimbursable` simultaneously. Use tags for cross-cutting properties:
+Tags are flat and additive. A document may carry any number of tags. Tags answer cross-cutting questions that do not fit a single folder:
 
-- `receipt` — every receipt, regardless of folder
-- `urgent` — anything that needs quick action
-- `scan-on-phone` — anything scanned here, not imported
+- Document type (`receipt`, `contract`, `manual`, `warranty`)
+- Action status (`urgent`, `to-review`, `to-file`)
+- Time-bound grouping (`tax-2024`, `tax-2025`)
+- Source (`scanned-here`, `imported`)
 
-Switch to the tag view to ask "show me everything that matches this property" — across folders, across years.
+The tag view groups all matching documents across folders. This is the primary mechanism for answering questions like "show me every receipt from last quarter" or "everything I scanned this week".
 
-## A concrete workflow
+## Recommended workflow
 
-Say you are handling Acme Corp's contracts in Q2 2026:
+1. Scan directly into the appropriate folder. Use the existing hierarchy rather than creating new folders during capture.
+2. Apply tags that cross folder boundaries. A document in `2026 / Q2 / Acme / contracts` may also carry `urgent` and `q2-renewal` so it can be retrieved across all clients at renewal time.
+3. Sweep `tag` views periodically to file documents that were scanned in a hurry.
 
-1. Scan a PDF into `2026 / Q2 / Acme Corp / contracts`.
-2. Open the document detail and add the tags `urgent` and `q2-renewal`.
-3. When renewal season hits, switch to the tag view and search `q2-renewal`. The app returns every matching document across folders.
+The combined search supports both folder and tag filters together, which is the primary advantage of using both models.
 
-With folders only, you would dig into every quarter folder by hand. With tags only, you lose the stability of a physical path.
+## Patterns to avoid
 
-## Anti-patterns
+- **Excessive tagging.** Two to three tags per document is the practical limit. More tags dilute their meaning and reduce search precision.
+- **Years in tags.** Years belong in folders because they form a natural tree. Tags should describe *what* a document is, not *when* it happened.
+- **Deep folder nesting.** Four levels is the practical maximum. Past that, split out a dimension as a tag.
+- **Renaming folders.** Folder paths are referenced by share links, exports, and sync. Rename only when necessary; prefer tagging for re-classification.
 
-- Tag everything with five labels — discoverability drops fast.
-- Put years in tags — use folders for `2025`, tags describe *what* something is.
-- Nest folders more than four levels — split out a new dimension instead.
+## When folders alone are sufficient
+
+For libraries under 100 documents that fall into obvious categories, tags add overhead without proportionate benefit. Folders alone are sufficient until the library grows large enough that cross-cutting searches become common — typically around 200 documents.

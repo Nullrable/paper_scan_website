@@ -30,7 +30,7 @@ const description = t(locale as any, 'site.description');
 // Build FAQ JSON-LD from the same data used by <FAQ> for SEO consistency.
 const faqs = locale === 'zh'
   ? [
-      { q: '扫描会用到云端吗？', a: '不会。Paper Scanner 默认在设备端完成所有扫描、滤镜和 OCR 处理。' },
+      { q: '扫描会用到云端吗？', a: '默认不会。Paper Scanner 在设备端完成所有扫描、滤镜和 OCR 处理。云同步是 Pro 功能，由你在设置中显式开启。' },
       { q: '我需要注册账号吗？', a: '不需要。下载即用，所有数据保存在本地。' },
       { q: '一次能扫多少页？', a: '没有数量上限。可以连续拍摄几百页，一次性合并到 PDF。' },
       { q: 'PDF 可以加密吗？', a: '可以。导出时可设置打开密码。' },
@@ -38,7 +38,7 @@ const faqs = locale === 'zh'
       { q: 'Pro 订阅包含什么？', a: '无限 OCR、去广告、后台自动云同步。订阅随时可在 App Store / Google Play 取消。' },
     ]
   : [
-      { q: 'Does scanning use the cloud?', a: 'No. Scanning, filters, and OCR are processed entirely on-device.' },
+      { q: 'Does scanning use the cloud?', a: 'Not by default. Scanning, filters, and OCR are processed entirely on-device. Cloud sync is a Pro feature you turn on explicitly in Settings.' },
       { q: 'Do I need an account?', a: 'No. Install and start scanning — everything stays on your phone.' },
       { q: 'How many pages can I scan at once?', a: 'There is no hard limit. Capture hundreds of pages and merge into one PDF.' },
       { q: 'Can I password-protect a PDF?', a: 'Yes — set an open password when exporting a multi-page PDF.' },
