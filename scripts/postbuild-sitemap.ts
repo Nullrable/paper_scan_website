@@ -13,23 +13,22 @@
  *      canonical English (root) URL for that page.
  */
 
-import { readFile, writeFile } from "node:fs/promises";
-import { glob } from "node:fs/promises";
+import { readdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const DIST_DIR = resolve(process.cwd(), "dist");
 const DEFAULT_LOCALE = "en";
-const DEFAULT_HREFLANG = "en-US";
 const SITE_URL = process.env.PUBLIC_SITE_URL || "https://paperscan.cloud";
 
 // Find every sitemap-*.xml file produced by @astrojs/sitemap.
+// Uses readdir (Node 20+) rather than the glob() helper added in
+// node:fs/promises (Node 22+) so this script runs on every LTS GitHub
+// Actions runner, including the ones still on Node 20.
 async function findSitemapFiles(): Promise<string[]> {
-  const out: string[] = [];
-  for await (const entry of glob("sitemap-*.xml", { cwd: DIST_DIR })) {
-    if (entry.startsWith("sitemap-index")) continue;
-    out.push(resolve(DIST_DIR, entry));
-  }
-  return out;
+  const entries = await readdir(DIST_DIR);
+  return entries
+    .filter((name) => /^sitemap-\d+\.xml$/.test(name))
+    .map((name) => resolve(DIST_DIR, name));
 }
 
 /**
