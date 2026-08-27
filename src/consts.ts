@@ -38,11 +38,10 @@ export const LOCALE_NAMES: Record<Locale, string> = {
 };
 
 export const SOCIALS = {
-  // App Store / Play Store links — fill in when the app is published.
   github: "https://github.com/Nullrable/paper_scanner",
-  appStore: "https://apps.apple.com/app/id000000000",
-  playStore:
-    "https://play.google.com/store/apps/details?id=com.paper_scanner.paper_scanner",
+  appStore: "https://apps.apple.com/us/app/paper-scan/id6805063444",
+  // Empty until the app is published on Google Play.
+  playStore: "",
 };
 
 export const NAV_ITEMS = [
