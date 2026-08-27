@@ -43,6 +43,9 @@ jobs:
         env:
           PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://paperscan.cloud' }}
 
+      - name: Add .nojekyll (skip Jekyll processing on GitHub Pages)
+        run: touch dist/.nojekyll
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
