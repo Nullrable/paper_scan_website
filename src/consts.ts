@@ -37,6 +37,41 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   pt: "Português",
 };
 
+/**
+ * BCP-47 language tags — used by Google for hreflang and the XML sitemap.
+ *
+ * The HTML <html lang> attribute uses the short codes from `LOCALES`
+ * (HTML spec only accepts language, not region). hreflang and sitemap
+ * want the full BCP-47 tag so we can be explicit about region targeting.
+ * Keeping the two formats aligned between HTML and sitemap is required
+ * by Google — mixing them invalidates the signal.
+ */
+export const HREFLANG_CODES: Record<Locale, string> = {
+  en: "en-US",
+  zh: "zh-CN",
+  es: "es-ES",
+  fr: "fr-FR",
+  de: "de-DE",
+  ja: "ja-JP",
+  ko: "ko-KR",
+  pt: "pt-BR",
+};
+
+/**
+ * Open Graph locale codes (underscore-separated per OG protocol).
+ * Used by `og:locale` and `og:locale:alternate`.
+ */
+export const OG_LOCALE_CODES: Record<Locale, string> = {
+  en: "en_US",
+  zh: "zh_CN",
+  es: "es_ES",
+  fr: "fr_FR",
+  de: "de_DE",
+  ja: "ja_JP",
+  ko: "ko_KR",
+  pt: "pt_BR",
+};
+
 export const SOCIALS = {
   github: "https://github.com/Nullrable/paper_scanner",
   appStore: "https://apps.apple.com/us/app/paper-scan/id6805063444",

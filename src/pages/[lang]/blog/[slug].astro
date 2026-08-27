@@ -15,7 +15,8 @@ import PostMeta from '../../../components/blog/PostMeta.astro';
 import PostToc from '../../../components/blog/PostToc.astro';
 import RelatedPosts from '../../../components/blog/RelatedPosts.astro';
 import SourceCallout from '../../../components/blog/SourceCallout.astro';
-import { LOCALES } from '../../../consts';
+import { LOCALES, SITE_URL } from '../../../consts';
+import type { Locale } from '../../../consts';
 import { t, localeUrl } from '../../../utils/i18n';
 import {
   estimateReadingMinutes,
@@ -49,8 +50,33 @@ const localePosts = all
 const readingMinutes = estimateReadingMinutes(entry.body ?? '');
 const updatedDate = entry.data.updatedDate;
 
+// Available translations for hreflang: current locale plus every locale that
+// the post's `translations` map points at (which may include the current
+// locale itself; we de-dupe). Locales without a real translated page are
+// omitted so Google doesn't index them and treat them as duplicates.
+const basename = (entry.id.split('/').pop() ?? entry.id).replace(/\.mdx?$/, '');
+const alternateLocales: Locale[] = Array.from(
+  new Set<Locale>([
+    locale as Locale,
+    ...Object.keys(entry.data.translations ?? {}) as Locale[],
+  ])
+);
+
+// Canonical URL for the current post (used as mainEntityOfPage.id and
+// for hreflang targets — `localeUrl` returns the correct path for both
+// root locale and prefixed locales).
+const postPath = `/blog/${basename}/`;
+const canonicalPostUrl = new URL(localeUrl(locale as any, postPath), SITE_URL).toString();
+const postImage = entry.data.hero?.src
+  ? new URL(entry.data.hero.src, SITE_URL).toString()
+  : new URL('/og-default.png', SITE_URL).toString();
+
 const blogPostingJsonLd = {
   '@type': 'BlogPosting',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalPostUrl,
+  },
   headline: entry.data.title,
   description: entry.data.description,
   datePublished: entry.data.pubDate.toISOString(),
@@ -59,8 +85,13 @@ const blogPostingJsonLd = {
     '@type': 'Person',
     name: entry.data.author.id.replace(/-/g, ' '),
   },
+  publisher: { '@id': new URL('/#organization', SITE_URL).toString() },
+  image: [postImage],
+  articleSection: entry.data.category,
   inLanguage: locale,
   keywords: entry.data.tags?.join(', '),
+  wordCount: entry.body?.trim().split(/\s+/).filter(Boolean).length,
+  url: canonicalPostUrl,
 };
 
 const breadcrumbJsonLd = {
@@ -89,7 +120,8 @@ const breadcrumbJsonLd = {
   pubDate={entry.data.pubDate}
   updatedDate={updatedDate}
   locale={locale}
-  path={`/blog/${(entry.id.split('/').pop() ?? entry.id).replace(/\.mdx?$/, '')}/`}
+  path={postPath}
+  alternateLocales={alternateLocales}
   jsonLd={[blogPostingJsonLd, breadcrumbJsonLd]}
 >
   <a

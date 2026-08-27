@@ -6,7 +6,16 @@
  * hreflang alternates, theme-color, and favicon links.
  */
 
-import { LOCALES, LOCALE_NAMES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, OG_IMAGE_DEFAULT } from '../../consts';
+import {
+  LOCALES,
+  HREFLANG_CODES,
+  OG_LOCALE_CODES,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  OG_IMAGE_DEFAULT,
+} from '../../consts';
+import type { Locale } from '../../consts';
 import { localeUrl } from '../../utils/i18n';
 
 interface Props {
@@ -20,6 +29,13 @@ interface Props {
   /** Path relative to the current locale root, e.g. "/blog/foo/" */
   path: string;
   locale: string;
+  /**
+   * Locales that have a real translated page at this path. When set, only
+   * these locales (plus x-default) appear in hreflang alternates. When
+   * omitted, all 8 locales are emitted — used for static pages that exist
+   * in every locale by virtue of the [lang] dynamic route.
+   */
+  alternateLocales?: Locale[];
 }
 
 const {
@@ -32,6 +48,7 @@ const {
   noindex = false,
   path,
   locale,
+  alternateLocales,
 } = Astro.props;
 
 // path may include or exclude the locale prefix; normalise to without-prefix.
@@ -39,9 +56,10 @@ const stripped = path.replace(/^\/(en|zh|es|fr|de|ja|ko|pt)(?=\/|$)/, '');
 const canonical = new URL(localeUrl(locale as any, stripped || '/'), SITE_URL).toString();
 const ogImage = new URL(image, SITE_URL).toString();
 
-const ogLocale = LOCALE_NAMES[locale as keyof typeof LOCALE_NAMES]
-  ? locale.replace('-', '_')
-  : 'en_US';
+const ogLocale = OG_LOCALE_CODES[locale as Locale] ?? 'en_US';
+const localesForAlternates = alternateLocales ?? LOCALES;
+const hreflangForLocale = (loc: Locale) =>
+  HREFLANG_CODES[loc] ?? loc;
 ---
 
 <!-- Primary meta -->
@@ -64,12 +82,12 @@ const ogLocale = LOCALE_NAMES[locale as keyof typeof LOCALE_NAMES]
 <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-<!-- hreflang alternates -->
-{LOCALES.map((loc) => (
+<!-- hreflang alternates (BCP-47 codes — must match sitemap) -->
+{localesForAlternates.map((loc) => (
   <link
     rel="alternate"
-    hreflang={loc}
-    href={new URL(localeUrl(loc as any, stripped || '/'), SITE_URL).toString()}
+    hreflang={hreflangForLocale(loc)}
+    href={new URL(localeUrl(loc, stripped || '/'), SITE_URL).toString()}
   />
 ))}
 <link rel="alternate" hreflang="x-default" href={new URL(localeUrl('en', stripped || '/'), SITE_URL).toString()} />
@@ -85,8 +103,18 @@ const ogLocale = LOCALE_NAMES[locale as keyof typeof LOCALE_NAMES]
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content={SITE_NAME} />
 <meta property="og:locale" content={ogLocale} />
+{localesForAlternates
+  .filter((loc) => loc !== locale)
+  .map((loc) => (
+    <meta property="og:locale:alternate" content={OG_LOCALE_CODES[loc] ?? loc} />
+  ))}
 {pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
 {updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
+{type === 'article' && (
+  <Fragment>
+    <meta property="article:author" content={SITE_NAME} />
+  </Fragment>
+)}
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />

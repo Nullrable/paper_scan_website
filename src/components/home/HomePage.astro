@@ -57,17 +57,20 @@ const faqJsonLd = {
 };
 
 const appJsonLd = {
-  '@type': 'SoftwareApplication',
+  '@type': 'MobileApplication',
+  '@id': new URL('/#app', SITE_URL).toString(),
   name: SITE_NAME,
   url: SITE_URL,
   operatingSystem: 'iOS, Android',
   applicationCategory: 'ProductivityApplication',
+  inLanguage: ['en-US', 'zh-CN', 'es-ES', 'fr-FR', 'de-DE', 'ja-JP', 'ko-KR', 'pt-BR'],
   offers: {
     '@type': 'Offer',
     price: '0',
     priceCurrency: 'USD',
     category: 'Free with in-app purchase',
   },
+  publisher: { '@id': new URL('/#organization', SITE_URL).toString() },
 };
 ---
 

@@ -11,6 +11,7 @@ import SeoHead from '../components/seo/SeoHead.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { SITE_NAME, SITE_URL, SOCIALS } from '../consts';
+import type { Locale } from '../consts';
 import { t } from '../utils/i18n';
 import { jsonLdScript } from '../utils/jsonld';
 
@@ -25,6 +26,13 @@ interface Props {
   /** Path relative to locale root (no leading locale). Used for canonical/hreflang. */
   path?: string;
   locale: string;
+  /**
+   * Locales that have a real translated page at this path. When set, only
+   * these locales (plus x-default) appear in hreflang alternates. When
+   * omitted, all 8 locales are emitted — used for static pages that exist
+   * in every locale by virtue of the [lang] dynamic route.
+   */
+  alternateLocales?: Locale[];
   /** Optional JSON-LD blocks. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -39,25 +47,52 @@ const {
   noindex = false,
   path = '/',
   locale,
+  alternateLocales,
   jsonLd,
 } = Astro.props;
 
 const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 
-// Default JSON-LD: Organization on every page (helps brand SERP).
-const defaultJsonLd = {
-  '@type': 'Organization',
-  name: SITE_NAME,
-  url: SITE_URL,
-  logo: new URL('/icon-512.png', SITE_URL).toString(),
-  sameAs: [SOCIALS.github],
-};
+// Default JSON-LD: Organization + WebSite (with SearchAction) on every page.
+// Organization powers the brand knowledge panel; WebSite + SearchAction enables
+// the sitelinks searchbox in Google SERPs (when a future search page is added,
+// update the SearchAction `url` template below).
+const defaultJsonLd = [
+  {
+    '@type': 'Organization',
+    '@id': new URL('/#organization', SITE_URL).toString(),
+    name: SITE_NAME,
+    url: SITE_URL,
+    description:
+      'A pro document scanner for iOS and Android — ultra-wide capture, GPU filters, OCR, multi-page PDF, Google Drive & iCloud sync.',
+    logo: new URL('/icon-512.png', SITE_URL).toString(),
+    foundingDate: '2024',
+    sameAs: [SOCIALS.github, SOCIALS.appStore].filter(Boolean),
+  },
+  {
+    '@type': 'WebSite',
+    '@id': new URL('/#website', SITE_URL).toString(),
+    url: SITE_URL,
+    name: SITE_NAME,
+    inLanguage: ['en-US', 'zh-CN', 'es-ES', 'fr-FR', 'de-DE', 'ja-JP', 'ko-KR', 'pt-BR'],
+    publisher: { '@id': new URL('/#organization', SITE_URL).toString() },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: new URL('/search?q={search_term_string}', SITE_URL).toString(),
+      },
+      // 'query-input' must use the schema.org SearchAction vocabulary.
+      'query-input': 'required name=search_term_string',
+    },
+  },
+];
 
 const jsonLdPayload = jsonLd
   ? Array.isArray(jsonLd)
-    ? [defaultJsonLd, ...jsonLd]
-    : [defaultJsonLd, jsonLd]
-  : [defaultJsonLd];
+    ? [...defaultJsonLd, ...jsonLd]
+    : [...defaultJsonLd, jsonLd]
+  : defaultJsonLd;
 
 const jsonLdHtml = jsonLdScript(jsonLdPayload);
 ---
@@ -75,9 +110,9 @@ const jsonLdHtml = jsonLdScript(jsonLdPayload);
       noindex={noindex}
       path={path}
       locale={locale}
+      alternateLocales={alternateLocales}
     />
     <Fragment set:html={jsonLdHtml} />
-  </head>
   </head>
   <body class="gradient-mesh min-h-screen">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-3 focus:py-2 focus:rounded-md focus:bg-white focus:text-black focus:text-sm">
