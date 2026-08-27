@@ -3,7 +3,7 @@
  * FeatureGrid — feature cards linking to detail pages.
  */
 
-import { t } from '../../utils/i18n';
+import { t, localeUrl } from '../../utils/i18n';
 
 interface Props {
   locale: string;
@@ -14,37 +14,37 @@ const { locale } = Astro.props;
 const features = [
   {
     key: 'scanning',
-    href: `/${locale}/features/scanning/`,
+    href: localeUrl(locale as any, '/features/scanning/'),
     icon: 'scan',
   },
   {
     key: 'filters',
-    href: `/${locale}/features/filters/`,
+    href: localeUrl(locale as any, '/features/filters/'),
     icon: 'filter',
   },
   {
     key: 'documents',
-    href: `/${locale}/features/documents/`,
+    href: localeUrl(locale as any, '/features/documents/'),
     icon: 'folder',
   },
   {
     key: 'ocr',
-    href: `/${locale}/features/ocr/`,
+    href: localeUrl(locale as any, '/features/ocr/'),
     icon: 'ocr',
   },
   {
     key: 'pdf',
-    href: `/${locale}/features/pdf-export/`,
+    href: localeUrl(locale as any, '/features/pdf-export/'),
     icon: 'pdf',
   },
   {
     key: 'cloud',
-    href: `/${locale}/features/cloud-sync/`,
+    href: localeUrl(locale as any, '/features/cloud-sync/'),
     icon: 'cloud',
   },
   {
     key: 'pro',
-    href: `/${locale}/features/pro/`,
+    href: localeUrl(locale as any, '/features/pro/'),
     icon: 'star',
   },
 ];

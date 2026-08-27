@@ -4,7 +4,7 @@
  */
 
 import { SITE_NAME, SOCIALS } from '../../consts';
-import { t } from '../../utils/i18n';
+import { t, localeUrl } from '../../utils/i18n';
 
 interface Props {
   locale: string;
@@ -26,13 +26,13 @@ const year = new Date().getFullYear();
         {t(locale as any, 'footer.product')}
       </h2>
       <ul class="space-y-2 text-sm">
-        <li><a href={`/${locale}/features/scanning/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.scanning.title')}</a></li>
-        <li><a href={`/${locale}/features/documents/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.documents.title')}</a></li>
-        <li><a href={`/${locale}/features/cloud-sync/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.cloud.title')}</a></li>
-        <li><a href={`/${locale}/features/ocr/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.ocr.title')}</a></li>
-        <li><a href={`/${locale}/features/pdf-export/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.pdf.title')}</a></li>
-        <li><a href={`/${locale}/features/pro/`} class="text-text-secondary hover:text-white">{t(locale as any, 'features.pro.title')}</a></li>
-        <li><a href={`/${locale}/download/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.download')}</a></li>
+        <li><a href={localeUrl(locale as any, '/features/scanning/')} class="text-text-secondary hover:text-white">{t(locale as any, 'features.scanning.title')}</a></li>
+        <li><a href={localeUrl(locale as any, '/features/documents/')} class="text-text-secondary hover:text-white">{t(locale as any, 'features.documents.title')}</a></li>
+        <li><a href={localeUrl(locale as any, '/features/cloud-sync/')} class="text-text-secondary hover:text-white">{t(locale as any, 'features.cloud.title')}</a></li>
+        <li><a href={localeUrl(locale as any, '/features/ocr/')} class="text-text-secondary hover:text-white">{t(locale as any, 'features.ocr.title')}</a></li>
+        <li><a href={localeUrl(locale as any, '/features/pdf-export/')} class="text-text-secondary hover:text-white">{t(locale as any, 'features.pdf.title')}</a></li>
+        <li><a href={localeUrl(locale as any, '/features/pro/')} class="text-text-secondary hover:text-white">{t(locale as any, 'features.pro.title')}</a></li>
+        <li><a href={localeUrl(locale as any, '/download/')} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.download')}</a></li>
       </ul>
     </nav>
 
@@ -41,9 +41,9 @@ const year = new Date().getFullYear();
         {t(locale as any, 'footer.resources')}
       </h2>
       <ul class="space-y-2 text-sm">
-        <li><a href={`/${locale}/blog/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.blog')}</a></li>
+        <li><a href={localeUrl(locale as any, '/blog/')} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.blog')}</a></li>
         <li><a href={SOCIALS.github} class="text-text-secondary hover:text-white" rel="noopener noreferrer">{t(locale as any, 'common.viewOnGitHub')}</a></li>
-        <li><a href={`/${locale}/about/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.about')}</a></li>
+        <li><a href={localeUrl(locale as any, '/about/')} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.about')}</a></li>
       </ul>
     </nav>
 
@@ -52,8 +52,8 @@ const year = new Date().getFullYear();
         {t(locale as any, 'footer.legal')}
       </h2>
       <ul class="space-y-2 text-sm">
-        <li><a href={`/${locale}/legal/privacy/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.privacy')}</a></li>
-        <li><a href={`/${locale}/legal/terms/`} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.terms')}</a></li>
+        <li><a href={localeUrl(locale as any, '/legal/privacy/')} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.privacy')}</a></li>
+        <li><a href={localeUrl(locale as any, '/legal/terms/')} class="text-text-secondary hover:text-white">{t(locale as any, 'nav.terms')}</a></li>
       </ul>
     </nav>
   </div>

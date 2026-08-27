@@ -69,6 +69,21 @@ export function getDictionary(locale: Locale): Dictionary {
 }
 
 /**
+ * Build a URL for a given locale + locale-relative path.
+ *
+ * The default locale (English) is served from the site root with no
+ * prefix (`/`, `/blog/foo/`); other locales keep their prefix
+ * (`/zh/`, `/zh/blog/foo/`). When the site lives at a non-root base
+ * path, Astro's `getRelativeLocaleUrl` would also handle that — we
+ * hardcode the behaviour here because the site is deployed at root.
+ */
+export function localeUrl(locale: Locale, path: string): string {
+  const normalised = path === "" || path === "/" ? "/" : path;
+  if (locale === "en") return normalised;
+  return `/${locale}${normalised === "/" ? "/" : normalised}`;
+}
+
+/**
  * Resolve a dotted key against the dictionary and return the raw value.
  *
  * Unlike `t()`, this preserves the original shape — useful for fetching

@@ -6,7 +6,7 @@
  * scanline overlay on the background.
  */
 
-import { t } from '../../utils/i18n';
+import { t, localeUrl } from '../../utils/i18n';
 
 interface Props {
   locale: string;
@@ -46,14 +46,14 @@ const stats = [
       </p>
 
       <div class="mt-7 flex flex-wrap gap-3 justify-center lg:justify-start">
-        <a href={`/${locale}/download/`} class="btn btn-primary text-base px-5 py-3">
+        <a href={localeUrl(locale as any, '/download/')} class="btn btn-primary text-base px-5 py-3">
           {ctaPrimary}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <line x1="5" y1="12" x2="19" y2="12" />
             <polyline points="12,5 19,12 12,19" />
           </svg>
         </a>
-        <a href={`/${locale}/features/`} class="btn btn-ghost text-base px-5 py-3">
+        <a href={localeUrl(locale as any, '/features/')} class="btn btn-ghost text-base px-5 py-3">
           {ctaSecondary}
         </a>
       </div>

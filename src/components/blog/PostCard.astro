@@ -10,6 +10,7 @@
  */
 
 import type { BlogCategory } from '../../content/categories';
+import { localeUrl } from '../../utils/i18n';
 
 export type Post = {
   slug: string;
@@ -33,7 +34,7 @@ interface Props {
 
 const { locale, post, href, compact = false } = Astro.props;
 
-const target = href ?? `/${locale}/blog/${post.slug}/`;
+const target = href ?? localeUrl(locale as any, `/blog/${post.slug}/`);
 
 const CATEGORY_LABELS: Record<'en', Record<BlogCategory, string>> = {
   en: {

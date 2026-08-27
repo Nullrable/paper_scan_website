@@ -1,10 +1,14 @@
 ---
 /**
- * Root index — 308 redirect to default locale.
+ * Root home — English (the default locale).
  *
- * When deployed behind a CDN that respects <link rel="canonical">, this
- * preserves the visitor's locale preference via the Accept-Language header
- * hint handled in the browser.
+ * `prefixDefaultLocale: false` in astro.config.mjs means English is
+ * served from the site root with no /en/ prefix, so this file replaces
+ * the older 308 redirect. The locale-relative body lives in <HomePage>
+ * and is shared with src/pages/[lang]/index.astro for the other locales.
  */
-return Astro.redirect('/en/', 308);
+
+import HomePage from '../components/home/HomePage.astro';
 ---
+
+<HomePage locale="en" />

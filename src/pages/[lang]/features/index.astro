@@ -6,7 +6,7 @@
 
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { LOCALES } from '../../../consts';
-import { t } from '../../../utils/i18n';
+import { t, localeUrl } from '../../../utils/i18n';
 import { FEATURES } from '../../../data/features';
 
 export function getStaticPaths() {
@@ -21,7 +21,7 @@ const items = FEATURES.map((f) => ({
   icon: f.icon,
   title: t(locale as any, f.titleKey as any),
   summary: t(locale as any, f.summaryKey as any),
-  href: `/${locale}/features/${f.slug}/`,
+  href: localeUrl(locale as any, `/features/${f.slug}/`),
 }));
 
 const icons: Record<string, string> = {

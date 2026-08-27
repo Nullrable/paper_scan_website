@@ -11,6 +11,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { LOCALES, LOCALE_NAMES, SITE_NAME, SITE_URL } from "../../consts";
+import { localeUrl } from "../../utils/i18n";
 import { sortByDateDesc } from "../../utils/blog";
 
 const xmlEscape = (s: string) =>
@@ -41,7 +42,7 @@ export const GET: APIRoute = async ({ params, site }) => {
   const items = posts
     .map((post) => {
       const slug = (post.id.split("/").pop() ?? post.id).replace(/\.mdx?$/, "");
-      const url = `${baseUrl}/${locale}/blog/${slug}/`;
+      const url = `${baseUrl}${localeUrl(locale as any, `/blog/${slug}/`)}`;
       return `    <item>
       <title>${xmlEscape(post.data.title)}</title>
       <link>${url}</link>
@@ -58,8 +59,8 @@ export const GET: APIRoute = async ({ params, site }) => {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${xmlEscape(`${SITE_NAME} blog`)}</title>
-    <link>${baseUrl}/${locale}/blog/</link>
-    <atom:link href="${baseUrl}/${locale}/rss.xml" rel="self" type="application/rss+xml" />
+    <link>${baseUrl}${localeUrl(locale as any, "/blog/")}</link>
+    <atom:link href="${baseUrl}${localeUrl(locale as any, "/rss.xml")}" rel="self" type="application/rss+xml" />
     <description>${xmlEscape(`Releases, deep dives, and tips for ${SITE_NAME}. (${langName})`)}</description>
     <language>${locale}</language>
     <lastBuildDate>${lastBuild}</lastBuildDate>

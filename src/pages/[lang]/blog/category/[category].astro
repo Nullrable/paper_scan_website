@@ -10,7 +10,7 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import PostCard from '../../../../components/blog/PostCard.astro';
 import { BLOG_CATEGORIES } from '../../../../content/config';
 import { LOCALES } from '../../../../consts';
-import { t } from '../../../../utils/i18n';
+import { t, localeUrl } from '../../../../utils/i18n';
 import { sortByDateDesc } from '../../../../utils/blog';
 
 export async function getStaticPaths() {
@@ -48,7 +48,7 @@ const description =
   path={`/blog/category/${category}/`}
 >
   <nav class="text-xs text-text-secondary mb-3 flex items-center gap-1.5">
-    <a href={`/${locale}/blog/`} class="hover:text-white">
+    <a href={localeUrl(locale as any, '/blog/')} class="hover:text-white">
       {t(locale as any, 'nav.blog')}
     </a>
     <span aria-hidden="true">/</span>

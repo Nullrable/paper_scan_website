@@ -12,6 +12,8 @@ interface Props {
   locale: string;
 }
 
+import { localeUrl } from '../../utils/i18n';
+
 const { locale } = Astro.props;
 const heading =
   locale === 'zh' ? '想了解更多' : 'Want to dig deeper?';
@@ -28,7 +30,7 @@ const body =
     {body}
   </p>
   <a
-    href={`/${locale}/download/`}
+    href={localeUrl(locale as any, '/download/')}
     class="mt-4 inline-flex items-center gap-1 text-xs text-white hover:text-text-secondary transition-colors duration-fast"
   >
     {locale === 'zh' ? '查看下载页' : 'See download options'}

@@ -1,4 +1,5 @@
 import type { Locale } from "../consts";
+import { localeUrl } from "../utils/i18n";
 
 export interface FeatureDef {
   slug: string;
@@ -129,7 +130,7 @@ export function getRelatedLinks(
 ): Array<{ href: string; label: string }> {
   const items = FEATURE_RELATED[slug] ?? [];
   return items.map((item) => ({
-    href: `/${locale}${item.href}`,
+    href: localeUrl(locale, item.href),
     label:
       locale === "zh" ? resolveZh(item.labelKey) : resolveEn(item.labelKey),
   }));

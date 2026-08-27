@@ -7,6 +7,7 @@
  */
 
 import { LOCALES, LOCALE_NAMES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, OG_IMAGE_DEFAULT } from '../../consts';
+import { localeUrl } from '../../utils/i18n';
 
 interface Props {
   title: string;
@@ -35,7 +36,7 @@ const {
 
 // path may include or exclude the locale prefix; normalise to without-prefix.
 const stripped = path.replace(/^\/(en|zh|es|fr|de|ja|ko|pt)(?=\/|$)/, '');
-const canonical = new URL(`/${locale}${stripped === '/' || stripped === '' ? '/' : stripped}`, SITE_URL).toString();
+const canonical = new URL(localeUrl(locale as any, stripped || '/'), SITE_URL).toString();
 const ogImage = new URL(image, SITE_URL).toString();
 
 const ogLocale = LOCALE_NAMES[locale as keyof typeof LOCALE_NAMES]
@@ -68,10 +69,10 @@ const ogLocale = LOCALE_NAMES[locale as keyof typeof LOCALE_NAMES]
   <link
     rel="alternate"
     hreflang={loc}
-    href={new URL(`/${loc}${stripped === '/' || stripped === '' ? '/' : stripped}`, SITE_URL).toString()}
+    href={new URL(localeUrl(loc as any, stripped || '/'), SITE_URL).toString()}
   />
 ))}
-<link rel="alternate" hreflang="x-default" href={new URL(`/en${stripped === '/' || stripped === '' ? '/' : stripped}`, SITE_URL).toString()} />
+<link rel="alternate" hreflang="x-default" href={new URL(localeUrl('en', stripped || '/'), SITE_URL).toString()} />
 
 <!-- Open Graph -->
 <meta property="og:title" content={title} />

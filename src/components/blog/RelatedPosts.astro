@@ -6,7 +6,7 @@
  */
 
 import type { CollectionEntry } from 'astro:content';
-import { t } from '../../utils/i18n';
+import { t, localeUrl } from '../../utils/i18n';
 
 type BlogEntry = CollectionEntry<'blog'>;
 
@@ -50,7 +50,7 @@ if (picks.length < 4) {
       {picks.map((p) => (
         <li>
           <a
-            href={`/${locale}/blog/${(p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '')}/`}
+            href={localeUrl(locale as any, `/blog/${(p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '')}/`)}
             class="card block group"
           >
             <h3 class="font-display text-base font-semibold leading-snug text-white group-hover:text-white">

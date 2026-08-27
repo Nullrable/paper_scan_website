@@ -6,7 +6,7 @@
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { LOCALES } from '../../consts';
-import { t } from '../../utils/i18n';
+import { t, localeUrl } from '../../utils/i18n';
 
 export function getStaticPaths() {
   return LOCALES.map((lang) => ({ params: { lang } }));
@@ -35,7 +35,7 @@ const locale = lang!;
         ? 'It may have been moved or never existed.'
         : '页面可能已被移动或从未存在。'}
     </p>
-    <a href={`/${locale}/`} class="btn btn-primary mt-7 inline-flex">
+    <a href={localeUrl(locale as any, '/')} class="btn btn-primary mt-7 inline-flex">
       {t(locale as any, 'common.learnMore').includes('Learn')
         ? 'Go home'
         : '返回首页'}
