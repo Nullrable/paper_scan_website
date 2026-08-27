@@ -20,18 +20,88 @@ const { locale } = Astro.props;
 
 const sections = locale === 'zh'
   ? [
-      { title: '1. 接受条款', body: '下载、安装或使用 Paper Scanner 即表示你接受本条款。' },
-      { title: '2. 订阅', body: 'Pro 订阅通过 App Store 购买，自动续费可在平台账户设置中关闭。' },
-      { title: '3. 数据归属', body: '你的文档归你所有。我们不持有任何扫描内容的副本。详见隐私政策。' },
-      { title: '4. 免责声明', body: 'Paper Scanner 按"现状"提供，不对扫描结果的准确性承担法律责任。' },
-      { title: '5. 条款变更', body: '我们可能不定期更新本条款，重大变更会通过应用内通知告知。' },
+      {
+        title: '1. 关于本应用',
+        body: 'Paper Scanner 是一款 iOS 文档扫描应用，可在设备端完成拍摄、图像滤镜、文字识别（OCR）和多页 PDF 导出。免费版与可选的 Pro 订阅之间的差异见 App Store 介绍页。本条款约束你对本应用的使用。',
+      },
+      {
+        title: '2. 接受条款',
+        body: '下载、安装或使用本应用即表示你同意本条款与我们的隐私政策。如不同意，请将本应用从设备中删除。',
+      },
+      {
+        title: '3. 许可',
+        body: '我们授予你一项个人的、非独占的、不可转让的许可，允许你在你所拥有或控制的 iOS 设备上使用本应用。不得转售、不得在法律禁止的范围内进行反向工程，也不得用于构建竞品。',
+      },
+      {
+        title: '4. 订阅',
+        body: 'Pro 通过 Apple App Store 购买。订阅会自动续费，除非你在当前计费周期结束前至少 24 小时前往 iOS 设置 → 订阅 关闭。退款遵循 Apple 标准政策，我们无法直接处理。试用资格由 Apple 决定。',
+      },
+      {
+        title: '5. 你的内容',
+        body: '你对扫描或导入的所有文档、图像、文字拥有完整所有权。我们不访问、查看、上传或存储你的内容。你启用的云同步（iCloud Drive 或 Google Drive）直接在你的设备与该服务账号之间传输——我们不运营中转服务器，也不持有副本。',
+      },
+      {
+        title: '6. 隐私',
+        body: '我们的隐私政策说明了本应用收集哪些数据以及如何处理。',
+      },
+      {
+        title: '7. 无担保',
+        body: '本应用按"现状"和"可用"提供，不附带任何明示或默示的担保，包括但不限于适销性、特定用途适用性、OCR 输出准确性，以及本应用不会中断或无错误运行的承诺。',
+      },
+      {
+        title: '8. 责任限制',
+        body: '在适用法律允许的最大范围内，我们不对因你使用本应用而产生的任何间接或衍生损害（包括数据丢失、利润损失、业务中断）承担责任。当地法律不允许完全免除责任的，我们对你的累计责任以你过去 12 个月为本应用实际支付的费用为限。',
+      },
+      {
+        title: '9. 条款变更',
+        body: '我们可能不定期更新本条款。重大变更将通过应用内通知告知。继续使用即视为接受新版本。',
+      },
+      {
+        title: '10. 联系我们',
+        body: '可发送邮件至 nhsoft.lsd@gmail.com，或通过应用内 设置 → 发送反馈 联系。',
+      },
     ]
   : [
-      { title: '1. Acceptance', body: 'Downloading, installing, or using Paper Scanner constitutes acceptance of these terms.' },
-      { title: '2. Subscriptions', body: 'Pro subscriptions are purchased through the App Store. Auto-renewal can be disabled in your platform account settings.' },
-      { title: '3. Data ownership', body: 'Your documents belong to you. We hold no copies of scanned content. See the Privacy Policy.' },
-      { title: '4. Disclaimer', body: 'Paper Scanner is provided "as is" without warranty as to the accuracy of scan output.' },
-      { title: '5. Changes', body: 'We may update these terms. Material changes will be announced in-app.' },
+      {
+        title: '1. About this app',
+        body: 'Paper Scanner is a document scanning app for iOS. It captures pages, applies image filters, runs on-device text recognition (OCR), and exports multi-page PDFs. A free tier and an optional paid Pro subscription are described on the App Store listing. These Terms govern your use of the App.',
+      },
+      {
+        title: '2. Acceptance',
+        body: 'By downloading, installing, or using the App you agree to these Terms and our Privacy Policy. If you don\'t agree, delete the App from your device.',
+      },
+      {
+        title: '3. License',
+        body: 'We give you a personal, non-exclusive, non-transferable license to use the App on iOS devices you own or control. You may not resell, reverse-engineer (where prohibited by law), or use the App to build a competing product.',
+      },
+      {
+        title: '4. Subscriptions',
+        body: 'Pro is sold through Apple\'s App Store. It auto-renews unless you turn it off at least 24 hours before the end of the current billing period in iOS Settings → Subscriptions. Refunds follow Apple\'s standard policy; we can\'t issue them directly. Trial eligibility is decided by Apple.',
+      },
+      {
+        title: '5. Your content',
+        body: 'You own every document, image, and text you scan or import. We don\'t access, view, upload, or store your content. Any cloud sync you enable (iCloud Drive or Google Drive) runs directly between your device and your account on that service — we don\'t operate a relay and don\'t hold copies.',
+      },
+      {
+        title: '6. Privacy',
+        body: 'Our Privacy Policy describes what data the App collects and how it\'s handled.',
+      },
+      {
+        title: '7. No warranties',
+        body: 'The App is provided "as is" and "as available", without any warranty — express or implied — of merchantability, fitness for a particular purpose, accuracy of OCR output, or that the App will be uninterrupted or error-free.',
+      },
+      {
+        title: '8. Limitation of liability',
+        body: 'To the maximum extent permitted by law, we are not liable for any indirect or consequential damages (lost data, lost profits, business interruption) arising from your use of the App. Where local law doesn\'t allow a full exclusion, our total liability is limited to the amount you paid us in the past 12 months.',
+      },
+      {
+        title: '9. Changes',
+        body: 'We may update these Terms from time to time. Material changes will be announced in the App. Continued use means you accept the new version.',
+      },
+      {
+        title: '10. Contact',
+        body: 'Reach us at nhsoft.lsd@gmail.com or via in-app Settings → Send Feedback.',
+      },
     ];
 ---
 
