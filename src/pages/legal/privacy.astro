@@ -1,0 +1,59 @@
+---
+/**
+ * Root privacy policy — English copy served at /legal/privacy/.
+ * Each prefixed locale has its own copy under src/pages/[lang]/legal/privacy.astro.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../utils/i18n';
+
+const locale = 'en';
+
+const sections = [
+  {
+    title: '1. What we collect',
+    body: 'Paper Scanner does not collect document content by default. Scanning, filters, and OCR run entirely on-device. The original image and the recognised text never leave your phone.',
+  },
+  {
+    title: '2. Cloud sync (Pro)',
+    body: 'Cloud sync is a Pro subscription feature. Once enabled, documents are mirrored to your own Google Drive or iCloud Drive. Paper Scanner does not operate a relay server and never holds a copy of your documents.',
+  },
+  {
+    title: '3. Subscription and billing',
+    body: 'Subscriptions are billed through the App Store. We only receive the minimum signal needed to confirm subscription status. We never handle payment credentials.',
+  },
+  {
+    title: '4. Advertising',
+    body: 'Free-tier users see a single ad banner at the top of the Documents list. Subscribing to Pro removes it entirely.',
+  },
+  {
+    title: '5. Analytics',
+    body: 'We do not integrate third-party analytics SDKs. Crash logs and telemetry, if any, stay on your device.',
+  },
+  {
+    title: '6. Contact',
+    body: 'In-app Settings → Send Feedback, or email nhsoft.lsd@gmail.com.',
+  },
+];
+---
+
+<BaseLayout
+  title={t(locale as any, 'legal.privacy.title')}
+  description={t(locale as any, 'legal.privacy.intro')}
+  locale={locale}
+  path="/legal/privacy/"
+>
+  <article class="prose mx-auto">
+    <h1>{t(locale as any, 'legal.privacy.title')}</h1>
+    <p>{t(locale as any, 'legal.privacy.intro')}</p>
+
+    {sections.map((s) => (
+      <>
+        <h2>{s.title}</h2>
+        <p>{s.body}</p>
+      </>
+    ))}
+
+    <p class="text-text-muted text-sm">Last updated: August 2026</p>
+  </article>
+</BaseLayout>

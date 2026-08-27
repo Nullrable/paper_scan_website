@@ -9,14 +9,17 @@
 
 import FeaturePage from '../../../components/layout/FeaturePage.astro';
 import { LOCALES } from '../../../consts';
+import type { Locale } from '../../../consts';
 import { t, tValue } from '../../../utils/i18n';
 import { FEATURES, getRelatedLinks } from '../../../data/features';
 
 export function getStaticPaths() {
-  return LOCALES.flatMap((lang) =>
+  // English (default) is served at the root by src/pages/features/[feature].astro;
+  // this dynamic route emits only the prefixed-locale entries.
+  return LOCALES.filter((l) => l !== 'en').flatMap((lang) =>
     FEATURES.map((feature) => ({
       params: { lang, feature: feature.slug },
-      props: { locale: lang, feature },
+      props: { locale: lang as Locale, feature },
     }))
   );
 }

@@ -1,27 +1,18 @@
 ---
 /**
- * Blog index — list of every published post for the current locale,
- * with category filter via the URL (?cat=scanning).
+ * Blog index — root English version served at /blog/.
+ * Each prefixed locale has its own copy under src/pages/[lang]/blog/index.astro.
  */
 
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import PostCard from '../../../components/blog/PostCard.astro';
-import { BLOG_CATEGORIES } from '../../../content/config';
-import { LOCALES, SITE_NAME } from '../../../consts';
-import type { Locale } from '../../../consts';
-import { t, localeUrl } from '../../../utils/i18n';
-import { sortByDateDesc } from '../../../utils/blog';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import { BLOG_CATEGORIES } from '../../content/config';
+import { SITE_NAME } from '../../consts';
+import { t, localeUrl } from '../../utils/i18n';
+import { sortByDateDesc } from '../../utils/blog';
 
-export function getStaticPaths() {
-  // English (default) is served from the root by src/pages/blog/index.astro.
-  return LOCALES.filter((l) => l !== 'en').map((lang) => ({
-    params: { lang },
-    props: { locale: lang as Locale },
-  }));
-}
-
-const { locale } = Astro.props;
+const locale = 'en';
 
 const all = await getCollection('blog', ({ data }) => !data.draft);
 const posts = all
@@ -76,14 +67,14 @@ const blogJsonLd = {
         class="card flex flex-col group"
       >
         <span class="inline-flex items-center text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-pill bg-info/10 border border-info/30 text-info w-fit">
-          {locale === 'zh' ? '精选' : 'Featured'}
+          Featured
         </span>
         <h2 class="mt-3 font-display text-2xl md:text-3xl font-semibold tracking-tight text-white text-balance">
           {featured.data.title}
         </h2>
         <p class="mt-2 text-text-secondary max-w-3xl">{featured.data.description}</p>
         <p class="mt-4 text-sm text-text-secondary group-hover:text-white inline-flex items-center gap-1">
-          {locale === 'zh' ? '阅读全文' : 'Read article'}
+          Read article
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <polyline points="9,18 15,12 9,6" />
           </svg>

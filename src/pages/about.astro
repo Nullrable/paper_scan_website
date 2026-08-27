@@ -1,25 +1,15 @@
 ---
 /**
- * About page — mission + principles + contact.
+ * About page — root English version.
  *
- * Content is product-focused; no Flutter module references.
+ * `prefixDefaultLocale: false` means English is served at /about/ with no
+ * /en/ prefix. The prefixed locales are handled by src/pages/[lang]/about.astro.
  */
 
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { LOCALES } from '../../consts';
-import type { Locale } from '../../consts';
-import { t, tValue } from '../../utils/i18n';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { t, tValue } from '../utils/i18n';
 
-export function getStaticPaths() {
-  // English (default) is served from the root by src/pages/about.astro;
-  // this dynamic route emits only the prefixed locales.
-  return LOCALES.filter((l) => l !== 'en').map((lang) => ({
-    params: { lang },
-    props: { locale: lang as Locale },
-  }));
-}
-
-const { locale } = Astro.props;
+const locale = 'en';
 
 const principles = (tValue(locale as any, 'about.principles.items') as string[]) ?? [];
 const principlesTitle = t(locale as any, 'about.principles.title');

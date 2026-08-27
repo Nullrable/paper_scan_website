@@ -1,26 +1,17 @@
 ---
 /**
- * Download page — App Store + Play Store CTAs.
+ * Download page — root English version.
  *
- * QR codes are SVG placeholders generated inline; in production they would
- * link to the live store listings. Replace the SVG paths with the real
- * QR encoding before launch.
+ * `prefixDefaultLocale: false` means English is served at /download/ with
+ * no /en/ prefix. The prefixed locales are handled by
+ * src/pages/[lang]/download.astro.
  */
 
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { LOCALES, SOCIALS } from '../../consts';
-import type { Locale } from '../../consts';
-import { t } from '../../utils/i18n';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SOCIALS } from '../consts';
+import { t } from '../utils/i18n';
 
-export function getStaticPaths() {
-  // English (default) is served from the root by src/pages/download.astro.
-  return LOCALES.filter((l) => l !== 'en').map((lang) => ({
-    params: { lang },
-    props: { locale: lang as Locale },
-  }));
-}
-
-const { locale } = Astro.props;
+const locale = 'en';
 ---
 
 <BaseLayout
@@ -43,7 +34,7 @@ const { locale } = Astro.props;
         <path d="M17.05 12.04c-.03-2.96 2.42-4.4 2.53-4.47-1.38-2.02-3.53-2.3-4.3-2.33-1.83-.18-3.57 1.08-4.5 1.08-.94 0-2.37-1.05-3.9-1.02-2 .03-3.86 1.17-4.89 2.96-2.09 3.62-.53 8.97 1.5 11.92 1 1.44 2.18 3.05 3.72 2.99 1.5-.06 2.06-.96 3.87-.96 1.81 0 2.31.96 3.9.93 1.61-.03 2.63-1.46 3.61-2.91 1.14-1.66 1.61-3.28 1.63-3.37-.04-.02-3.13-1.2-3.17-4.82zM14.4 3.3c.81-1 1.36-2.37 1.21-3.74-1.17.05-2.6.78-3.44 1.76-.74.86-1.4 2.27-1.22 3.59 1.31.1 2.65-.65 3.45-1.61z"/>
       </svg>
       <h2 class="mt-3 font-display text-xl font-semibold text-white">iOS</h2>
-      <p class="mt-1 text-sm text-text-secondary">{locale === 'zh' ? 'iPhone 与 iPad' : 'iPhone & iPad'}</p>
+      <p class="mt-1 text-sm text-text-secondary">iPhone & iPad</p>
       <a
         href={SOCIALS.appStore}
         rel="noopener noreferrer"
@@ -60,7 +51,7 @@ const { locale } = Astro.props;
           <path d="M17.523 15.34l1.83-3.17a.38.38 0 0 0-.66-.38l-1.85 3.2c-1.4-.59-3.02-.94-4.84-.94s-3.44.35-4.84.94L5.32 4.79a.38.38 0 0 0-.66.38l1.83 3.17C2.7 10.06 0 12.74 0 15.99h24c0-3.25-2.7-5.93-6.477-7.65zM7.34 13.85a.85.85 0 1 1 0-1.7.85.85 0 0 1 0 1.7zm9.32 0a.85.85 0 1 1 0-1.7.85.85 0 0 1 0 1.7z"/>
         </svg>
         <h2 class="mt-3 font-display text-xl font-semibold text-white">Android</h2>
-        <p class="mt-1 text-sm text-text-secondary">{locale === 'zh' ? 'Android 8.0 及以上' : 'Android 8.0+'}</p>
+        <p class="mt-1 text-sm text-text-secondary">Android 8.0+</p>
         <a
           href={SOCIALS.playStore}
           rel="noopener noreferrer"

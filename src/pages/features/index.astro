@@ -1,24 +1,14 @@
 ---
 /**
- * Features index — lists every feature with a one-line summary.
- * Each item links to its detail page.
+ * Features index — root English version served at /features/.
+ * Each prefixed locale has its own copy under src/pages/[lang]/features/index.astro.
  */
 
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { LOCALES } from '../../../consts';
-import type { Locale } from '../../../consts';
-import { t, localeUrl } from '../../../utils/i18n';
-import { FEATURES } from '../../../data/features';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t, localeUrl } from '../../utils/i18n';
+import { FEATURES } from '../../data/features';
 
-export function getStaticPaths() {
-  // English (default) is served from the root by src/pages/features/index.astro.
-  return LOCALES.filter((l) => l !== 'en').map((lang) => ({
-    params: { lang },
-    props: { locale: lang as Locale },
-  }));
-}
-
-const { locale } = Astro.props;
+const locale = 'en';
 
 const items = FEATURES.map((f) => ({
   slug: f.slug,

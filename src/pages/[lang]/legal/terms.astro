@@ -5,14 +5,18 @@
 
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { LOCALES } from '../../../consts';
+import type { Locale } from '../../../consts';
 import { t } from '../../../utils/i18n';
 
 export function getStaticPaths() {
-  return LOCALES.map((lang) => ({ params: { lang } }));
+  // English (default) is served from the root by src/pages/legal/terms.astro.
+  return LOCALES.filter((l) => l !== 'en').map((lang) => ({
+    params: { lang },
+    props: { locale: lang as Locale },
+  }));
 }
 
-const { lang } = Astro.params;
-const locale = lang!;
+const { locale } = Astro.props;
 
 const sections = locale === 'zh'
   ? [

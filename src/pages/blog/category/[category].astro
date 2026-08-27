@@ -1,0 +1,70 @@
+---
+/**
+ * Blog category page — root English version served at /blog/category/<cat>/.
+ * Each prefixed locale has its own copy under src/pages/[lang]/blog/category/[category].astro.
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/blog/PostCard.astro';
+import { BLOG_CATEGORIES } from '../../../content/config';
+import type { Locale } from '../../../consts';
+import { t, localeUrl } from '../../../utils/i18n';
+import { sortByDateDesc } from '../../../utils/blog';
+
+export async function getStaticPaths() {
+  const all = await getCollection('blog', ({ data }) => !data.draft);
+  // Root path serves English category pages only.
+  return BLOG_CATEGORIES.map((cat) => {
+    const posts = all
+      .filter((p) => p.id.startsWith('en/') && p.data.category === cat)
+      .sort(sortByDateDesc);
+    return {
+      params: { category: cat },
+      props: { locale: 'en' as Locale, category: cat, posts },
+    };
+  }).filter((p) => p.props.posts.length > 0);
+}
+
+const props = Astro.props;
+const { locale, category, posts } = props;
+
+const title = `${category} · blog`;
+const description = `All posts in the ${category} category.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  locale={locale}
+  path={`/blog/category/${category}/`}
+>
+  <nav class="text-xs text-text-secondary mb-3 flex items-center gap-1.5">
+    <a href={localeUrl(locale as any, '/blog/')} class="hover:text-white">
+      {t(locale as any, 'nav.blog')}
+    </a>
+    <span aria-hidden="true">/</span>
+    <span class="text-white">{category}</span>
+  </nav>
+
+  <header class="mb-7 max-w-3xl">
+    <h1 class="font-display text-3xl md:text-4xl font-semibold tracking-tight text-white">
+      {title}
+    </h1>
+    <p class="mt-2 text-text-secondary">{description}</p>
+  </header>
+
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {posts.map((post) => (
+      <li>
+        <PostCard
+          locale={locale}
+          post={{
+            slug: (post.id.split('/').pop() ?? post.id).replace(/\.mdx?$/, ''),
+            data: post.data,
+          }}
+        />
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

@@ -1,41 +1,35 @@
 ---
 /**
- * Blog detail — single post.
- *
- * Routes:
- *   /en/blog/ultra-wide-lens/   →   content/en/scanning/ultra-wide-lens.mdx
- *
- * The [slug] param is the basename of the MDX file (e.g. "ultra-wide-lens").
- * We resolve it against the locale using getCollection's id prefix.
+ * Blog detail — root English version served at /blog/<slug>/.
+ * Each prefixed locale has its own copy under src/pages/[lang]/blog/[slug].astro.
  */
 
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import PostMeta from '../../../components/blog/PostMeta.astro';
-import PostToc from '../../../components/blog/PostToc.astro';
-import RelatedPosts from '../../../components/blog/RelatedPosts.astro';
-import SourceCallout from '../../../components/blog/SourceCallout.astro';
-import { LOCALES, SITE_URL } from '../../../consts';
-import type { Locale } from '../../../consts';
-import { t, localeUrl } from '../../../utils/i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostMeta from '../../components/blog/PostMeta.astro';
+import PostToc from '../../components/blog/PostToc.astro';
+import RelatedPosts from '../../components/blog/RelatedPosts.astro';
+import SourceCallout from '../../components/blog/SourceCallout.astro';
+import { SITE_URL } from '../../consts';
+import type { Locale } from '../../consts';
+import { t, localeUrl } from '../../utils/i18n';
 import {
   estimateReadingMinutes,
   sortByDateDesc,
-} from '../../../utils/blog';
+} from '../../utils/blog';
 
 export async function getStaticPaths() {
   const all = await getCollection('blog', ({ data }) => !data.draft);
-  // English (default) is served at the root by src/pages/blog/[slug].astro;
-  // this dynamic route only emits prefixed-locale entries.
-  return all.flatMap((p) => {
-    const lang = p.id.split('/')[0];
-    if (lang === 'en') return [];
-    const basename = (p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '');
-    return [{
-      params: { lang, slug: basename },
-      props: { locale: lang as Locale, slug: basename, entry: p },
-    }];
-  });
+  // Root path serves English posts only.
+  return all
+    .filter((p) => p.id.startsWith('en/'))
+    .map((p) => {
+      const basename = (p.id.split('/').pop() ?? p.id).replace(/\.mdx?$/, '');
+      return {
+        params: { slug: basename },
+        props: { locale: 'en' as Locale, slug: basename, entry: p },
+      };
+    });
 }
 
 const props = Astro.props;
@@ -50,21 +44,15 @@ const localePosts = all
 const readingMinutes = estimateReadingMinutes(entry.body ?? '');
 const updatedDate = entry.data.updatedDate;
 
-// Available translations for hreflang: current locale plus every locale that
-// the post's `translations` map points at (which may include the current
-// locale itself; we de-dupe). Locales without a real translated page are
-// omitted so Google doesn't index them and treat them as duplicates.
 const basename = (entry.id.split('/').pop() ?? entry.id).replace(/\.mdx?$/, '');
+
 const alternateLocales: Locale[] = Array.from(
   new Set<Locale>([
-    locale as Locale,
+    locale,
     ...Object.keys(entry.data.translations ?? {}) as Locale[],
   ])
 );
 
-// Canonical URL for the current post (used as mainEntityOfPage.id and
-// for hreflang targets — `localeUrl` returns the correct path for both
-// root locale and prefixed locales).
 const postPath = `/blog/${basename}/`;
 const canonicalPostUrl = new URL(localeUrl(locale as any, postPath), SITE_URL).toString();
 const postImage = entry.data.hero?.src
@@ -107,7 +95,7 @@ const breadcrumbJsonLd = {
       '@type': 'ListItem',
       position: 2,
       name: entry.data.title,
-      item: localeUrl(locale as any, `/blog/${(entry.id.split('/').pop() ?? entry.id).replace(/\.mdx?$/, '')}/`),
+      item: localeUrl(locale as any, `/blog/${basename}/`),
     },
   ],
 };

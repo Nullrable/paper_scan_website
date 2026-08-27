@@ -1,0 +1,51 @@
+---
+/**
+ * Feature detail page — root English version served at /features/<slug>/.
+ * Each prefixed locale has its own copy under src/pages/[lang]/features/[feature].astro.
+ */
+
+import FeaturePage from '../../components/layout/FeaturePage.astro';
+import { t, tValue } from '../../utils/i18n';
+import { FEATURES, getRelatedLinks } from '../../data/features';
+import type { FeatureDef } from '../../data/features';
+
+export function getStaticPaths() {
+  // Root path serves English only.
+  return FEATURES.map((feature) => ({
+    params: { feature: feature.slug },
+    props: { locale: 'en', feature },
+  }));
+}
+
+const props = Astro.props as { locale: string; feature: FeatureDef };
+const locale = props.locale;
+const feature = props.feature;
+
+const useCases: string[] =
+  (tValue(locale as any, feature.useCasesKey) as string[]) ?? [];
+
+const resolved = {
+  title: t(locale as any, feature.titleKey as any),
+  summary: t(locale as any, feature.summaryKey as any),
+  body: t(locale as any, feature.bodyKey as any),
+  proHint: feature.proHintKey
+    ? t(locale as any, feature.proHintKey as any)
+    : undefined,
+};
+
+const related = getRelatedLinks(locale as any, feature.slug);
+---
+
+<FeaturePage
+  locale={locale}
+  feature={{
+    slug: feature.slug,
+    icon: feature.icon,
+    title: resolved.title,
+    summary: resolved.summary,
+    body: resolved.body,
+    useCases,
+    related,
+    proHint: resolved.proHint,
+  }}
+/>

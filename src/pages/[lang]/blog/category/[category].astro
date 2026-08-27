@@ -10,19 +10,22 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import PostCard from '../../../../components/blog/PostCard.astro';
 import { BLOG_CATEGORIES } from '../../../../content/config';
 import { LOCALES } from '../../../../consts';
+import type { Locale } from '../../../../consts';
 import { t, localeUrl } from '../../../../utils/i18n';
 import { sortByDateDesc } from '../../../../utils/blog';
 
 export async function getStaticPaths() {
   const all = await getCollection('blog', ({ data }) => !data.draft);
-  return LOCALES.flatMap((lang) =>
+  // English (default) is served at the root by src/pages/blog/category/[category].astro;
+  // this dynamic route emits only the prefixed-locale category pages.
+  return LOCALES.filter((l) => l !== 'en').flatMap((lang) =>
     BLOG_CATEGORIES.map((cat) => {
       const posts = all
         .filter((p) => p.id.startsWith(`${lang}/`) && p.data.category === cat)
         .sort(sortByDateDesc);
       return {
         params: { lang, category: cat },
-        props: { locale: lang, category: cat, posts },
+        props: { locale: lang as Locale, category: cat, posts },
       };
     }).filter((p) => p.props.posts.length > 0)
   );

@@ -1,0 +1,39 @@
+---
+/**
+ * Root terms of service — English copy served at /legal/terms/.
+ * Each prefixed locale has its own copy under src/pages/[lang]/legal/terms.astro.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../utils/i18n';
+
+const locale = 'en';
+
+const sections = [
+  { title: '1. Acceptance', body: 'Downloading, installing, or using Paper Scanner constitutes acceptance of these terms.' },
+  { title: '2. Subscriptions', body: 'Pro subscriptions are purchased through the App Store. Auto-renewal can be disabled in your platform account settings.' },
+  { title: '3. Data ownership', body: 'Your documents belong to you. We hold no copies of scanned content. See the Privacy Policy.' },
+  { title: '4. Disclaimer', body: 'Paper Scanner is provided "as is" without warranty as to the accuracy of scan output.' },
+  { title: '5. Changes', body: 'We may update these terms. Material changes will be announced in-app.' },
+];
+---
+
+<BaseLayout
+  title={t(locale as any, 'legal.terms.title')}
+  description={t(locale as any, 'legal.terms.title')}
+  locale={locale}
+  path="/legal/terms/"
+>
+  <article class="prose mx-auto">
+    <h1>{t(locale as any, 'legal.terms.title')}</h1>
+
+    {sections.map((s) => (
+      <>
+        <h2>{s.title}</h2>
+        <p>{s.body}</p>
+      </>
+    ))}
+
+    <p class="text-text-muted text-sm">Last updated: August 2026</p>
+  </article>
+</BaseLayout>
