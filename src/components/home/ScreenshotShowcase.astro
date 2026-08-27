@@ -1,12 +1,22 @@
 ---
 /**
- * ScreenshotShowcase — placeholder grid for app screenshots.
+ * ScreenshotShowcase — real app screenshots, in upload order.
  *
- * Phase 1: SVG placeholders with realistic phone-frame outlines.
- * Phase 2+: real screenshots from device captures.
+ * Six iOS capture frames (1320×2868 source), rendered via Astro's <Image>
+ * component so they get hashed, optimised (avif/webp), and width-served.
+ * Display order matches the upload sequence — do not reorder without
+ * rebuilding the marketing narrative around the new order.
  */
 
+import { Picture } from 'astro:assets';
 import { t } from '../../utils/i18n';
+
+import shot1 from '../../assets/screenshots/ios_1_1.jpg';
+import shot2 from '../../assets/screenshots/ios_1_2.jpg';
+import shot3 from '../../assets/screenshots/ios_1_3.jpg';
+import shot4 from '../../assets/screenshots/ios_1_4.jpg';
+import shot5 from '../../assets/screenshots/ios_1_5.jpg';
+import shot6 from '../../assets/screenshots/ios_1_6.jpg';
 
 interface Props {
   locale: string;
@@ -14,13 +24,51 @@ interface Props {
 
 const { locale } = Astro.props;
 
-// Five placeholder slots: 1. Scan, 2. Filters, 3. Documents, 4. OCR, 5. PDF export.
-const placeholders = [
-  { label: locale === 'zh' ? '扫描' : 'Scan', sub: locale === 'zh' ? '超广角镜头' : 'Ultra-wide capture' },
-  { label: locale === 'zh' ? '滤镜' : 'Filters', sub: locale === 'zh' ? '六种 GPU 滤镜' : 'Six GPU filters' },
-  { label: locale === 'zh' ? '文档' : 'Documents', sub: locale === 'zh' ? '文件夹与标签' : 'Folders and tags' },
-  { label: 'OCR', sub: locale === 'zh' ? '设备端识别' : 'On-device text recognition' },
-  { label: locale === 'zh' ? 'PDF' : 'PDF', sub: locale === 'zh' ? '多页导出与加密' : 'Multi-page export + encryption' },
+const isZh = locale === 'zh';
+
+const screenshots = [
+  {
+    src: shot1,
+    label: isZh ? '预览扫描结果' : 'Preview, retake, or extract',
+    alt: isZh
+      ? '扫描后的预览页面，提供 Retake / Edit / Extract Text 三个操作'
+      : 'Scan preview screen with Retake, Edit, and Extract Text actions',
+  },
+  {
+    src: shot2,
+    label: isZh ? '实时取景自动对焦' : 'Aim, focus, capture',
+    alt: isZh
+      ? '相机取景器自动识别文档边界并显示对焦状态'
+      : 'Camera viewfinder auto-detecting document edges and focusing',
+  },
+  {
+    src: shot3,
+    label: isZh ? '设备端 OCR 提取文字' : 'On-device OCR with one-tap copy',
+    alt: isZh
+      ? 'OCR 识别结果面板，包含原始文本与一键复制按钮'
+      : 'OCR result sheet with the recognised text and a Copy All action',
+  },
+  {
+    src: shot4,
+    label: isZh ? '导出 PDF / JPEG / 文本' : 'Export to PDF, JPEG, or text',
+    alt: isZh
+      ? '导出对话框，支持 PDF / JPEG / Text 三种格式，可设密码与权限'
+      : 'Export sheet with PDF, JPEG, and Text formats plus password and permissions',
+  },
+  {
+    src: shot5,
+    label: isZh ? '5 种标注工具' : 'Pen, shapes, highlight, text',
+    alt: isZh
+      ? '标注工具栏：画笔、矩形、箭头、高亮、文字'
+      : 'Annotation toolbar with Pen, Rectangle, Arrow, Highlight, and Text tools',
+  },
+  {
+    src: shot6,
+    label: isZh ? '页面级编辑操作' : 'Crop, filter, rotate — per page',
+    alt: isZh
+      ? '页面操作工具：裁剪、滤镜、调整、旋转、移动、复制、重置、删除页面'
+      : 'Page actions: Crop, Filter, Adjust, Rotate, Move, Copy, Reset, Delete Page',
+  },
 ];
 ---
 
@@ -31,28 +79,25 @@ const placeholders = [
     </h2>
   </div>
 
-  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-    {placeholders.map((ph, i) => (
+  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    {screenshots.map((s) => (
       <figure class="card group p-4">
-        <div class="aspect-[9/16] bg-bg-0 border border-border-subtle rounded-md flex items-center justify-center overflow-hidden relative">
-          <!-- Placeholder phone frame -->
-          <svg viewBox="0 0 90 160" class="w-2/3 h-auto" aria-hidden="true">
-            <rect x="5" y="5" width="80" height="150" rx="10" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
-            <rect x="10" y="14" width="70" height="120" rx="6" fill="rgba(255,255,255,0.04)" />
-            <!-- Shimmer line -->
-            <line x1="20" y1={30 + i * 20} x2="70" y2={30 + i * 20} stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round" />
-            <line x1="20" y1={45 + i * 12} x2="60" y2={45 + i * 12} stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="20" y1={58 + i * 12} x2="65" y2={58 + i * 12} stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-linecap="round" />
-            <circle cx="45" cy="135" r="4" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" />
-          </svg>
-          <!-- Coming soon overlay -->
-          <span class="absolute bottom-2 right-2 text-[10px] uppercase tracking-wider text-text-muted">
-            {locale === 'zh' ? '即将推出' : 'Coming soon'}
-          </span>
+        <div class="aspect-[9/16] bg-bg-0 border border-border-subtle rounded-md overflow-hidden">
+          <Picture
+            src={s.src}
+            alt={s.alt}
+            widths={[320, 480, 640, 800]}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 320px"
+            formats={['avif', 'webp']}
+            fallbackFormat="jpg"
+            quality={75}
+            loading="lazy"
+            decoding="async"
+            class="w-full h-full object-cover"
+          />
         </div>
         <figcaption class="mt-3">
-          <div class="text-white text-sm font-medium">{ph.label}</div>
-          <div class="text-text-muted text-xs mt-1">{ph.sub}</div>
+          <div class="text-white text-sm font-medium">{s.label}</div>
         </figcaption>
       </figure>
     ))}
