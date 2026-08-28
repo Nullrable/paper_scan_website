@@ -12,6 +12,8 @@
  */
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { HREFLANG_CODES, SITE_NAME, SITE_URL } from "../../consts";
+import type { Locale } from "../../consts";
 import { t, localeUrl } from "../../utils/i18n";
 
 interface RelatedLink {
@@ -47,10 +49,27 @@ const icons: Record<string, string> = {
     "M18 10a5 5 0 0 0-9.95-1A5 5 0 0 0 7 15h11a4 4 0 0 0 0-8z",
 };
 
+const featurePath = `/features/${feature.slug}/`;
+const featureUrl = new URL(localeUrl(locale as any, featurePath), SITE_URL).toString();
+
 const jsonLd = {
   "@type": "TechArticle",
   headline: feature.title,
   description: feature.summary,
+  url: featureUrl,
+  inLanguage: HREFLANG_CODES[locale as Locale],
+  datePublished: new Date("2024-01-01").toISOString(),
+  author: {
+    "@type": "Organization",
+    name: SITE_NAME,
+  },
+  publisher: { "@id": new URL("/#organization", SITE_URL).toString() },
+  image: [
+    {
+      "@type": "ImageObject",
+      url: new URL("/og-default.png", SITE_URL).toString(),
+    },
+  ],
   about: {
     "@type": "SoftwareApplication",
     name: "Paper Scanner",

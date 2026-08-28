@@ -33,6 +33,10 @@ interface Props {
    * in every locale by virtue of the [lang] dynamic route.
    */
   alternateLocales?: Locale[];
+  /** og:article:section — high-level category. */
+  articleSection?: string;
+  /** og:article:tag — one <meta> per entry. */
+  articleTags?: string[];
   /** Optional JSON-LD blocks. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -48,15 +52,19 @@ const {
   path = '/',
   locale,
   alternateLocales,
+  articleSection,
+  articleTags,
   jsonLd,
 } = Astro.props;
 
 const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 
-// Default JSON-LD: Organization + WebSite (with SearchAction) on every page.
-// Organization powers the brand knowledge panel; WebSite + SearchAction enables
-// the sitelinks searchbox in Google SERPs (when a future search page is added,
-// update the SearchAction `url` template below).
+// Default JSON-LD: Organization + WebSite on every page. Organization powers
+// the brand knowledge panel; WebSite gives Google the site-wide identity.
+//
+// SearchAction is intentionally omitted: there is no `/search` route yet, and
+// pointing Google's sitelinks searchbox at a 404 breaks the feature. Re-add it
+// (and a matching /search page) when site search ships.
 const defaultJsonLd = [
   {
     '@type': 'Organization',
@@ -65,7 +73,12 @@ const defaultJsonLd = [
     url: SITE_URL,
     description:
       'A pro document scanner for iOS and Android — ultra-wide capture, GPU filters, OCR, multi-page PDF, Google Drive & iCloud sync.',
-    logo: new URL('/icon-512.png', SITE_URL).toString(),
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/icon-512.png', SITE_URL).toString(),
+      width: 512,
+      height: 512,
+    },
     foundingDate: '2024',
     sameAs: [SOCIALS.github, SOCIALS.appStore].filter(Boolean),
   },
@@ -76,15 +89,6 @@ const defaultJsonLd = [
     name: SITE_NAME,
     inLanguage: ['en-US', 'zh-CN', 'es-ES', 'fr-FR', 'de-DE', 'ja-JP', 'ko-KR', 'pt-BR'],
     publisher: { '@id': new URL('/#organization', SITE_URL).toString() },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: new URL('/search?q={search_term_string}', SITE_URL).toString(),
-      },
-      // 'query-input' must use the schema.org SearchAction vocabulary.
-      'query-input': 'required name=search_term_string',
-    },
   },
 ];
 
@@ -111,6 +115,8 @@ const jsonLdHtml = jsonLdScript(jsonLdPayload);
       path={path}
       locale={locale}
       alternateLocales={alternateLocales}
+      articleSection={articleSection}
+      articleTags={articleTags}
     />
     <Fragment set:html={jsonLdHtml} />
   </head>

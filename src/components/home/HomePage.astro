@@ -16,7 +16,8 @@ import ScenarioGrid from './ScenarioGrid.astro';
 import HowItWorks from './HowItWorks.astro';
 import ScreenshotShowcase from './ScreenshotShowcase.astro';
 import FAQ from './FAQ.astro';
-import { SITE_NAME, SITE_URL } from '../../consts';
+import { HREFLANG_CODES, SITE_NAME, SITE_URL } from '../../consts';
+import type { Locale } from '../../consts';
 import { t } from '../../utils/i18n';
 
 interface Props {
@@ -49,6 +50,7 @@ const faqs = locale === 'zh'
 
 const faqJsonLd = {
   '@type': 'FAQPage',
+  inLanguage: HREFLANG_CODES[locale as Locale],
   mainEntity: faqs.map((f) => ({
     '@type': 'Question',
     name: f.q,

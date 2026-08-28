@@ -20,6 +20,21 @@ const DIST_DIR = resolve(process.cwd(), "dist");
 const DEFAULT_LOCALE = "en";
 const SITE_URL = process.env.PUBLIC_SITE_URL || "https://paperscan.cloud";
 
+// Locales served under a URL prefix. Used by `injectXDefault` to recognise
+// non-English URLs so it can strip the prefix and point x-default at the
+// matching English page (English is served from the site root with no
+// prefix).
+const NON_EN_LOCALES: readonly string[] = [
+  "zh",
+  "es",
+  "fr",
+  "de",
+  "ja",
+  "ko",
+  "pt",
+];
+type Locale = (typeof NON_EN_LOCALES)[number] | typeof DEFAULT_LOCALE;
+
 // Find every sitemap-*.xml file produced by @astrojs/sitemap.
 // Uses readdir (Node 20+) rather than the glob() helper added in
 // node:fs/promises (Node 22+) so this script runs on every LTS GitHub
@@ -72,21 +87,29 @@ function injectXDefault(xml: string): string {
       if (middle.includes('hreflang="x-default"')) {
         return `${head}${middle}${tail}`;
       }
-      // Compute the English canonical URL: drop the `/xx/` segment from the
-      // current loc, leaving the root form. Falls back to site root.
-      let canonical = "/";
+      // Compute the English canonical URL used by the `x-default` hreflang.
+      //
+      // English is served from the site root, so an English page like
+      // `/about/` or `/blog/folders-vs-tags/` must point x-default at itself.
+      // For non-English pages (`/zh/about/`, etc.) we strip the locale prefix
+      // to land on the matching English path.
+      //
+      // The previous logic always dropped `segs[0]`, which broke every
+      // multi-segment English URL (x-default was always `/`).
+      let canonical: string;
       try {
         const u = new URL(loc);
         const segs = u.pathname.split("/").filter(Boolean);
-        if (segs.length > 0 && segs[0] !== DEFAULT_LOCALE) {
+        if (segs.length > 0 && NON_EN_LOCALES.includes(segs[0])) {
+          // /zh/about/ -> /about/ (matches the English page Google should land on)
           const rest = segs.slice(1).join("/");
           canonical = rest ? `/${rest}/` : "/";
-        } else if (segs[0] === DEFAULT_LOCALE) {
-          const rest = segs.slice(1).join("/");
-          canonical = rest ? `/${rest}/` : "/";
+        } else {
+          // English page (no locale prefix) — x-default is itself.
+          canonical = u.pathname.endsWith("/") ? u.pathname : `${u.pathname}/`;
         }
       } catch {
-        // keep canonical = "/"
+        canonical = "/";
       }
       const xDefault = `<xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${canonical}"/>`;
       return `${head}${middle}${xDefault}${tail}`;

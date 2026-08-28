@@ -4,13 +4,13 @@
  * Each prefixed locale has its own copy under src/pages/[lang]/blog/[slug].astro.
  */
 
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostMeta from '../../components/blog/PostMeta.astro';
 import PostToc from '../../components/blog/PostToc.astro';
 import RelatedPosts from '../../components/blog/RelatedPosts.astro';
 import SourceCallout from '../../components/blog/SourceCallout.astro';
-import { SITE_URL } from '../../consts';
+import { HREFLANG_CODES, SITE_URL } from '../../consts';
 import type { Locale } from '../../consts';
 import { t, localeUrl } from '../../utils/i18n';
 import {
@@ -59,6 +59,20 @@ const postImage = entry.data.hero?.src
   ? new URL(entry.data.hero.src, SITE_URL).toString()
   : new URL('/og-default.png', SITE_URL).toString();
 
+// Resolve the author entry so JSON-LD uses the real `name` and any social
+// links as `sameAs` instead of fabricating a name from the author id.
+const authorEntry = await getEntry(entry.data.author);
+const authorSameAs = authorEntry
+  ? Object.values(authorEntry.data.links).filter(Boolean)
+  : [];
+
+// Guard against frontmatter typos where updatedDate predates pubDate —
+// Google's Article rich-results check requires dateModified >= datePublished.
+const safeUpdatedDate =
+  updatedDate && updatedDate.getTime() >= entry.data.pubDate.getTime()
+    ? updatedDate
+    : undefined;
+
 const blogPostingJsonLd = {
   '@type': 'BlogPosting',
   mainEntityOfPage: {
@@ -68,15 +82,21 @@ const blogPostingJsonLd = {
   headline: entry.data.title,
   description: entry.data.description,
   datePublished: entry.data.pubDate.toISOString(),
-  ...(updatedDate ? { dateModified: updatedDate.toISOString() } : {}),
+  ...(safeUpdatedDate ? { dateModified: safeUpdatedDate.toISOString() } : {}),
   author: {
     '@type': 'Person',
-    name: entry.data.author.id.replace(/-/g, ' '),
+    name: authorEntry?.data.name ?? entry.data.author.id.replace(/-/g, ' '),
+    ...(authorSameAs.length > 0 ? { sameAs: authorSameAs } : {}),
   },
   publisher: { '@id': new URL('/#organization', SITE_URL).toString() },
-  image: [postImage],
+  image: [
+    {
+      '@type': 'ImageObject',
+      url: postImage,
+    },
+  ],
   articleSection: entry.data.category,
-  inLanguage: locale,
+  inLanguage: HREFLANG_CODES[locale as Locale],
   keywords: entry.data.tags?.join(', '),
   wordCount: entry.body?.trim().split(/\s+/).filter(Boolean).length,
   url: canonicalPostUrl,
@@ -110,6 +130,8 @@ const breadcrumbJsonLd = {
   locale={locale}
   path={postPath}
   alternateLocales={alternateLocales}
+  articleSection={entry.data.category}
+  articleTags={entry.data.tags}
   jsonLd={[blogPostingJsonLd, breadcrumbJsonLd]}
 >
   <a

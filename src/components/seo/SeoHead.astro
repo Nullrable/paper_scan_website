@@ -36,6 +36,10 @@ interface Props {
    * in every locale by virtue of the [lang] dynamic route.
    */
   alternateLocales?: Locale[];
+  /** og:article:section — high-level category (e.g. blog post category). */
+  articleSection?: string;
+  /** og:article:tag — repeated for each tag, surfaces as article tags. */
+  articleTags?: string[];
 }
 
 const {
@@ -49,6 +53,8 @@ const {
   path,
   locale,
   alternateLocales,
+  articleSection,
+  articleTags,
 } = Astro.props;
 
 // path may include or exclude the locale prefix; normalise to without-prefix.
@@ -113,6 +119,10 @@ const hreflangForLocale = (loc: Locale) =>
 {type === 'article' && (
   <Fragment>
     <meta property="article:author" content={SITE_NAME} />
+    {articleSection && <meta property="article:section" content={articleSection} />}
+    {articleTags?.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
   </Fragment>
 )}
 
