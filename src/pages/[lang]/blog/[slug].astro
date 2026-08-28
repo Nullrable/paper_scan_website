@@ -101,13 +101,13 @@ const breadcrumbJsonLd = {
       '@type': 'ListItem',
       position: 1,
       name: t(locale as any, 'nav.blog'),
-      item: localeUrl(locale as any, '/blog/'),
+      item: new URL(localeUrl(locale as any, '/blog/'), SITE_URL).toString(),
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: entry.data.title,
-      item: localeUrl(locale as any, `/blog/${(entry.id.split('/').pop() ?? entry.id).replace(/\.mdx?$/, '')}/`),
+      item: new URL(localeUrl(locale as any, `/blog/${(entry.id.split('/').pop() ?? entry.id).replace(/\.mdx?$/, '')}/`), SITE_URL).toString(),
     },
   ],
 };
