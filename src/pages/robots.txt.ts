@@ -6,6 +6,9 @@ export const GET: APIRoute = () => {
 Allow: /
 Disallow: /api/
 
+User-agent: Google-adstxt
+Disallow:
+
 Sitemap: ${SITE_URL.replace(/\/$/, "")}/sitemap-index.xml
 `;
 
